@@ -1,0 +1,353 @@
+@import "tailwindcss";
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap'); */
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('/fonts/AvenirLTStd-Book.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* @font-face {
+    font-family: 'Avenir';
+    src: url('/fonts/AvenirLTStd-Roman.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+} */
+/* 
+@font-face {
+    font-family: 'Avenir';
+    src: url('/fonts/AvenirLTStd-Black.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+} */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
+
+p,li{
+  font-size: 16px !important;
+}
+
+.template-minimal {
+  background-color: black;
+  color: white;
+}
+
+.drawer__content {
+  color: white !important;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial;
+}
+
+
+#hero {
+  background: linear-gradient(279.45deg, #FFFFFF 0.08%, rgba(255, 255, 255, 0.94) 25.87%, rgba(255, 255, 255, 0.87) 47.2%, rgba(255, 255, 255, 0) 73.51%);
+  box-sizing: border-box;
+}
+
+#hero .container .text-box {
+  box-shadow: 0px 4px 19.6px 0px #0000001A;
+
+}
+
+/* Component Product Service */
+
+#service-element-2 {
+  display: none !important;
+}
+
+@media (max-width:768px) {
+  #service-element {
+    display: none !important;
+  }
+
+  #service-element-2 {
+    display: block !important;
+
+  }
+
+}
+
+@media (max-width: 640px) {
+  #service-element-2 {
+    top: -135px;
+  }
+
+  #service-cards {
+    padding: 0 120px;
+  }
+
+}
+
+@media (max-width: 540px) {
+
+  #service-cards {
+    padding: 0 60px;
+  }
+}
+
+
+@media (max-width: 500px) {
+  #service-element-2 {
+    top: -50px;
+  }
+
+  #service-cards {
+    padding: 0 40px;
+  }
+}
+
+@media (max-width: 400px) {
+  #service-element-2 {
+    top: 20px;
+  }
+}
+
+/* ============END============= */
+
+/* ============jp-slider section============ */
+
+@media (max-width: 1700px) and (min-width: 1300px) {
+  #jp-slider {
+    padding-right: 5%;
+  }
+}
+
+@media (max-width: 1400px) and (min-width: 1300px) {
+  #jp-slider {
+    padding-right: 5%;
+  }
+}
+
+
+/* ===================END=================== */
+
+/* ================== footer ====================== */
+
+
+.footer .f-menu li{
+  font-size: 14px !important;
+}
+
+
+@media (max-width: 992px) {
+  .footer .f-contant {
+    justify-content: center !important;
+  }
+
+  .footer .f-menu {
+    width: 100%;
+  }
+
+  .footer .search {
+    align-items: center;
+  }
+
+}
+
+
+@media only screen and (max-width: 750px) {
+
+  .text-box {
+    padding: 2rem !important;
+    width: 100% !important;
+    height: 100%;
+    margin-top: 160px;
+  }
+
+  .text-box .jp {
+    flex-direction: column;
+  }
+
+  .text-box .blue-box {
+    max-width: 300px;
+    margin-left: 0;
+    /* padding: 0.5rem 0.7rem; */
+
+  }
+
+  .text-box .blue-box .text-xl {
+    /* margin-left: 0; */
+  }
+}
+
+@media only screen and (max-width: 400px) {
+
+  .text-box .blue-box {
+    max-width: auto;
+    margin-left: 0;
+    /* padding: 0.5rem 0.7rem; */
+
+  }
+
+  .text-box {
+    text-align: center;
+  }
+
+  .text-box .blue-box h3 {
+    margin-left: 0;
+  }
+
+  .text-box .jp .text-xl {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .text-box .jp .text-7xl {
+    font-size: 4rem;
+    text-align: center;
+  }
+
+}
+
+@media only screen and (max-width: 768px) {
+
+
+  .f-menu .home,
+  .f-menu .glass,
+  .f-menu .paint {
+    margin-right: 0 !important;
+  }
+
+}
+
+@media (max-width: 450px) {
+
+  .f-menu .home {
+    width: 50%;
+  }
+
+  .f-menu .glass {
+    width: 50%;
+  }
+
+  .f-menu .paint {
+    width: 50%;
+  }
+
+  .f-menu .doors {
+    width: 50%;
+  }
+}
+
+/* =================== END ==================== */
+
+
+/* ====================== About question page ============ */
+
+
+@media (max-width: 1280px) {
+  #color-bg {
+    top: 15px;
+  }
+
+}
+
+@media (max-width: 1024px) {
+  #color-bg {
+    overflow: hidden;
+  }
+
+}
+
+/* ===================== END ==================== */
+
+
+
+
+/* ============= Accordian page ============== */
+
+@media (max-width: 1550px) {
+  #accordian-element {
+    top: 50px;
+    height: 600px !important;
+  }
+
+}
+
+@media (max-width: 1024px) {
+  #accordian-element {
+    top: 80px;
+    height: 450px !important;
+  }
+  
+  #faqs-tip-element{
+    top: 180px;
+    height: 300px !important;
+  }
+
+}
+@media (max-width: 786px) {
+    #faqs-tip-element{
+    top: 140px;
+  }
+}
+
+@media (max-width: 650px) {
+  #accordian-element {
+    top: 150px;
+    height: 300px !important;
+  }
+
+}
+
+@media (max-width: 450px) {
+    #faqs-tip-element{
+    top: 200px;
+        height: 250px !important;
+  }
+}
+
+/* ================ END ================== */
+
+@media (max-width: 1024px) {
+  #fork-map iframe {
+    height: 450px !important;
+  }
+  
+}
+
+@media (max-width: 786px) {
+  #fork-map iframe {
+    height: 350px !important;
+  }
+  
+}
+
+@media (max-width: 440px) {
+  #fork-element {
+    padding: 15px;
+    width: 30% !important;
+    top: -70px;
+  }
+  
+}
