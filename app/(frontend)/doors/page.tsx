@@ -50,6 +50,18 @@ export default async function DoorsPage() {
 
       <section className="mt-20 py-14 md:py-20 bg-white">
         <div className="container mx-auto px-4 lg:px-6">
+          <div className="w-full">
+            <div className="rounded-[16px] overflow-hidden w-full">
+                
+                <Image
+                  src="/assets/images/doors.png"
+                  alt="Doors Products"
+                  height={300}
+                  className="w-full  object-cover"
+                />
+                
+              </div>
+          </div>
           <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-end">
 
             {/* ── Left: heading + first paint item image ── */}
@@ -64,25 +76,6 @@ export default async function DoorsPage() {
                 All the colors, styles, and stains you need, with tips from JP&amp;G pros.
               </p>
 
-              <div className="rounded-[16px] overflow-hidden w-full">
-                {doorsItems[0]?.locationImage?.url ? (
-                  <Image
-                    src={doorsItems[0].locationImage.url}
-                    alt={doorsItems[0].locationImage.alt || doorsItems[0].name}
-                    width={600}
-                    height={450}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <Image
-                    src="/assets/jt/jone-paint-link.png"
-                    alt="Doors Products"
-                    width={600}
-                    height={450}
-                    className="w-full h-full object-cover"
-                  />
-                )}
-              </div>
             </div>
 
             {/* ── Right: dynamic links from Doors collection ── */}
