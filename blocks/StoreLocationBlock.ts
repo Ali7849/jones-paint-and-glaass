@@ -33,6 +33,13 @@ export const StoreLocationBlock: Block = {
       label: 'Full Address',
       defaultValue: '65 South 500 East American Fork, UT 84003',
     },
+
+    {
+      name: 'locationImage',
+      type: 'upload',
+      relationTo: 'media' as any,
+      label: 'Location Image',
+    },
    
 
     // ── Specialist ──

@@ -112,7 +112,6 @@ function MultipleSpecialists({ specialists }: { specialists: Specialist[] }) {
           backgroundSize: "contain",
           backgroundPosition: "right bottom",
           backgroundRepeat: "no-repeat",
-          filter: "hue-rotate(200deg)",
         }}
       />
       <h4 className="relative z-10 text-[13px] font-bold tracking-[0.15em] text-[#A5EBCD] uppercase mb-5">
@@ -161,7 +160,6 @@ function EmptySpecialist() {
           backgroundSize: "contain",
           backgroundPosition: "right bottom",
           backgroundRepeat: "no-repeat",
-          filter: "hue-rotate(200deg)",
         }}
       />
       <h4 className="relative z-10 text-[13px] font-bold tracking-[0.15em] text-[#A5EBCD] uppercase mb-5">
