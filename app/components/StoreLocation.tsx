@@ -1,6 +1,13 @@
 "use client";
 import Image from "next/image";
 
+type Specialist = {
+  id?: string
+  specialistName: string
+  specialistTitle: string
+  specialistImage?: { url: string; alt?: string } | null
+}
+
 type Service = {
   id?: string
   title: string
@@ -15,10 +22,8 @@ type StoreLocationBlockProps = {
   locationLabel?: string
   heading?: string
   address?: string
-  mapEmbedUrl?: string
-  specialistName?: string
-  specialistTitle?: string
-  specialistImage?: { url: string; alt?: string } | null
+  locationImage?: { url: string; alt?: string } | null  // ← from locations collection
+  Specialists?: Specialist[]
   heroCardLabel?: string
   heroCardHeading?: string
   heroCardText?: string
@@ -56,14 +61,51 @@ function ServiceCard({ service }: { service: Service }) {
   )
 }
 
+function SpecialistCard({ specialist }: { specialist: Specialist }) {
+  return (
+    <div className="rounded-[16px] bg-[#A5EBCD] p-5 sm:p-8 flex flex-col items-start gap-4 relative overflow-hidden flex-shrink-0">
+      {/* Paint decoration */}
+      <div
+        className="absolute right-0 top-0 w-full h-full pointer-events-none z-2"
+        style={{
+          backgroundImage: 'url(/assets/jt/elements/paint-15.png)',
+          backgroundSize: 'contain',
+          backgroundPosition: 'right center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      />
+      <h4 className="relative z-4 text-[16px] font-bold tracking-[0.15em] uppercase mb-1">
+        Your Local Specialist
+      </h4>
+      <div className="relative z-10 flex items-center gap-6 sm:gap-8">
+        {/* Avatar */}
+        <div className="flex items-center w-[80px] lg:w-[100px] h-[80px] lg:h-[100px] bg-white rounded-full flex-shrink-0 overflow-hidden">
+          <Image
+            src={specialist.specialistImage?.url ?? '/assets/jt/profile.png'}
+            alt={specialist.specialistImage?.alt ?? specialist.specialistName}
+            width={52}
+            height={52}
+            className="w-10 lg:w-16 h-10 lg:h-16 object-contain mx-auto"
+          />
+        </div>
+        {/* Info */}
+        <div>
+          <p className="font-bold text-[20px] sm:text-[26px] leading-tight">
+            {specialist.specialistName}
+          </p>
+          <p className="text-[16px] mt-1 sm:mt-2">{specialist.specialistTitle}</p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function StoreLocation({
   locationLabel = 'Store Location',
   heading = 'American Fork',
   address = '65 South 500 East American Fork, UT 84003',
-  mapEmbedUrl = '',
-  specialistName = 'Dave Koch',
-  specialistTitle = 'Store Manager',
-  specialistImage = null,
+  locationImage = null,
+  Specialists = [],
   heroCardLabel = 'Products & Services',
   heroCardHeading = 'From Inspiration to Installation',
   heroCardText = 'Our team will make sure you not only have the products you need, but a solid plan to go with them.',
@@ -90,58 +132,71 @@ export default function StoreLocation({
         {/* Main container */}
         <div className="flex flex-col lg:flex-row gap-4 items-stretch">
 
-          {/* Left column — Map + Specialist */}
+          {/* Left column — Location image + Specialists */}
           <div className="flex flex-col gap-4 w-full xl:w-[50%] lg:w-[45%] flex-shrink-0">
 
-            {/* Map */}
-            {mapEmbedUrl ? (
-              <div className="rounded-2xl overflow-hidden bg-[#DDEEFF] flex-1 w-full min-h-[300px]">
-                <iframe
-                  src={mapEmbedUrl}
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
+            {/* Location image from locations collection */}
+            {locationImage?.url ? (
+              <div className="rounded-2xl overflow-hidden bg-[#DDEEFF] w-full min-h-[300px] flex-1 relative">
+                <Image
+                  src={locationImage.url}
+                  alt={locationImage.alt ?? heading}
+                  fill
+                  className="object-cover"
                 />
               </div>
             ) : (
-              <div className="rounded-2xl bg-[#DDEEFF] flex-1 w-full min-h-[300px] flex items-center justify-center">
-                <p className="text-gray-400">No map URL provided</p>
+              <div className="rounded-2xl bg-[#DDEEFF] w-full min-h-[300px] flex-1 flex items-center justify-center">
+                <p className="text-gray-400">No location image provided</p>
               </div>
             )}
 
-            {/* Specialist card */}
-            <div className="rounded-[16px] bg-[#A5EBCD] p-5 sm:p-8 flex flex-col h-auto lg:h-[267px] items-start gap-4 relative overflow-hidden flex-shrink-0">
-              <div
-                className="absolute right-0 top-0 w-full h-full pointer-events-none z-2"
-                style={{
-                  backgroundImage: 'url(/assets/jt/elements/paint-15.png)',
-                  backgroundSize: 'contain',
-                  backgroundPosition: 'right center',
-                  backgroundRepeat: 'no-repeat',
-                }}
-              />
-              <h4 className="relative z-4 text-[16px] font-bold tracking-[0.15em] uppercase mb-1">
-                Your Local Specialist
-              </h4>
-              <div className="relative z-10 flex items-center gap-6 sm:gap-8">
-                <div className="flex items-center w-[80px] lg:w-[132px] h-[80px] lg:h-[132px] bg-white rounded-full flex-shrink-0 overflow-hidden">
-                  <Image
-                    src={specialistImage?.url ?? '/assets/jt/profile.png'}
-                    alt={specialistImage?.alt ?? specialistName}
-                    width={52}
-                    height={52}
-                    className="w-10 lg:w-20 h-10 lg:h-20 object-contain mx-auto"
+            {/* Specialists — single or multiple */}
+            {Specialists.length > 0 && (
+              Specialists.length === 1 ? (
+                // ── Single specialist — full width tall card ──
+                <div className="rounded-[16px] bg-[#A5EBCD] p-5 sm:p-8 flex flex-col h-auto lg:h-[267px] items-start gap-4 relative overflow-hidden flex-shrink-0">
+                  <div
+                    className="absolute right-0 top-0 w-full h-full pointer-events-none z-2"
+                    style={{
+                      backgroundImage: 'url(/assets/jt/elements/paint-15.png)',
+                      backgroundSize: 'contain',
+                      backgroundPosition: 'right center',
+                      backgroundRepeat: 'no-repeat',
+                    }}
                   />
+                  <h4 className="relative z-4 text-[16px] font-bold tracking-[0.15em] uppercase mb-1">
+                    Your Local Specialist
+                  </h4>
+                  <div className="relative z-10 flex items-center gap-6 sm:gap-8">
+                    <div className="flex items-center w-[80px] lg:w-[132px] h-[80px] lg:h-[132px] bg-white rounded-full flex-shrink-0 overflow-hidden">
+                      <Image
+                        src={Specialists[0].specialistImage?.url ?? '/assets/jt/profile.png'}
+                        alt={Specialists[0].specialistImage?.alt ?? Specialists[0].specialistName}
+                        width={52}
+                        height={52}
+                        className="w-10 lg:w-20 h-10 lg:h-20 object-contain mx-auto"
+                      />
+                    </div>
+                    <div>
+                      <p className="font-bold text-[24px] sm:text-[32px] leading-tight">
+                        {Specialists[0].specialistName}
+                      </p>
+                      <p className="text-[18px] mt-2 sm:mt-3">
+                        {Specialists[0].specialistTitle}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-bold text-[24px] sm:text-[32px] leading-tight">{specialistName}</p>
-                  <p className="text-[18px] mt-2 sm:mt-3">{specialistTitle}</p>
+              ) : (
+                // ── Multiple specialists — grid of compact cards ──
+                <div className={`grid gap-4 ${Specialists.length === 2 ? 'grid-cols-2' : 'grid-cols-2 lg:grid-cols-3'}`}>
+                  {Specialists.map((specialist, index) => (
+                    <SpecialistCard key={specialist.id || index} specialist={specialist} />
+                  ))}
                 </div>
-              </div>
-            </div>
+              )
+            )}
 
           </div>
 
