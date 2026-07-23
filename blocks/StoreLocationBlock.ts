@@ -33,31 +33,35 @@ export const StoreLocationBlock: Block = {
       label: 'Full Address',
       defaultValue: '65 South 500 East American Fork, UT 84003',
     },
-    {
-      name: 'mapEmbedUrl',
-      type: 'text',
-      required: true,
-      label: 'Google Maps Embed URL',
-    },
+   
 
     // ── Specialist ──
     {
-      name: 'specialistName',
-      type: 'text',
-      label: 'Specialist Name',
-      defaultValue: 'Dave Koch',
-    },
-    {
-      name: 'specialistTitle',
-      type: 'text',
-      label: 'Specialist Title',
-      defaultValue: 'Store Manager',
-    },
-    {
-      name: 'specialistImage',
-      type: 'upload',
-      relationTo: 'media' as any,
-      label: 'Specialist Photo',
+      name: 'Specialists',
+      type: 'array',
+      label: 'Specialist Card',
+      minRows: 1,
+      maxRows: 3,
+      fields: [
+        {
+          name: 'specialistName',
+          type: 'text',
+          label: 'Specialist Name',
+          defaultValue: 'Dave Koch',
+        },
+        {
+          name: 'specialistTitle',
+          type: 'text',
+          label: 'Specialist Title',
+          defaultValue: 'Store Manager',
+        },
+        {
+          name: 'specialistImage',
+          type: 'upload',
+          relationTo: 'media' as any,
+          label: 'Specialist Photo',
+        },
+      ]
     },
 
     // ── Hero card ──
