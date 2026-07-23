@@ -50,7 +50,7 @@ export default async function DoorsPage() {
 
       <section className="mt-20 py-14 md:py-20 bg-white">
         <div className="container mx-auto px-4 lg:px-6">
-          <div className="w-full">
+          <div className="w-full mb-16">
             <div className="rounded-[16px] overflow-hidden w-full">
                 
                 <Image

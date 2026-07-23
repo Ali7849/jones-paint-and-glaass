@@ -102,9 +102,14 @@ export const Contractor: Block = {
           required: true,
         },
         {
+          name: 'title',
+          type: 'text',
+          required: false,
+        },
+        {
           name: 'description',
           type: 'text',
-          required: true,
+          required: false,
         },
       ],
     },
@@ -121,6 +126,11 @@ export const Contractor: Block = {
       defaultValue: 'Open Floor Plan with Mountain View',
     },
     {
+      name: 'bottomLeftImageTitle',
+      type: 'text',
+      
+    },
+    {
       name: 'bottomRightImage',
       type: 'upload',
       relationTo: 'media' as any,
@@ -131,6 +141,11 @@ export const Contractor: Block = {
       name: 'bottomRightImageDescription',
       type: 'text',
       defaultValue: 'Open Floor Plan with Mountain View',
+    },
+    {
+      name: 'bottomRightImageTitle',
+      type: 'text',
+      
     },
   ],
 }

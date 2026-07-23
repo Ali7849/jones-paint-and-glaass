@@ -16,6 +16,7 @@ type GalleryImage = {
     alt?: string
   }
   description: string
+  title: string
 }
 
 type ContractorBlockProps = {
@@ -39,11 +40,13 @@ type ContractorBlockProps = {
     alt?: string
   }
   bottomLeftImageDescription?: string
+  bottomLeftImageTitle?: string
   bottomRightImage?: {
     url: string
     alt?: string
   }
   bottomRightImageDescription?: string
+  bottomRightImageTitle?: string
 }
 
 function AccordionItem({
@@ -110,8 +113,10 @@ export default function Contractor({
   topRowImages = [],
   bottomLeftImage,
   bottomLeftImageDescription = 'Open Floor Plan with Mountain View',
+  bottomLeftImageTitle,
   bottomRightImage,
   bottomRightImageDescription = 'Open Floor Plan with Mountain View',
+  bottomRightImageTitle,
 }: ContractorBlockProps) {
   // ✅ Don't render if no required data provided
 //   if (!faqs || faqs.length === 0) {
@@ -267,6 +272,7 @@ export default function Contractor({
 
                 {/* Hover Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl flex items-end p-4">
+                  <p className="text-black text-[14px] font-bold leading-tight">{item.title}</p>
                   <p className="text-black/80 text-[14px] leading-tight mx-auto w-full sm:w-[80%]">
                     {item.description}
                   </p>
@@ -282,6 +288,7 @@ export default function Contractor({
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl flex items-end p-4">
+                  <p className="text-black text-[14px] font-bold leading-tight">{bottomLeftImageTitle}</p>
                 <p className="text-black/80 text-sm mx-auto w-full sm:w-[80%]">
                   {bottomLeftImageDescription}
                 </p>
@@ -296,6 +303,8 @@ export default function Contractor({
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl flex items-end p-4">
+                  <p className="text-black text-[14px] font-bold leading-tight">{bottomRightImageTitle}</p>
+                
                 <p className="text-black/80 text-sm mx-auto w-full sm:w-[80%]">
                   {bottomRightImageDescription}
                 </p>
