@@ -1,54 +1,55 @@
 "use client";
 import Image from "next/image";
 
-type Specialist = {
-  id?: string
-  specialistName: string
-  specialistTitle: string
-  specialistImage?: { url: string; alt?: string } | null
-}
-
 type Service = {
-  id?: string
-  title: string
-  href?: string
+  id?: string;
+  title: string;
+  href?: string;
   image: {
-    url: string
-    alt?: string
-  }
-}
+    url: string;
+    alt?: string;
+  };
+};
+
+type Specialist = {
+  id?: string;
+  specialistName: string;
+  specialistTitle: string;
+  specialistImage?: { url: string; alt?: string } | null;
+};
 
 type StoreLocationBlockProps = {
-  locationLabel?: string
-  heading?: string
-  address?: string
-  locationImage?: { url: string; alt?: string } | null  // ← from locations collection
-  Specialists?: Specialist[]
-  heroCardLabel?: string
-  heroCardHeading?: string
-  heroCardText?: string
-  services?: Service[]
-}
+  locationLabel?: string;
+  heading?: string;
+  address?: string;
+  locationImage?: { url: string; alt?: string } | string | null;
+  Specialists?: Specialist[];
+  heroCardLabel?: string;
+  heroCardHeading?: string;
+  heroCardText?: string;
+  services?: Service[];
+};
 
+// ── Service Card ──
 function ServiceCard({ service }: { service: Service }) {
-  const imageUrl = service.image?.url ?? '/assets/jt/paint.png'
-  const imageAlt = service.image?.alt ?? service.title
+  const imageUrl = service.image?.url ?? "/assets/jt/paint.png";
+  const imageAlt = service.image?.alt ?? service.title;
 
   return (
-    <div className="rounded-[16px] p-5 overflow-hidden bg-[#F4F7FF] flex flex-col">
-      <div className="w-full overflow-hidden" style={{ height: '148px' }}>
+    <div className="rounded-[16px] p-4 overflow-hidden bg-[#F4F7FF] flex flex-col">
+      <div className="w-full overflow-hidden rounded-[8px]" style={{ height: "148px" }}>
         <Image
           src={imageUrl}
           alt={imageAlt}
           width={220}
-          height={110}
-          className="w-full h-full object-cover rounded-[8px]"
+          height={148}
+          className="w-full h-full object-cover"
         />
       </div>
-      <div className="p-3 flex flex-col gap-1">
+      <div className="pt-3 flex flex-col gap-1">
         <p className="text-[18px] font-bold">{service.title}</p>
         
-        <a  href={service.href || '#'}
+        <a href={service.href || "#"}
           className="inline-flex items-center gap-1 text-[16px] font-medium hover:text-[#0052C6] transition-colors group"
         >
           Learn More
@@ -58,59 +59,154 @@ function ServiceCard({ service }: { service: Service }) {
         </a>
       </div>
     </div>
-  )
+  );
 }
 
-function SpecialistCard({ specialist }: { specialist: Specialist }) {
+// ── Single Specialist — green horizontal card ──
+function SingleSpecialist({ specialist }: { specialist: Specialist }) {
   return (
-    <div className="rounded-[16px] bg-[#A5EBCD] p-5 sm:p-8 flex flex-col items-start gap-4 relative overflow-hidden flex-shrink-0">
-      {/* Paint decoration */}
+    <div className="rounded-[16px] bg-[#A5EBCD] p-5 sm:p-8 flex flex-col h-auto lg:h-[267px] items-start gap-4 relative overflow-hidden flex-shrink-0">
       <div
-        className="absolute right-0 top-0 w-full h-full pointer-events-none z-2"
+        className="absolute right-0 top-0 w-full h-full pointer-events-none z-0"
         style={{
-          backgroundImage: 'url(/assets/jt/elements/paint-15.png)',
-          backgroundSize: 'contain',
-          backgroundPosition: 'right center',
-          backgroundRepeat: 'no-repeat',
+          backgroundImage: "url(/assets/jt/elements/paint-15.png)",
+          backgroundSize: "contain",
+          backgroundPosition: "right center",
+          backgroundRepeat: "no-repeat",
         }}
       />
-      <h4 className="relative z-4 text-[16px] font-bold tracking-[0.15em] uppercase mb-1">
+      <h4 className="relative z-10 text-[14px] font-bold tracking-[0.15em] uppercase">
         Your Local Specialist
       </h4>
       <div className="relative z-10 flex items-center gap-6 sm:gap-8">
-        {/* Avatar */}
-        <div className="flex items-center w-[80px] lg:w-[100px] h-[80px] lg:h-[100px] bg-white rounded-full flex-shrink-0 overflow-hidden">
+        <div className="w-[100px] lg:w-[132px] h-[100px] lg:h-[132px] bg-white rounded-full flex-shrink-0 overflow-hidden">
           <Image
-            src={specialist.specialistImage?.url ?? '/assets/jt/profile.png'}
+            src={specialist.specialistImage?.url ?? "/assets/jt/profile.png"}
             alt={specialist.specialistImage?.alt ?? specialist.specialistName}
-            width={52}
-            height={52}
-            className="w-10 lg:w-16 h-10 lg:h-16 object-contain mx-auto"
+            width={132}
+            height={132}
+            className="w-full h-full object-cover"
           />
         </div>
-        {/* Info */}
         <div>
-          <p className="font-bold text-[20px] sm:text-[26px] leading-tight">
+          <p className="font-bold text-[24px] sm:text-[32px] leading-tight">
             {specialist.specialistName}
           </p>
-          <p className="text-[16px] mt-1 sm:mt-2">{specialist.specialistTitle}</p>
+          <p className="text-[18px] mt-2">
+            {specialist.specialistTitle}
+          </p>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
+// ── Multiple Specialists — dark stacked card ──
+function MultipleSpecialists({ specialists }: { specialists: Specialist[] }) {
+  return (
+    <div className="rounded-[16px] bg-black p-6 sm:p-8 flex flex-col relative overflow-hidden flex-shrink-0">
+      <div
+        className="absolute right-0 bottom-0 w-[60%] h-[50%] pointer-events-none z-0"
+        style={{
+          backgroundImage: "url(/assets/jt/elements/paint-15.png)",
+          backgroundSize: "contain",
+          backgroundPosition: "right bottom",
+          backgroundRepeat: "no-repeat",
+          filter: "hue-rotate(200deg)",
+        }}
+      />
+      <h4 className="relative z-10 text-[13px] font-bold tracking-[0.15em] text-[#A5EBCD] uppercase mb-5">
+        Your Local Specialist
+      </h4>
+      <div className="relative z-10 flex flex-col">
+        {specialists.map((specialist, index) => (
+          <div key={specialist.id || index}>
+            <div className="flex items-center gap-5 py-4">
+              <div className="w-[72px] h-[72px] rounded-full bg-white flex-shrink-0 overflow-hidden">
+                <Image
+                  src={specialist.specialistImage?.url ?? "/assets/jt/profile.png"}
+                  alt={specialist.specialistImage?.alt ?? specialist.specialistName}
+                  width={72}
+                  height={72}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <p className="font-bold text-white text-[20px] sm:text-[24px] leading-tight">
+                  {specialist.specialistName}
+                </p>
+                <p className="text-[15px] text-white/70 mt-1">
+                  {specialist.specialistTitle}
+                </p>
+              </div>
+            </div>
+            {index < specialists.length - 1 && (
+              <div className="h-px bg-white/10 w-full" />
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Empty Specialists — dark placeholder card ──
+function EmptySpecialist() {
+  return (
+    <div className="rounded-[16px] bg-black p-6 sm:p-8 flex flex-col relative overflow-hidden flex-shrink-0">
+      <div
+        className="absolute right-0 bottom-0 w-[60%] h-[50%] pointer-events-none z-0"
+        style={{
+          backgroundImage: "url(/assets/jt/elements/paint-15.png)",
+          backgroundSize: "contain",
+          backgroundPosition: "right bottom",
+          backgroundRepeat: "no-repeat",
+          filter: "hue-rotate(200deg)",
+        }}
+      />
+      <h4 className="relative z-10 text-[13px] font-bold tracking-[0.15em] text-[#A5EBCD] uppercase mb-5">
+        Your Local Specialist
+      </h4>
+      <div className="relative z-10 flex items-center gap-5 py-4">
+        <div className="w-[72px] h-[72px] rounded-full bg-white/10 flex-shrink-0 flex items-center justify-center">
+          <svg className="w-8 h-8 text-white/30" viewBox="0 0 24 24" fill="none">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="1.5" />
+          </svg>
+        </div>
+        <div>
+          <p className="font-bold text-white/40 text-[20px] sm:text-[24px] leading-tight">N/A</p>
+          <p className="text-[15px] text-white/25 mt-1">No specialist assigned</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Main Component ──
 export default function StoreLocation({
-  locationLabel = 'Store Location',
-  heading = 'American Fork',
-  address = '65 South 500 East American Fork, UT 84003',
+  locationLabel = "Store Location",
+  heading = "American Fork",
+  address = "65 South 500 East American Fork, UT 84003",
   locationImage = null,
   Specialists = [],
-  heroCardLabel = 'Products & Services',
-  heroCardHeading = 'From Inspiration to Installation',
-  heroCardText = 'Our team will make sure you not only have the products you need, but a solid plan to go with them.',
+  heroCardLabel = "Products & Services",
+  heroCardHeading = "From Inspiration to Installation",
+  heroCardText = "Our team will make sure you not only have the products you need, but a solid plan to go with them.",
   services = [],
 }: StoreLocationBlockProps) {
+
+  // ── Resolve locationImage — handles string URL or Payload media object ──
+  const imgUrl =
+    typeof locationImage === "string"
+      ? locationImage || null
+      : locationImage?.url ?? null;
+
+  const imgAlt =
+    typeof locationImage === "object" && locationImage !== null
+      ? locationImage.alt ?? heading
+      : heading;
+
   return (
     <section className="mt-20 py-14 md:py-20 bg-white">
       <div className="container mx-auto px-4 lg:px-6">
@@ -129,120 +225,78 @@ export default function StoreLocation({
           </div>
         </div>
 
-        {/* Main container */}
+        {/* Main grid */}
         <div className="flex flex-col lg:flex-row gap-4 items-stretch">
 
-          {/* Left column — Location image + Specialists */}
-          <div className="flex flex-col gap-4 w-full xl:w-[50%] lg:w-[45%] flex-shrink-0">
+          {/* ── Left column ── */}
+          <div className="flex flex-col gap-4 w-full lg:w-[45%] xl:w-[50%] flex-shrink-0">
 
-            {/* Location image from locations collection */}
-            {locationImage?.url ? (
-              <div className="rounded-2xl overflow-hidden bg-[#DDEEFF] w-full min-h-[300px] flex-1 relative">
+            {/* Location image */}
+            {imgUrl ? (
+              <div className="relative rounded-2xl overflow-hidden bg-[#DDEEFF] flex-1 min-h-[300px]">
                 <Image
-                  src={locationImage.url}
-                  alt={locationImage.alt ?? heading}
+                  src={imgUrl}
+                  alt={imgAlt}
                   fill
                   className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
             ) : (
-              <div className="rounded-2xl bg-[#DDEEFF] w-full min-h-[300px] flex-1 flex items-center justify-center">
+              <div className="rounded-2xl bg-[#DDEEFF] flex-1 min-h-[300px] flex items-center justify-center">
                 <p className="text-gray-400">No location image provided</p>
               </div>
             )}
 
-            {/* Specialists — single or multiple */}
-            {Specialists.length > 0 && (
-              Specialists.length === 1 ? (
-                // ── Single specialist — full width tall card ──
-                <div className="rounded-[16px] bg-[#A5EBCD] p-5 sm:p-8 flex flex-col h-auto lg:h-[267px] items-start gap-4 relative overflow-hidden flex-shrink-0">
-                  <div
-                    className="absolute right-0 top-0 w-full h-full pointer-events-none z-2"
-                    style={{
-                      backgroundImage: 'url(/assets/jt/elements/paint-15.png)',
-                      backgroundSize: 'contain',
-                      backgroundPosition: 'right center',
-                      backgroundRepeat: 'no-repeat',
-                    }}
-                  />
-                  <h4 className="relative z-4 text-[16px] font-bold tracking-[0.15em] uppercase mb-1">
-                    Your Local Specialist
-                  </h4>
-                  <div className="relative z-10 flex items-center gap-6 sm:gap-8">
-                    <div className="flex items-center w-[80px] lg:w-[132px] h-[80px] lg:h-[132px] bg-white rounded-full flex-shrink-0 overflow-hidden">
-                      <Image
-                        src={Specialists[0].specialistImage?.url ?? '/assets/jt/profile.png'}
-                        alt={Specialists[0].specialistImage?.alt ?? Specialists[0].specialistName}
-                        width={52}
-                        height={52}
-                        className="w-10 lg:w-20 h-10 lg:h-20 object-contain mx-auto"
-                      />
-                    </div>
-                    <div>
-                      <p className="font-bold text-[24px] sm:text-[32px] leading-tight">
-                        {Specialists[0].specialistName}
-                      </p>
-                      <p className="text-[18px] mt-2 sm:mt-3">
-                        {Specialists[0].specialistTitle}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                // ── Multiple specialists — grid of compact cards ──
-                <div className={`grid gap-4 ${Specialists.length === 2 ? 'grid-cols-2' : 'grid-cols-2 lg:grid-cols-3'}`}>
-                  {Specialists.map((specialist, index) => (
-                    <SpecialistCard key={specialist.id || index} specialist={specialist} />
-                  ))}
-                </div>
-              )
-            )}
+            {/* Specialist card — always shows */}
+            {Specialists.length === 0 && <EmptySpecialist />}
+            {Specialists.length === 1 && <SingleSpecialist specialist={Specialists[0]} />}
+            {Specialists.length > 1 && <MultipleSpecialists specialists={Specialists} />}
 
           </div>
 
-          {/* Right column — Hero card + Service cards */}
-          <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* ── Right column ── */}
+          <div className="flex-1 grid grid-cols-2 gap-4 auto-rows-min">
 
-            {/* Blue hero card — spans 2 rows */}
+            {/* Blue hero card — spans full left column, 2 rows */}
             <div className="row-span-2 rounded-2xl bg-[#0052C6] overflow-hidden relative flex flex-col justify-start p-6">
               <div
                 className="absolute right-0 bottom-0 w-full pointer-events-none mix-blend-multiply"
                 style={{
-                  backgroundImage: 'url(/assets/jt/elements/paint-16.png)',
-                  backgroundSize: 'contain',
-                  backgroundPosition: 'right bottom',
-                  backgroundRepeat: 'no-repeat',
-                  height: '50%',
+                  backgroundImage: "url(/assets/jt/elements/paint-16.png)",
+                  backgroundSize: "contain",
+                  backgroundPosition: "right bottom",
+                  backgroundRepeat: "no-repeat",
+                  height: "50%",
                 }}
               />
               <div className="relative z-10">
-                <p className="text-[16px] font-bold tracking-[0.2em] text-[#A5EBCD] uppercase mb-3">
+                <p className="text-[14px] font-bold tracking-[0.2em] text-[#A5EBCD] uppercase mb-3">
                   {heroCardLabel}
                 </p>
-                <h3 className="text-white text-[28px] lg:text-[32px] leading-tight mb-4">
+                <h3 className="text-white text-[26px] lg:text-[30px] leading-tight mb-4 font-['Avenir'] font-extrabold">
                   {heroCardHeading}
                 </h3>
-                <p className="text-white text-[18px] leading-relaxed">
+                <p className="text-white text-[16px] leading-relaxed">
                   {heroCardText}
                 </p>
               </div>
             </div>
 
-            {/* Service cards */}
+            {/* Service cards — fill right column */}
             {services.length > 0 ? (
               services.map((service, index) => (
                 <ServiceCard key={service.id || index} service={service} />
               ))
             ) : (
-              <div className="col-span-2 flex items-center justify-center h-[200px] bg-gray-50 rounded-2xl">
-                <p className="text-gray-400">No services added yet.</p>
+              <div className="col-span-1 flex items-center justify-center h-[200px] bg-gray-50 rounded-2xl">
+                <p className="text-gray-400 text-sm">No services added yet.</p>
               </div>
             )}
 
           </div>
-
         </div>
       </div>
     </section>
-  )
+  );
 }
