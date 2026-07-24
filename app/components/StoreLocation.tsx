@@ -22,7 +22,7 @@ type StoreLocationBlockProps = {
   locationLabel?: string;
   heading?: string;
   address?: string;
-  locationImage?: { url: string; alt?: string } | string | null;
+  storeImage?: { url: string; alt?: string } | string | null;
   Specialists?: Specialist[];
   heroCardLabel?: string;
   heroCardHeading?: string;
@@ -186,7 +186,7 @@ export default function StoreLocation({
   locationLabel = "Store Location",
   heading = "American Fork",
   address = "65 South 500 East American Fork, UT 84003",
-  locationImage = null,
+  storeImage = null,
   Specialists = [],
   heroCardLabel = "Products & Services",
   heroCardHeading = "From Inspiration to Installation",
@@ -194,15 +194,15 @@ export default function StoreLocation({
   services = [],
 }: StoreLocationBlockProps) {
 
-  // ── Resolve locationImage — handles string URL or Payload media object ──
+  // ── Resolve storeImage — handles string URL or Payload media object ──
   const imgUrl =
-    typeof locationImage === "string"
-      ? locationImage || null
-      : locationImage?.url ?? null;
+    typeof storeImage === "string"
+      ? storeImage || null
+      : storeImage?.url ?? null;
 
   const imgAlt =
-    typeof locationImage === "object" && locationImage !== null
-      ? locationImage.alt ?? heading
+    typeof storeImage === "object" && storeImage !== null
+      ? storeImage.alt ?? heading
       : heading;
 
   return (
