@@ -89,9 +89,9 @@ function SingleSpecialist({ specialist }: { specialist: Specialist }) {
           />
         </div>
         <div>
-          <p className="font-bold text-[40px] text-white sm:text-[32px] leading-tight">
+          <h3 className="font-bold text-[40px] text-white sm:text-[32px] leading-tight">
             {specialist.specialistName}
-          </p>
+          </h3>
           <p className="text-[20px] mt-2 text-white/70">
             {specialist.specialistTitle}
           </p>
@@ -131,9 +131,9 @@ function MultipleSpecialists({ specialists }: { specialists: Specialist[] }) {
                 />
               </div>
               <div>
-                <p className="font-bold text-white text-[400px] sm:text-[32px] leading-tight">
+                <h3 className="font-bold text-white text-[400px] sm:text-[32px] leading-tight">
                   {specialist.specialistName}
-                </p>
+                </h3>
                 <p className="text-[20px] text-white/70 mt-1">
                   {specialist.specialistTitle}
                 </p>
@@ -173,7 +173,7 @@ function EmptySpecialist() {
           </svg>
         </div>
         <div>
-          <p className="font-bold text-white/40 text-[40px] sm:text-[32px] leading-tight">N/A</p>
+          <h3 className="font-bold text-white/40 text-[40px] sm:text-[32px] leading-tight">N/A</h3>
           <p className="text-[20px] text-white/25 mt-1">No specialist assigned</p>
         </div>
       </div>
