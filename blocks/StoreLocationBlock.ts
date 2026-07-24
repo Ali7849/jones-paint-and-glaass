@@ -35,10 +35,10 @@ export const StoreLocationBlock: Block = {
     },
 
     {
-      name: 'locationImage',
+      name: 'storeImage',
       type: 'upload',
       relationTo: 'media' as any,
-      label: 'Location Image',
+      label: 'Store Image',
     },
    
 
