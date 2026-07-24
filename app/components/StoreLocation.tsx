@@ -65,7 +65,7 @@ function ServiceCard({ service }: { service: Service }) {
 // ── Single Specialist — green horizontal card ──
 function SingleSpecialist({ specialist }: { specialist: Specialist }) {
   return (
-    <div className="rounded-[16px] bg-[#A5EBCD] p-5 sm:p-8 flex flex-col h-auto lg:h-[267px] items-start gap-4 relative overflow-hidden flex-shrink-0">
+    <div className="rounded-[16px] bg-black p-5 sm:p-8 flex flex-col h-auto lg:h-[244px] items-start gap-4 relative overflow-hidden flex-shrink-0">
       <div
         className="absolute right-0 top-0 w-full h-full pointer-events-none z-0"
         style={{
@@ -75,7 +75,7 @@ function SingleSpecialist({ specialist }: { specialist: Specialist }) {
           backgroundRepeat: "no-repeat",
         }}
       />
-      <h4 className="relative z-10 text-[14px] font-bold tracking-[0.15em] uppercase">
+      <h4 className="relative z-10 text-[16px] text-[#A5EBCD] font-bold tracking-[0.15em] uppercase">
         Your Local Specialist
       </h4>
       <div className="relative z-10 flex items-center gap-6 sm:gap-8">
@@ -89,10 +89,10 @@ function SingleSpecialist({ specialist }: { specialist: Specialist }) {
           />
         </div>
         <div>
-          <p className="font-bold text-[24px] sm:text-[32px] leading-tight">
+          <p className="font-bold text-[40px] text-white sm:text-[32px] leading-tight">
             {specialist.specialistName}
           </p>
-          <p className="text-[18px] mt-2">
+          <p className="text-[20px] mt-2 text-white/70">
             {specialist.specialistTitle}
           </p>
         </div>
@@ -114,7 +114,7 @@ function MultipleSpecialists({ specialists }: { specialists: Specialist[] }) {
           backgroundRepeat: "no-repeat",
         }}
       />
-      <h4 className="relative z-10 text-[13px] font-bold tracking-[0.15em] text-[#A5EBCD] uppercase mb-5">
+      <h4 className="relative z-10 text-[16px] font-bold tracking-[0.15em] text-[#A5EBCD] uppercase mb-5">
         Your Local Specialist
       </h4>
       <div className="relative z-10 flex flex-col">
@@ -131,10 +131,10 @@ function MultipleSpecialists({ specialists }: { specialists: Specialist[] }) {
                 />
               </div>
               <div>
-                <p className="font-bold text-white text-[20px] sm:text-[24px] leading-tight">
+                <p className="font-bold text-white text-[400px] sm:text-[32px] leading-tight">
                   {specialist.specialistName}
                 </p>
-                <p className="text-[15px] text-white/70 mt-1">
+                <p className="text-[20px] text-white/70 mt-1">
                   {specialist.specialistTitle}
                 </p>
               </div>
@@ -162,7 +162,7 @@ function EmptySpecialist() {
           backgroundRepeat: "no-repeat",
         }}
       />
-      <h4 className="relative z-10 text-[13px] font-bold tracking-[0.15em] text-[#A5EBCD] uppercase mb-5">
+      <h4 className="relative z-10 text-[16px] font-bold tracking-[0.15em] text-[#A5EBCD] uppercase mb-5">
         Your Local Specialist
       </h4>
       <div className="relative z-10 flex items-center gap-5 py-4">
@@ -173,8 +173,8 @@ function EmptySpecialist() {
           </svg>
         </div>
         <div>
-          <p className="font-bold text-white/40 text-[20px] sm:text-[24px] leading-tight">N/A</p>
-          <p className="text-[15px] text-white/25 mt-1">No specialist assigned</p>
+          <p className="font-bold text-white/40 text-[40px] sm:text-[32px] leading-tight">N/A</p>
+          <p className="text-[20px] text-white/25 mt-1">No specialist assigned</p>
         </div>
       </div>
     </div>
