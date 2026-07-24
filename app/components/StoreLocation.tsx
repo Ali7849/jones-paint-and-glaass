@@ -104,7 +104,7 @@ function SingleSpecialist({ specialist }: { specialist: Specialist }) {
 // ── Multiple Specialists — dark stacked card ──
 function MultipleSpecialists({ specialists }: { specialists: Specialist[] }) {
   return (
-    <div className="rounded-[16px] bg-black p-6 sm:p-8 flex flex-col relative overflow-hidden flex-shrink-0">
+    <div className="rounded-[16px] bg-black p-6 sm:p-8 flex flex-col relative lg:h-[244px] overflow-hidden flex-shrink-0">
       <div
         className="absolute right-0 bottom-0 w-[60%] h-[50%] pointer-events-none z-0"
         style={{
@@ -152,7 +152,7 @@ function MultipleSpecialists({ specialists }: { specialists: Specialist[] }) {
 // ── Empty Specialists — dark placeholder card ──
 function EmptySpecialist() {
   return (
-    <div className="rounded-[16px] bg-black p-6 sm:p-8 flex flex-col relative overflow-hidden flex-shrink-0">
+    <div className="rounded-[16px] bg-black p-6 sm:p-8 flex flex-col relative lg:h-[244px] overflow-hidden flex-shrink-0">
       <div
         className="absolute right-0 bottom-0 w-[60%] h-[50%] pointer-events-none z-0"
         style={{
