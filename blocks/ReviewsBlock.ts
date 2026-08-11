@@ -8,9 +8,11 @@ export const ReviewsBlock: Block = {
     singular: 'Reviews',
     plural: 'Reviews',
   },
+
   admin: {
     group: 'Content',
   },
+
   fields: [
     {
       name: 'heading',
@@ -18,31 +20,12 @@ export const ReviewsBlock: Block = {
       defaultValue: 'Hear What Others Have to Say',
       required: true,
     },
+
     {
       name: 'subtext',
       type: 'textarea',
       defaultValue:
         'We are proud to serve our neighbors and help bring their DIY and contractor projects to life!',
-    },
-    {
-      name: 'reviews',
-      type: 'array',
-      label: 'Reviews',
-      minRows: 1,
-      fields: [
-        {
-          name: 'quote',
-          type: 'textarea',
-          required: true,
-          label: 'Review Quote',
-        },
-        {
-          name: 'name',
-          type: 'text',
-          required: true,
-          label: 'Reviewer Name',
-        },
-      ],
     },
   ],
 }
