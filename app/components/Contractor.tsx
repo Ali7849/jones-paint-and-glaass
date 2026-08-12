@@ -271,8 +271,8 @@ export default function Contractor({
                 />
 
                 {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl flex items-end p-4">
-                  <p className="text-black text-[14px] font-bold leading-tight">{item.title}</p>
+                <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl  items-end p-4">
+                  <p className="text-black text-[14px] font-bold leading-tight">{item.title}</p> <br/>
                   <p className="text-black/80 text-[14px] leading-tight mx-auto w-full sm:w-[80%]">
                     {item.description}
                   </p>
@@ -287,7 +287,7 @@ export default function Contractor({
                 alt={bottomLeftImageDescription}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl flex items-end p-4">
+              <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl items-end p-4">
                   <p className="text-black text-[14px] font-bold leading-tight">{bottomLeftImageTitle}</p>
                 <p className="text-black/80 text-sm mx-auto w-full sm:w-[80%]">
                   {bottomLeftImageDescription}
@@ -302,7 +302,7 @@ export default function Contractor({
                 alt={bottomRightImageDescription}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl flex items-end p-4">
+              <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl  items-end p-4">
                   <p className="text-black text-[14px] font-bold leading-tight">{bottomRightImageTitle}</p>
                 
                 <p className="text-black/80 text-sm mx-auto w-full sm:w-[80%]">
