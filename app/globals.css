@@ -18,6 +18,10 @@
   font-display: swap;
 }
 
+button{
+  cursor: pointer;
+}
+
 /* @font-face {
     font-family: 'Avenir';
     src: url('/fonts/AvenirLTStd-Roman.otf') format('opentype');

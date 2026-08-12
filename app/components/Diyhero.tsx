@@ -125,7 +125,7 @@ export default function DiyHero({
                 <a
                   key={i}
                   href={btn.link ?? "#"}
-                  className="group flex items-center gap-2 bg-[#0052C6] text-white font-bold px-5 py-2.5 rounded-md transition-colors"
+                  className="group cursor-pointer flex items-center gap-2 bg-[#0052C6] text-white font-bold px-5 py-2.5 rounded-md transition-colors"
                   style={{ fontSize: "clamp(12px, 1.1vw, 15px)" }}
                 >
                   {btn.label}
