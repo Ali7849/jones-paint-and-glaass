@@ -2,13 +2,12 @@
 
 import Image from 'next/image'
 
-type Location = {
+type LocationData = {
   id?: string
-  city: string
-  highlight?: string | null
+  name: string
+  slug?: string
   services: string
-  href: string
-  image: {
+  locationImage?: {
     url: string
     alt?: string
   }
@@ -17,13 +16,13 @@ type Location = {
 type AboutLocationBlockProps = {
   heading?: string
   subtext?: string
-  locations?: Location[]
+  fetchedLocations?: LocationData[] // ✅ from server
 }
 
 export default function Aboutlocation({
   heading = 'JP&G Locations',
   subtext = 'We have stores scattered throughout Utah. Check out the products and information for the store nearest you!',
-  locations = [],
+  fetchedLocations = [],
 }: AboutLocationBlockProps) {
   return (
     <section className="relative py-16 md:py-24 bg-white overflow-hidden">
@@ -53,16 +52,17 @@ export default function Aboutlocation({
         </div>
 
         {/* Grid */}
-        {locations.length > 0 ? (
+        {fetchedLocations.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {locations.map((loc, index) => {
-              const imageUrl = loc.image?.url ?? '/assets/jt/diy-5.png'
-              const imageAlt = loc.image?.alt ?? `${loc.city} ${loc.highlight ?? ''} store`
+            {fetchedLocations.map((loc, index) => {
+              const imageUrl = loc.locationImage?.url ?? '/assets/jt/diy-5.png'
+              const imageAlt = loc.locationImage?.alt ?? `${loc.name} store`
+              const href = loc.slug ? `/${loc.slug}` : '#'
 
               return (
                 <div
                   key={loc.id || index}
-                  className="bg-[#F8F9FC] rounded-[16px] overflow-hidden flex flex-col p-5"
+                  className="bg-[#F8F9FC] rounded-[16px] overflow-hidden flex flex-col p-5 hover:shadow-lg transition-shadow duration-300"
                   style={{ boxShadow: '0 2px 12px rgba(0,82,198,0.06)' }}
                 >
                   {/* Store image */}
@@ -71,30 +71,24 @@ export default function Aboutlocation({
                       src={imageUrl}
                       alt={imageAlt}
                       fill
-                      className="object-cover"
+                      className="object-cover hover:scale-105 transition-transform duration-300"
                     />
                   </div>
 
                   {/* Card body */}
                   <div className="flex flex-col gap-1 flex-1 pt-4 text-center lg:text-start">
                     <h3 className="text-[16px] md:text-[20px] font-bold text-gray-900">
-                      {loc.highlight ? (
-                        <>
-                          {loc.city}{' '}
-                          <span style={{ color: '#0052C6' }}>{loc.highlight}</span>
-                        </>
-                      ) : (
-                        loc.city
-                      )}
+                      {loc.name}
                     </h3>
 
                     <p className="text-[14px] text-black leading-snug font-bold flex-1 pr-2 lg:pr-6 xl:pr-15">
                       {loc.services}
                     </p>
 
+                    {/* Store Info Link */}
                     
-                    <a  href={loc.href}
-                      className="group inline-flex items-center gap-1 text-[16px] font-semibold text-gray-800 mt-3 mx-auto lg:mx-0"
+                    <a  href={href}
+                      className="group inline-flex items-center gap-1 text-[16px] font-semibold text-[#0052C6] hover:text-[#003fa0] mt-3 mx-auto lg:mx-0 transition-colors"
                     >
                       Store Info
                       <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" viewBox="0 0 24 24" fill="none">
