@@ -52,10 +52,14 @@ button{
   }
 } */
 
+ *{
+  font-family: 'Avenir' !important;
+ }
 
-p,li{
+
+/* p,li{
   font-size: 16px !important;
-}
+} */
 
 .template-minimal {
   background-color: black;
