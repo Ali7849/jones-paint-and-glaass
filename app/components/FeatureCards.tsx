@@ -14,6 +14,8 @@ interface Card {
 interface FeatureCardsBlockProps {
   heading?: string;
   subheading?: string;
+  buttonText?: string;
+  buttonLink?: string;
   cards?: Card[];
 }
 
@@ -21,15 +23,15 @@ function TypeCard({ item }: { item: Card }) {
   const imageUrl = item.image?.url?.trim() ? item.image.url : "/assets/jt/media-paint.png";
   const imageAlt = item.image?.alt?.trim() ? item.image.alt : item.type;
 
-  return (
-    <div className="overflow-hidden rounded-b-[16px] flex flex-col bg-[#F8F9FC]">
+  return (  
+    <div className="overflow-hidden rounded-b-[16px] flex flex-col bg-[#F8F9FC] border border-[#0000001A]">
       <div className="w-full rounded-t-[16px] overflow-hidden">
         <Image
           src={imageUrl}
           alt={imageAlt}
           width={400}
-          height={225}
-          className="w-full h-auto md:h-[250px] lg:h-[400px] object-top object-cover"
+          height={270}
+          className="w-full h-auto md:h-[250px] lg:h-[270px] object-top object-cover"
         />
       </div>
       <div className="p-6">
@@ -43,6 +45,8 @@ function TypeCard({ item }: { item: Card }) {
 export default function FeatureCards({
   heading = "Residential",
   subheading,
+  buttonText,
+  buttonLink,
   cards = [],
 }: FeatureCardsBlockProps) {
   if (!cards || cards.length === 0) return null;
@@ -56,15 +60,31 @@ export default function FeatureCards({
       : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5";
 
   return (
-    <section className="py-16 md:py-26">
+    <section className="pt-16 ">
       <div className="container mx-auto px-4 lg:px-6">
         <div className="mb-14">
-          <h2 className="text-[48px] font-extrabold mb-5 font-['Avenir']">
-            {heading}
-          </h2>
-          {subheading && (
-            <p className="text-[32px] font-semibold mb-10">{subheading}</p>
-          )}
+          <div>
+            <div className="flex justify-between items-center">
+              <h2 className="text-[48px] font-extrabold mb-5 font-['Avenir']">
+                {heading}
+              </h2>
+              {subheading && (
+                <p className="text-[32px] font-semibold mb-10">{subheading}</p>
+              )}
+            </div>
+            <div>
+              {buttonText && (    
+                <a href={buttonLink}
+                  className="group inline-flex items-center gap-2 bg-[#0052C6] hover:bg-[#003fa0] transition-colors text-white font-bold text-[16px] px-5 py-3 rounded-[8px]"
+                >
+                  {buttonText}
+                  <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </a>
+              )}
+            </div>
+          </div>
           <div className={gridClass}>
             {cards.map((item, index) => (
               <TypeCard key={item.id || index} item={item} />

@@ -47,29 +47,25 @@ export default async function GlassPage() {
             </div>
 
             {/* ── Right: dynamic links from Glass collection ── */}
-            <div className="flex-1 flex flex-col gap-8 w-full">
+            <div className="flex-1 flex flex-col gap-6 w-full">
               {glassItems.length > 0 ? (
                 glassItems.map((item: any, index: number) => (
                   <Link
                     key={item.id}
                     href={`${item.slug}`}
-                    className="flex items-center justify-between px-5 py-7 rounded-[16px] border transition-colors group"
-                    style={{
-                      background: index === 0 ? '#0052C6' : 'white',
-                      borderColor: '#0052C6',
-                    }}
+                    className="flex items-center justify-between px-5 py-7 hover:bg-[#0052C6] hover:text-white rounded-[16px] border transition-colors group"
+                    
                   >
                     <span
-                      className="font-semibold text-[18px]"
-                      style={{ color: index === 0 ? 'white' : '#000000' }}
+                      className="font-semibold text-[18px] text-[#0052C6] group-hover:text-white"
+                      
                     >
                       {item.name}
                     </span>
                     <svg
-                      className="w-4 h-4 flex-shrink-0 group-hover:translate-x-0.5 transition-transform"
+                      className="w-4 h-4 flex-shrink-0 group-hover:translate-x-0.5 transition-transform text-[#0052C6] group-hover:text-white"
                       viewBox="0 0 24 24"
-                      fill="none"
-                      style={{ color: index === 0 ? 'white' : '#0052C6' }}
+                      fill="#0052C6"
                     >
                       <path
                         d="M5 12h14M13 6l6 6-6 6"

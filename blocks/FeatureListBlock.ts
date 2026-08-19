@@ -48,12 +48,7 @@ export const FeatureListBlock: Block = {
           type: 'text',
           label: 'Bold Text (optional, shown below description)',
         },
-        {
-          name: 'highlight',
-          type: 'checkbox',
-          defaultValue: false,
-          label: 'Show Blue Left Border',
-        },
+        
       ],
     },
   ],

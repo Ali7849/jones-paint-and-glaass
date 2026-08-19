@@ -23,13 +23,14 @@ type Location = {
 type ImageSliderBlockProps = {
   heading?: string;
   description?: string;
-  // ✅ locations passed from server component
+  adddescription?: string;
   fetchedLocations?: Location[];
 };
 
 export default function ImageSlider({
   heading = "JP&G Locations",
   description = "We have stores scattered throughout Utah. Check out the products and information for the store nearest you!",
+  adddescription = "",
   fetchedLocations = [],
 }: ImageSliderBlockProps) {
   const prevRef = useRef<HTMLButtonElement>(null);
@@ -74,6 +75,9 @@ export default function ImageSlider({
           </h2>
           <p className="text-[16px] text-gray-500 leading-relaxed mb-8 lg:pr-[20%] font-['Avenir']">
             {description}
+          </p>
+          <p className="text-[16px] text-gray-500 leading-relaxed mb-8 lg:pr-[20%] font-['Avenir']">
+            {adddescription}
           </p>
           <div className="flex gap-3">
             <button

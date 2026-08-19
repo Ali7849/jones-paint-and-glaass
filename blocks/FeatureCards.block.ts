@@ -23,6 +23,14 @@ export const FeatureCardsBlock: Block = {
       defaultValue: 'Types of Residential Windows',
     },
     {
+      name: 'buttonText',
+      type: 'text',
+    },
+    {
+      name: 'buttonLink',
+      type: 'text',
+    },
+    {
       name: 'cards',
       type: 'array',
       label: 'Cards',

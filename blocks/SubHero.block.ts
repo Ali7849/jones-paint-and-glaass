@@ -23,6 +23,11 @@ export const SubHero: Block = {
       defaultValue: 'Not all paint is the same. Exterior paint has characteristics that make it better suited for outdoor environments and surfaces.',
     },
     {
+      name: 'boldtext',
+      type: 'text',
+      defaultValue: '',
+    },
+    {
       name: 'image',
       type: 'upload',
       relationTo: 'media' as any,
