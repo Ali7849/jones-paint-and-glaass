@@ -43,14 +43,9 @@ export default function FeatureList({
                   <div key={f.id || index} className="flex">
 
                     {/* Blue left border */}
-                    {f.highlight && (
-                      <div
-                        className="flex-shrink-0 mt-2.5 w-[6px] self-stretch"
-                        style={{ background: '#0052C6' }}
-                      />
-                    )}
+                    
 
-                    <div className=" border-solid border-l-8  hover:border-[#0052C6] transition-colors">
+                    <div className=" border-solid border-transparent border-l-8  hover:border-[#0052C6] transition-colors">
                       <h3 className="ml-6 text-[24px] sm:text-[28px] lg:text-[32px] font-extrabold mb-2 font-['Avenir']">
                         {f.title}
                       </h3>

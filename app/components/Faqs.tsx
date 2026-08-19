@@ -162,7 +162,7 @@ export default function Faqs() {
   };
 
   return (
-    <section className="relative flex flex-col items-center justify-center py-16 md:py-24 overflow-hidden">
+    <section className="relative flex flex-col items-center justify-center py-16 mt-20 md:py-24 overflow-hidden">
       {/* Background */}
       <div
         className="absolute -top-15 left-0 w-full pointer-events-none z-2" id="accordian-element"

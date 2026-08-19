@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import { useRef, useEffect, useState } from "react";
 import type { Swiper as SwiperType } from "swiper";
 import Image from "next/image";
+import Link from "next/link";
 
 import "swiper/css";
 import "swiper/css/navigation";
-import Link from "next/dist/client/link";
 
 type Location = {
   id?: string;
@@ -24,39 +24,77 @@ type ImageSliderBlockProps = {
   heading?: string;
   description?: string;
   adddescription?: string;
-  fetchedLocations?: Location[];
+  // IDs of selected locations from Payload block field — empty = show all
+  locations?: { id: string; value?: any }[] | string[] | null;
 };
 
 export default function ImageSlider({
   heading = "JP&G Locations",
   description = "We have stores scattered throughout Utah. Check out the products and information for the store nearest you!",
   adddescription = "",
-  fetchedLocations = [],
+  locations: selectedLocations,
 }: ImageSliderBlockProps) {
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
   const swiperRef = useRef<SwiperType | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const [fetchedLocations, setFetchedLocations] = useState<Location[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (fetchedLocations.length > 0) {
-      setIsLoading(true);
-      const timer = setTimeout(() => {
-        if (swiperRef.current) {
-          swiperRef.current.update();
+    async function loadLocations() {
+      try {
+        setIsLoading(true);
+        const res = await fetch('/api/locations?limit=100&sort=name&depth=3');
+        const data = await res.json();
+        const docs: any[] = data?.docs ?? [];
+
+        const mapped: Location[] = docs.map((loc: any) => ({
+          id: loc.id,
+          name: loc.name,
+          slug: loc.slug,
+          locationImage: loc.locationImage
+            ? {
+                url: typeof loc.locationImage === 'object'
+                  ? loc.locationImage.url
+                  : loc.locationImage,
+                alt: loc.locationImage?.alt || loc.name,
+              }
+            : null,
+        }));
+
+        // Filter if specific locations are selected in block
+        if (!selectedLocations || selectedLocations.length === 0) {
+          setFetchedLocations(mapped);
+        } else {
+          const selectedIds = selectedLocations.map((loc: any) =>
+            typeof loc === 'object' ? (loc.value?.id ?? loc.id ?? loc.value) : loc
+          );
+          setFetchedLocations(mapped.filter((loc) => selectedIds.includes(loc.id)));
         }
+      } catch (err) {
+        console.error('Failed to load locations:', err);
+        setFetchedLocations([]);
+      } finally {
         setIsLoading(false);
+      }
+    }
+
+    loadLocations();
+  }, []);
+
+  useEffect(() => {
+    if (!isLoading && fetchedLocations.length > 0) {
+      const timer = setTimeout(() => {
+        swiperRef.current?.update();
       }, 100);
       return () => clearTimeout(timer);
     }
-  }, [fetchedLocations.length]);
+  }, [isLoading, fetchedLocations.length]);
 
   const handleBeforeInit = (swiper: SwiperType) => {
     swiperRef.current = swiper;
-    if (
-      typeof swiper.params.navigation === "object" &&
-      swiper.params.navigation
-    ) {
+    if (typeof swiper.params.navigation === "object" && swiper.params.navigation) {
       swiper.params.navigation.prevEl = prevRef.current;
       swiper.params.navigation.nextEl = nextRef.current;
     }
@@ -68,28 +106,27 @@ export default function ImageSlider({
       id="jp-slider"
     >
       <div className="grid grid-cols-12 items-end bg-white py-10 rounded-r-3xl gap-6">
+
         {/* LEFT SIDE */}
         <div className="col-span-12 lg:col-span-5 pl-6 lg:pl-10 pr-6 lg:pr-0">
           <h2 className="text-[28px] md:text-[34px] lg:text-[40px] font-bold text-black mb-4 leading-tight font-['Avenir']">
             {heading}
           </h2>
-          <p className="text-[16px] text-gray-500 leading-relaxed mb-8 lg:pr-[20%] font-['Avenir']">
+          <p className="text-[16px] text-gray-500 leading-relaxed mb-4 lg:pr-[20%] font-['Avenir']">
             {description}
           </p>
-          <p className="text-[16px] text-gray-500 leading-relaxed mb-8 lg:pr-[20%] font-['Avenir']">
-            {adddescription}
-          </p>
+          {adddescription && (
+            <p className="text-[16px] text-gray-500 leading-relaxed mb-8 lg:pr-[20%] font-['Avenir']">
+              {adddescription}
+            </p>
+          )}
           <div className="flex gap-3">
             <button
               ref={prevRef}
               className="w-11 h-11 rounded-full bg-[#D9FDED] hover:bg-[#A5EBCD] flex items-center justify-center transition-colors cursor-pointer"
               aria-label="Previous slide"
             >
-              <svg
-                className="w-8 h-8 stroke-black fill-none"
-                strokeWidth={1.2}
-                viewBox="0 0 24 24"
-              >
+              <svg className="w-8 h-8 stroke-black fill-none" strokeWidth={1.2} viewBox="0 0 24 24">
                 <polyline points="15 18 9 12 15 6" />
               </svg>
             </button>
@@ -98,11 +135,7 @@ export default function ImageSlider({
               className="w-11 h-11 rounded-full bg-[#D9FDED] hover:bg-[#A5EBCD] flex items-center justify-center transition-colors cursor-pointer"
               aria-label="Next slide"
             >
-              <svg
-                className="w-8 h-8 stroke-black fill-none"
-                strokeWidth={1.2}
-                viewBox="0 0 24 24"
-              >
+              <svg className="w-8 h-8 stroke-black fill-none" strokeWidth={1.2} viewBox="0 0 24 24">
                 <polyline points="9 6 15 12 9 18" />
               </svg>
             </button>
@@ -113,9 +146,7 @@ export default function ImageSlider({
         <div className="col-span-12 lg:col-span-7 overflow-hidden">
           {isLoading ? (
             <div className="flex items-center justify-center h-[420px] bg-gray-100 rounded-xl">
-              <div className="animate-pulse text-gray-400">
-                Loading locations...
-              </div>
+              <div className="animate-pulse text-gray-400">Loading locations...</div>
             </div>
           ) : fetchedLocations.length > 0 ? (
             <Swiper
@@ -138,7 +169,7 @@ export default function ImageSlider({
               }
             >
               {fetchedLocations.map((loc, index) => {
-                const imageUrl = loc.locationImage?.url?.trim() 
+                const imageUrl = loc.locationImage?.url?.trim()
                   ? loc.locationImage.url
                   : "/assets/jt/default.jpg";
 
@@ -161,7 +192,6 @@ export default function ImageSlider({
                           <h3 className="font-bold text-gray-900 text-[20px] mb-1">
                             {loc.name}
                           </h3>
-
                           <span className="text-[16px] text-gray-500 hover:text-gray-700 transition-colors">
                             Store Info
                           </span>
