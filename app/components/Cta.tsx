@@ -12,7 +12,7 @@ export default function Cta({
   buttonLink = '#',
 }: CtaProps) {
   return (
-    <section className="container mx-auto bg-[#0052C6] rounded-[16px] px-6 sm:px-8 md:px-10 py-10 flex flex-col sm:flex-row items-center justify-between gap-10">
+    <section className="container mx-auto bg-[#0052C6] rounded-[16px] mt-20 px-6 sm:px-8 md:px-10 py-10 flex flex-col sm:flex-row items-center justify-between gap-10">
       
       {/* Text */}
       <p className="text-white font-semibold text-center leading-[1.1em] sm:text-left text-[38px]">

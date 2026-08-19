@@ -208,7 +208,7 @@ function ProductCard({ p, index }: { p: Product; index: number }) {
           <p className="text-[16px] font-bold tracking-[0.18em] text-[#0052C6] uppercase mb-2">
             {p.tag}
           </p>
-          <h3 className="text-[38px] font-extrabold mb-2 font-['Avenir']">
+          <h3 className="text-[38px] font-extrabold mb-2 leading-none font-['Avenir']">
             {p.title}
           </h3>
           {p.subtitle && (
@@ -295,7 +295,7 @@ export default function ExteriorServices({
           <p className="text-[16px] font-bold tracking-[0.18em] text-[#0052C6] uppercase mb-2">
             {sectionTag}
           </p>
-          <h2 className="text-[36px] md:text-[48px] font-extrabold leading-none  mb-3 font-['Avenir']">
+          <h2 className="text-[36px] md:text-[48px] font-extrabold   mb-3 font-['Avenir']">
             {heading}
           </h2>
           {description && (

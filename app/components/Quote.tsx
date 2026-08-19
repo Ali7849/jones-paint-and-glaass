@@ -221,9 +221,9 @@ export default function Quote({
                 className="w-4 h-4 rounded-md accent-blue-400 cursor-pointer"
               />
               <span className="text-white text-[16px] tracking-wide">
-                You agree to our friendly
+                You agree to our friendly 
                 <a href="/privacy-policy" className="underline hover:text-blue-200 transition-colors">
-                  privacy policy.
+                   privacy policy.
                 </a>
               </span>
             </label>

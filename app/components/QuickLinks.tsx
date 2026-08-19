@@ -22,7 +22,7 @@ export default function QuickLinks({
   links = [],
 }: QuickLinksBlockProps) {
   return (
-    <section className="lg:pr-20 xl:pr-30 flex flex-col lg:flex-row items-stretch rounded-[8px] overflow-hidden">
+    <section className="lg:pr-20 xl:pr-30 flex flex-col lg:flex-row items-stretch rounded-[8px] overflow-hidden item-center">
 
       {/* Left */}
       <div className="w-full lg:w-[50%] bg-[#EEF2FA] pr-10 md:pr-30 lg:pr-8 py-12 md:py-20 flex flex-col text-center lg:text-start justify-center pl-10 md:pl-30 lg:pl-30 xl:pl-30">

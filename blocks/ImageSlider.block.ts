@@ -27,6 +27,16 @@ export const ImageSliderBlock: Block = {
       type: 'textarea',
       defaultValue: '',
     },
-    
+    {
+      name: 'locations',
+      type: 'relationship',
+      relationTo: 'locations' as any,
+      hasMany: true,
+      label: 'Locations to Show',
+      required: false,
+      admin: {
+        description: 'Select specific locations to display. Leave empty to show all locations.',
+      },
+    },
   ],
 }
