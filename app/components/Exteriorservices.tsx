@@ -208,7 +208,7 @@ function ProductCard({ p, index }: { p: Product; index: number }) {
           <p className="text-[16px] font-bold tracking-[0.18em] text-[#0052C6] uppercase mb-2">
             {p.tag}
           </p>
-          <h3 className="text-[38px] font-extrabold mb-2 leading-none font-['Avenir']">
+          <h3 className="text-[38px] font-extrabold mb-2 font-['Avenir']">
             {p.title}
           </h3>
           {p.subtitle && (
