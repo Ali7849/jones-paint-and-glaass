@@ -4,6 +4,7 @@ import Image from "next/image";
 interface SubHeroProps {
   heading?: string;
   description?: string;
+  boldtext?: string;
   image?: {
     url?: string | null;
     alt?: string | null;
@@ -13,6 +14,7 @@ interface SubHeroProps {
 export default function SubHero({
   heading = "Exterior Paint",
   description = "Not all paint is the same. Exterior paint has characteristics that make it better suited for outdoor environments and surfaces.",
+  boldtext = "",
   image,
 }: SubHeroProps) {
   const imageUrl = image?.url?.trim() ? image.url : "/assets/jt/exterior-hero.png";
@@ -29,6 +31,11 @@ export default function SubHero({
         {description && (
           <p className="text-[24px] leading-relaxed max-w-2xl">
             {description}
+          </p>
+        )}
+        {boldtext && (
+          <p className="text-[20px] leading-relaxed max-w-2xl font-bold mt-2">
+            {boldtext}
           </p>
         )}
         <div className="relative z-2 flex flex-wrap justify-center xl:justify-start gap-3">

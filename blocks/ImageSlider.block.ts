@@ -22,6 +22,11 @@ export const ImageSliderBlock: Block = {
       type: 'textarea',
       defaultValue: 'We have stores scattered throughout Utah. Check out the products and information for the store nearest you!',
     },
+    {
+      name: 'adddescription',
+      type: 'textarea',
+      defaultValue: '',
+    },
     
   ],
 }

@@ -27,7 +27,7 @@ export default function FeatureList({
   const imageAlt = image?.alt ?? heading
 
   return (
-    <section className="py-14 md:py-26 bg-white">
+    <section className="pt-14 md:pt-26 bg-white">
       <div className="container mx-auto px-4 lg:px-6">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 justify-between items-start">
 
@@ -50,7 +50,7 @@ export default function FeatureList({
                       />
                     )}
 
-                    <div>
+                    <div className=" border-solid border-l-8  hover:border-[#0052C6] transition-colors">
                       <h3 className="ml-6 text-[24px] sm:text-[28px] lg:text-[32px] font-extrabold mb-2 font-['Avenir']">
                         {f.title}
                       </h3>

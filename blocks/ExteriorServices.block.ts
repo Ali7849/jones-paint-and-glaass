@@ -39,6 +39,13 @@ export const ExteriorServicesBlock: Block = {
       defaultValue: '#',
     },
     {
+        name: 'paintswatch',
+        type: 'upload',
+        relationTo: 'media' as any,
+        required: true,
+    },
+
+    {
       name: 'products',
       type: 'array',
       label: 'Product Rows',

@@ -62,7 +62,7 @@ export default async function DoorsPage() {
                 
               </div>
           </div>
-          <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-end">
+          <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 ">
 
             {/* ── Left: heading + first paint item image ── */}
             <div className="w-full lg:w-[42%] flex-shrink-0 text-center lg:text-start">
@@ -73,7 +73,7 @@ export default async function DoorsPage() {
                 Doors Products &amp; Services
               </h2>
               <p className="text-[24px] leading-relaxed mb-10 mx-auto lg:mx-0 max-w-md">
-                All the colors, styles, and stains you need, with tips from JP&amp;G pros.
+                Doors for houses, commercial property, interior, or exterior. We make and install them all.
               </p>
 
             </div>
@@ -84,24 +84,21 @@ export default async function DoorsPage() {
                 doorsItems.map((item: any, index: number) => (
                   <Link
                     key={item.id}
-                    href={`/doors/${item.slug}`}
-                    className="flex items-center justify-between px-5 py-7 rounded-[16px] border transition-colors group"
-                    style={{
-                      background: index === 0 ? '#0052C6' : 'white',
-                      borderColor: '#0052C6',
-                    }}
+                    href={`${item.slug}`}
+                    className="flex items-center justify-between px-5 py-7 hover:bg-[#0052C6] hover:text-white rounded-[16px] border transition-colors group"
+                    
                   >
                     <span
-                      className="font-semibold text-[18px]"
-                      style={{ color: index === 0 ? 'white' : '#000000' }}
+                      className="font-semibold text-[18px] group-hover:text-white"
+                      
                     >
                       {item.name}
                     </span>
                     <svg
-                      className="w-4 h-4 flex-shrink-0 group-hover:translate-x-0.5 transition-transform"
+                      className="w-4 h-4 flex-shrink-0 group-hover:translate-x-0.5 transition-transform group-hover:text-white"
                       viewBox="0 0 24 24"
                       fill="none"
-                      style={{ color: index === 0 ? 'white' : '#0052C6' }}
+                     
                     >
                       <path
                         d="M5 12h14M13 6l6 6-6 6"

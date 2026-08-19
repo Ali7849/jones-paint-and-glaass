@@ -25,6 +25,9 @@ interface ExteriorServicesBlockProps {
   description?: string;
   buttonText?: string;
   buttonLink?: string;
+  paintswatch?: {
+    url?: string | null;
+  } | null;
   products?: Product[];
 }
 
@@ -189,7 +192,7 @@ function ProductCard({ p, index }: { p: Product; index: number }) {
       >
         {/* Image */}
         <div className="w-full lg:w-[48%] flex-shrink-0">
-          <div className="w-full h-full bg-[#EEF4FB] overflow-hidden">
+          <div className="w-full h-full overflow-hidden">
             <Image
               src={imageUrl}
               alt={imageAlt}
@@ -266,6 +269,7 @@ export default function ExteriorServices({
   description = "Whether you know exactly what you're looking for or need a little guidance, Jones Paint & Glass has what you need.",
   buttonText = "Get a Quote",
   buttonLink = "#",
+  paintswatch = null,
   products = [],
 }: ExteriorServicesBlockProps) {
   if (!products || products.length === 0) return null
@@ -273,16 +277,17 @@ export default function ExteriorServices({
   return (
     <section className="relative py-14 md:py-20 bg-white overflow-hidden">
 
-      <div
-        className="pointer-events-none absolute top-60 lg:top-10 right-0 w-full h-56 lg:h-120 z-0"
-        style={{
-          backgroundImage: "url(/assets/jt/elements/paint-17.png)",
-          backgroundSize: "contain",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "top right",
-        }}
-      />
-
+      {paintswatch?.url && (
+        <div
+          className="pointer-events-none absolute top-60 lg:top-10 right-0 w-full h-56 lg:h-120 z-0"
+          style={{
+            backgroundImage: `url(${paintswatch.url})`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "top right",
+          }}
+        />
+      )}
       <div className="container mx-auto px-4 lg:px-6 relative z-10">
 
         {/* Header */}
@@ -290,7 +295,7 @@ export default function ExteriorServices({
           <p className="text-[16px] font-bold tracking-[0.18em] text-[#0052C6] uppercase mb-2">
             {sectionTag}
           </p>
-          <h2 className="text-[36px] md:text-[48px] font-extrabold mb-3 font-['Avenir']">
+          <h2 className="text-[36px] md:text-[48px] font-extrabold leading-none  mb-3 font-['Avenir']">
             {heading}
           </h2>
           {description && (

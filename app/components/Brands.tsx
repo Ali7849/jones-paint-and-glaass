@@ -18,16 +18,45 @@ interface BrandsBlockProps {
   brands?: Brand[];
 }
 
+function BrandCard({ brand, index }: { brand: Brand; index: number }) {
+  const imageUrl = brand.image?.url?.trim()
+    ? brand.image.url
+    : '/assets/jt/finishes.png';
+  const brandLink = brand.link || '#';
+
+  return (
+    
+     <a key={brand.id || index}
+      href={brandLink}
+      className="flex flex-col gap-3 group rounded-[16px] bg-[#F8F9FC] p-5 hover:shadow-md transition-shadow w-full"
+    >
+      <div className="w-full rounded-[16px] overflow-hidden">
+        <Image
+          src={imageUrl}
+          alt={brand.image?.alt || brand.name}
+          width={262}
+          height={348}
+          className="w-full h-full md:h-[348px] object-cover group-hover:scale-105 transition-transform duration-300"
+        />
+      </div>
+      <p className="font-semibold text-[18px] text-center group-hover:text-[#0052C6] transition-colors font-['Avenir']">
+        {brand.name}
+      </p>
+    </a>
+  );
+}
+
 export default function Brands({
   label = 'Exterior Paint',
   heading = 'Brands We Sell',
   footnote,
   brands = [],
 }: BrandsBlockProps) {
-  // Don't render if no brands
-  if (!brands || brands.length === 0) {
-    return null;
-  }
+  if (!brands || brands.length === 0) return null;
+
+  const isSeven = brands.length === 7;
+  const topFour = isSeven ? brands.slice(0, 4) : [];
+  const bottomThree = isSeven ? brands.slice(4) : [];
 
   return (
     <section className="py-14 md:py-20 bg-white">
@@ -39,44 +68,34 @@ export default function Brands({
             {label}
           </p>
         )}
-        
         <h2 className="text-[32px] md:text-[48px] font-extrabold mb-10 font-['Avenir']">
           {heading}
         </h2>
 
-        {/* Brand Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
-          {brands.map((brand, index) => {
-            const imageUrl = brand.image?.url?.trim()
-              ? brand.image.url
-              : '/assets/jt/finishes.png';
-            const brandLink = brand.link || '#';
-
-            return (
-              <a
-                key={brand.id || index}
-                href={brandLink}
-                className="flex flex-col gap-3 group rounded-[16px] bg-[#F8F9FC] p-5 hover:shadow-md transition-shadow"
-              >
-                {/* Card Image */}
-                <div className="w-full rounded-[16px] overflow-hidden">
-                  <Image
-                    src={imageUrl}
-                    alt={brand.image?.alt || brand.name}
-                    width={262}
-                    height={348}
-                    className="w-full h-full md:h-[348px] object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-
-                {/* Brand Name */}
-                <p className="font-semibold text-[18px] group-hover:text-[#0052C6] transition-colors font-['Avenir']">
-                  {brand.name}
-                </p>
-              </a>
-            );
-          })}
-        </div>
+        {isSeven ? (
+          /* Special 7-brand layout: 2x2 top, 3-col bottom */
+          <div className="flex flex-col gap-5">
+            {/* Top 4 — 2 columns */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {topFour.map((brand, index) => (
+                <BrandCard key={brand.id || index} brand={brand} index={index} />
+              ))}
+            </div>
+            {/* Bottom 3 — 3 columns */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+              {bottomThree.map((brand, index) => (
+                <BrandCard key={brand.id || (index + 4)} brand={brand} index={index + 4} />
+              ))}
+            </div>
+          </div>
+        ) : (
+          /* Generic layout for any other count */
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 justify-items-center">
+            {brands.map((brand, index) => (
+              <BrandCard key={brand.id || index} brand={brand} index={index} />
+            ))}
+          </div>
+        )}
 
         {/* Footnote */}
         {footnote && (

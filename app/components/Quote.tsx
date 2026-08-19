@@ -51,7 +51,7 @@ export default function Quote({
   }
 
   return (
-    <section className="relative min-h-screen mt-12 flex flex-col items-center justify-center px-4 py-16 bg-transparent overflow-hidden">
+    <section className="relative min-h-screen mt-24 flex flex-col items-center justify-center px-4 py-16 bg-transparent overflow-hidden">
 
       {/* Paint splash — top right */}
       <div
@@ -78,7 +78,7 @@ export default function Quote({
       />
 
       {/* Title */}
-      <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-26 text-center relative z-10">
+      <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-16 text-center relative z-10">
         {title}
       </h2>
 
@@ -221,9 +221,9 @@ export default function Quote({
                 className="w-4 h-4 rounded-md accent-blue-400 cursor-pointer"
               />
               <span className="text-white text-[16px] tracking-wide">
-                You agree to our friendly privacy policy.
+                You agree to our friendly
                 <a href="/privacy-policy" className="underline hover:text-blue-200 transition-colors">
-                  privacy policy
+                  privacy policy.
                 </a>
               </span>
             </label>
