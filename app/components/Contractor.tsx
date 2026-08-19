@@ -236,7 +236,7 @@ export default function Contractor({
       {/* Gallery Section */}
       <div className="bg-white pt-12 px-4 md:px-6">
         <div className="container mx-auto">
-          <div className="w-full mb-10 sm:mb-20">
+          <div className="w-full mb-8">
             <h2 className="text-[28px] md:text-[30px] lg:text-[32px] text-center md:text-start font-bold font-['Avenir'] title-font text-black lg:mb-0 mb-4">
               {galleryTitle}
             </h2>
