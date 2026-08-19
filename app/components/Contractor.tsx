@@ -71,7 +71,7 @@ function AccordionItem({
         className="flex w-full items-center justify-between gap-4 py-5 text-left cursor-pointer"
       >
         <div className="flex items-center gap-4">
-          <span className="md:text-[20px] text-[18px] font-semibold text-black shrink-0">
+          <span className="md:text-[20px] text-[18px] font-semibold text-[#0052C6] shrink-0">
             {String(index).padStart(2, '0')}
           </span>
           <h3 className="md:text-[20px] text-[18px] font-bold text-black font-['Avenir']">{question}</h3>
@@ -236,7 +236,7 @@ export default function Contractor({
       {/* Gallery Section */}
       <div className="bg-white pt-12 px-4 md:px-6">
         <div className="container mx-auto">
-          <div className="w-full mb-10 sm:mb-20">
+          <div className="w-full mb-8">
             <h2 className="text-[28px] md:text-[30px] lg:text-[32px] text-center md:text-start font-bold font-['Avenir'] title-font text-black lg:mb-0 mb-4">
               {galleryTitle}
             </h2>
@@ -273,7 +273,7 @@ export default function Contractor({
                 {/* Hover Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl  items-end p-4">
                   <p className="text-black text-[14px] font-bold leading-tight">{item.title}</p> <br/>
-                  <p className="text-black/80 text-[14px] leading-tight mx-auto w-full sm:w-[80%]">
+                  <p className="text-black/80 text-[14px] leading-tight w-full sm:w-[80%]">
                     {item.description}
                   </p>
                 </div>
@@ -289,7 +289,7 @@ export default function Contractor({
               />
               <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl items-end p-4">
                   <p className="text-black text-[14px] font-bold leading-tight">{bottomLeftImageTitle}</p>
-                <p className="text-black/80 text-sm mx-auto w-full sm:w-[80%]">
+                <p className="text-black/80 text-sm  w-full sm:w-[80%]">
                   {bottomLeftImageDescription}
                 </p>
               </div>
@@ -305,7 +305,7 @@ export default function Contractor({
               <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl  items-end p-4">
                   <p className="text-black text-[14px] font-bold leading-tight">{bottomRightImageTitle}</p>
                 
-                <p className="text-black/80 text-sm mx-auto w-full sm:w-[80%]">
+                <p className="text-black/80 text-sm w-full sm:w-[80%]">
                   {bottomRightImageDescription}
                 </p>
               </div>

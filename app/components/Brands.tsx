@@ -26,8 +26,7 @@ function BrandCard({ brand, index }: { brand: Brand; index: number }) {
 
   return (
     
-     <a key={brand.id || index}
-      href={brandLink}
+    <a  href={brandLink}
       className="flex flex-col gap-3 group rounded-[16px] bg-[#F8F9FC] p-5 hover:shadow-md transition-shadow w-full"
     >
       <div className="w-full rounded-[16px] overflow-hidden">
@@ -54,7 +53,9 @@ export default function Brands({
 }: BrandsBlockProps) {
   if (!brands || brands.length === 0) return null;
 
-  const isSeven = brands.length === 7;
+  const count = brands.length;
+  const isThree = count === 3;
+  const isSeven = count === 7;
   const topFour = isSeven ? brands.slice(0, 4) : [];
   const bottomThree = isSeven ? brands.slice(4) : [];
 
@@ -72,16 +73,21 @@ export default function Brands({
           {heading}
         </h2>
 
-        {isSeven ? (
-          /* Special 7-brand layout: 2x2 top, 3-col bottom */
+        {isThree ? (
+          /* 3 brands — equal width single row */
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            {brands.map((brand, index) => (
+              <BrandCard key={brand.id || index} brand={brand} index={index} />
+            ))}
+          </div>
+        ) : isSeven ? (
+          /* 7 brands — 2x2 top, 3-col bottom */
           <div className="flex flex-col gap-5">
-            {/* Top 4 — 2 columns */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {topFour.map((brand, index) => (
                 <BrandCard key={brand.id || index} brand={brand} index={index} />
               ))}
             </div>
-            {/* Bottom 3 — 3 columns */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
               {bottomThree.map((brand, index) => (
                 <BrandCard key={brand.id || (index + 4)} brand={brand} index={index + 4} />
@@ -89,7 +95,7 @@ export default function Brands({
             </div>
           </div>
         ) : (
-          /* Generic layout for any other count */
+          /* Generic — any other count */
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 justify-items-center">
             {brands.map((brand, index) => (
               <BrandCard key={brand.id || index} brand={brand} index={index} />

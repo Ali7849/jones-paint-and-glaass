@@ -235,8 +235,8 @@ function SearchBar({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div className="w-full border-t border-default bg-neutral-primary px-4 py-4">
-      <div className="container mx-auto flex items-center gap-4">
+    <div className="container search w-full border-t border-default bg-neutral-primary px-4 py-4">
+      <div className=" search-bar flex items-center gap-4">
 
         {/* Search input */}
         <div
@@ -302,7 +302,7 @@ export default function Navbar({ navData }: { navData: NavData }) {
       aria-label="Main navigation"
       className="bg-neutral-primary fixed w-full z-20 top-0 inset-s-0 border-b border-default"
     >
-      <div className="container flex items-center justify-between mx-auto px-4 py-3">
+      <div className="w-9/10 flex items-center justify-between mx-auto px-4 py-3">
 
         {/* Desktop Menu */}
         <ul className="hidden lg:flex items-center gap-3 font-medium" role="menubar">

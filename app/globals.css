@@ -22,6 +22,11 @@ button{
   cursor: pointer;
 }
 
+.search-bar{
+  width:60%;
+  margin-left:auto;
+}
+
 /* @font-face {
     font-family: 'Avenir';
     src: url('/fonts/AvenirLTStd-Roman.otf') format('opentype');
