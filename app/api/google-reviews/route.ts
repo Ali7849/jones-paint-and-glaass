@@ -48,26 +48,24 @@ export async function GET() {
       );
     }
 
+    // ✅ Extract googleMapsUri once
+    const googleMapsUri = data.googleMapsUri || "";
+
     const reviews =
       data.reviews?.map((review: any) => ({
         id: review.name,
-        quote:
-          review.originalText?.text ||
-          review.text?.text ||
-          "",
-        name:
-          review.authorAttribution?.displayName ||
-          "Google User",
+        quote: review.originalText?.text || review.text?.text || "",
+        name: review.authorAttribution?.displayName || "Google User",
         rating: review.rating || 0,
-        relativeTime:
-          review.relativePublishTimeDescription || "",
+        relativeTime: review.relativePublishTimeDescription || "",
+        link: review.authorAttribution?.uri || googleMapsUri, // ✅ reviewer profile or business maps page
       })) || [];
 
     return NextResponse.json({
       businessName: data.displayName?.text || "",
       rating: data.rating || 0,
       totalReviews: data.userRatingCount || 0,
-      googleMapsUri: data.googleMapsUri || "",
+      googleMapsUri,
       reviews,
     });
   } catch (error) {

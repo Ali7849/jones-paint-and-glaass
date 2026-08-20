@@ -24,7 +24,7 @@ function TypeCard({ item }: { item: Card }) {
   const imageAlt = item.image?.alt?.trim() ? item.image.alt : item.type;
 
   return (  
-    <div className="overflow-hidden rounded-b-[16px] flex flex-col bg-[#F8F9FC] border border-[#0000001A]">
+    <div className="overflow-hidden rounded-b-[16px]  rounded-t-[16px] flex flex-col bg-[#F8F9FC] border border-[#0000001A]">
       <div className="w-full rounded-t-[16px] overflow-hidden">
         <Image
           src={imageUrl}

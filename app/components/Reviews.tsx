@@ -8,6 +8,7 @@ type Review = {
   name: string;
   rating?: number;
   relativeTime?: string;
+  link?: string; // ✅ added
 };
 
 type ReviewsBlockProps = {
@@ -22,6 +23,7 @@ export default function Reviews({
   const [reviews, setReviews] = useState<Review[]>([]);
   const [rating, setRating] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
+  const [googleMapsUri, setGoogleMapsUri] = useState(""); // ✅ added
   const [loading, setLoading] = useState(true);
 
   const [visible, setVisible] = useState(3);
@@ -46,6 +48,7 @@ export default function Reviews({
         setReviews(data.reviews || []);
         setRating(data.rating || 0);
         setTotalReviews(data.totalReviews || 0);
+        setGoogleMapsUri(data.googleMapsUri || ""); // ✅ added
       } catch (error) {
         console.error("Google Reviews Error:", error);
       } finally {
@@ -71,9 +74,7 @@ export default function Reviews({
     };
 
     update();
-
     window.addEventListener("resize", update);
-
     return () => window.removeEventListener("resize", update);
   }, []);
 
@@ -102,15 +103,12 @@ export default function Reviews({
     if (max <= 0) return;
 
     intervalRef.current = setInterval(() => {
-      setCurrent((previous) =>
-        previous >= max ? 0 : previous + 1
-      );
+      setCurrent((previous) => (previous >= max ? 0 : previous + 1));
     }, 4000);
   };
 
   useEffect(() => {
     startAutoPlay();
-
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
@@ -126,13 +124,8 @@ export default function Reviews({
     startAutoPlay();
   };
 
-  const prev = () => {
-    goTo(current === 0 ? max : current - 1);
-  };
-
-  const next = () => {
-    goTo(current >= max ? 0 : current + 1);
-  };
+  const prev = () => goTo(current === 0 ? max : current - 1);
+  const next = () => goTo(current >= max ? 0 : current + 1);
 
   /*
    * Card width
@@ -148,9 +141,7 @@ export default function Reviews({
     return (
       <section className="py-14 md:py-20 bg-white">
         <div className="container mx-auto px-4 lg:px-6 flex items-center justify-center h-[200px]">
-          <p className="text-gray-400">
-            Loading reviews...
-          </p>
+          <p className="text-gray-400">Loading reviews...</p>
         </div>
       </section>
     );
@@ -163,9 +154,7 @@ export default function Reviews({
     return (
       <section className="py-14 md:py-20 bg-white">
         <div className="container mx-auto px-4 lg:px-6 flex items-center justify-center h-[200px]">
-          <p className="text-gray-400">
-            No reviews available.
-          </p>
+          <p className="text-gray-400">No reviews available.</p>
         </div>
       </section>
     );
@@ -193,7 +182,6 @@ export default function Reviews({
 
             {/* Google Rating */}
             <div className="flex items-center justify-center md:justify-start gap-3 mt-4">
-
               <div className="flex gap-1">
                 {Array.from({ length: 5 }).map((_, index) => (
                   <span
@@ -208,22 +196,18 @@ export default function Reviews({
                   </span>
                 ))}
               </div>
-
               <span className="font-semibold text-gray-700">
                 {rating.toFixed(1)}
               </span>
-
               <span className="text-gray-500">
                 ({totalReviews} Google reviews)
               </span>
-
             </div>
           </div>
 
           {/* Prev / Next */}
           {max > 0 && (
             <div className="flex items-center gap-3 md:mt-2 flex-shrink-0">
-
               <button
                 onClick={prev}
                 aria-label="Previous reviews"
@@ -253,7 +237,6 @@ export default function Reviews({
                   <polyline points="9 6 15 12 9 18" />
                 </svg>
               </button>
-
             </div>
           )}
 
@@ -261,7 +244,6 @@ export default function Reviews({
 
         {/* Reviews Slider */}
         <div className="overflow-hidden">
-
           <div
             className="flex gap-5 transition-transform duration-500 ease-in-out"
             style={{
@@ -270,24 +252,23 @@ export default function Reviews({
               }px))`,
             }}
           >
-
             {reviews.map((review, index) => (
-
-              <div
-                key={review.id || index}
-                className="flex-shrink-0 flex flex-col justify-between p-6 rounded-2xl"
+              // ✅ wrapped in anchor tag
+              
+              <a  key={review.id || index}
+                href={review.link || googleMapsUri || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-shrink-0 flex flex-col justify-between p-6 rounded-2xl cursor-pointer hover:shadow-md transition-shadow duration-300"
                 style={{
                   width: cardWidth,
                   background: "#F8F9FC",
                   minHeight: "320px",
                 }}
               >
-
                 <div>
-
                   {/* Stars */}
                   <div className="flex gap-1 mb-4">
-
                     {Array.from({ length: 5 }).map((_, starIndex) => (
                       <span
                         key={starIndex}
@@ -300,65 +281,28 @@ export default function Reviews({
                         ★
                       </span>
                     ))}
-
                   </div>
 
                   {/* Review */}
                   <p className="text-[24px] leading-relaxed mb-6 text-center md:text-start">
                     {review.quote}
                   </p>
-
                 </div>
 
                 {/* Reviewer */}
                 <div className="flex items-center gap-3 pt-4">
-
-                  <div className="w-12 h-12 rounded-full bg-[#E2EFFE] flex items-center justify-center flex-shrink-0">
-
-                    <svg
-                      className="w-6 h-6 text-black"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-
-                      <circle
-                        cx="12"
-                        cy="7"
-                        r="4"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                      />
-
-                    </svg>
-
-                  </div>
-
                   <div>
-                    <p className="font-normal text-[18px]">
-                      {review.name}
-                    </p>
-
+                    <p className="font-normal text-[18px]">{review.name}</p>
                     {review.relativeTime && (
                       <p className="text-sm text-gray-500">
                         {review.relativeTime}
                       </p>
                     )}
                   </div>
-
                 </div>
-
-              </div>
-
+              </a>
             ))}
-
           </div>
-
         </div>
 
       </div>

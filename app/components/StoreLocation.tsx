@@ -104,11 +104,11 @@ function SingleSpecialist({ specialist }: { specialist: Specialist }) {
 // ── Multiple Specialists — dark stacked card ──
 function MultipleSpecialists({ specialists }: { specialists: Specialist[] }) {
   return (
-    <div className="rounded-[16px] bg-black p-6 sm:p-8 flex flex-col relative  overflow-hidden flex-shrink-0">
+    <div className="rounded-[16px] bg-black h-[584px] p-6 sm:p-8 flex flex-col relative  overflow-hidden flex-shrink-0">
       <div
-        className="absolute right-0 top-0 w-full h-full pointer-events-none z-0"
+        className="absolute right-0 bottom-0 w-full h-full pointer-events-none z-0"
         style={{
-          backgroundImage: "url(/assets/jt/elements/paint-15.png)",
+          backgroundImage: "url(/assets/jt/elements/paint-23.png)",
           backgroundSize: "contain",
           backgroundPosition: "right bottom",
           backgroundRepeat: "no-repeat",
@@ -125,8 +125,8 @@ function MultipleSpecialists({ specialists }: { specialists: Specialist[] }) {
                 <Image
                   src={specialist.specialistImage?.url ?? "/assets/jt/profile.png"}
                   alt={specialist.specialistImage?.alt ?? specialist.specialistName}
-                  width={72}
-                  height={72}
+                  width={165}
+                  height={165}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -139,9 +139,7 @@ function MultipleSpecialists({ specialists }: { specialists: Specialist[] }) {
                 </p>
               </div>
             </div>
-            {index < specialists.length - 1 && (
-              <div className="h-px bg-white/10 w-full" />
-            )}
+            
           </div>
         ))}
       </div>
