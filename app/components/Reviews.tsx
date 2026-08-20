@@ -284,7 +284,7 @@ export default function Reviews({
                   </div>
 
                   {/* Review */}
-                  <p className="text-[24px] leading-relaxed mb-6 text-center md:text-start">
+                  <p className="text-[16px] leading-relaxed mb-6 text-center md:text-start">
                     {review.quote}
                   </p>
                 </div>

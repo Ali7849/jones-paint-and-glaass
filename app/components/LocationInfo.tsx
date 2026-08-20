@@ -46,7 +46,7 @@ export default function LocationInfo({
               {phone}
             </a>
             <address className="not-italic text-white font-extralight text-[18px] md:text-[24px] leading-8 md:leading-10">
-              <img src="/assets/jt/elements/loc.png" alt="" className="w-6 h-6 mr-2 inline-block"/>{address} <br />
+              <img src="/assets/jt/elements/loc.png" alt="" className="w-6 h-6 mr-2 inline-block object-contain"/>{address} <br />
               {cityStateZip}
             </address>
           </div>
