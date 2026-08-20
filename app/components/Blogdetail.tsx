@@ -93,10 +93,10 @@ export default function BlogDetail({
           <p className="text-[16px] font-bold tracking-[0.18em] text-[#0052C6] uppercase mb-3">
             {label}
           </p>
-          <h1 className="text-[32px] md:text-[48px] font-extrabold mb-2 font-['Avenir']">
+          <h1 className="text-[32px] md:text-[56px] font-extrabold mb-2 font-['Avenir']">
             {heading}
           </h1>
-          <p className="text-[18px] md:text-[28px] font-semibold text-[#0052C6]">
+          <p className="text-[18px] md:text-[40px] font-semibold text-[#0052C6]">
             {subheading}
           </p>
         </div>
