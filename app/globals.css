@@ -102,6 +102,12 @@ body {
   font-family: Arial;
 }
 
+.width-92{
+  width: 92% !important;
+}
+
+
+
 
 #hero {
   background: linear-gradient(279.45deg, #FFFFFF 0.08%, rgba(255, 255, 255, 0.94) 25.87%, rgba(255, 255, 255, 0.87) 47.2%, rgba(255, 255, 255, 0) 73.51%);

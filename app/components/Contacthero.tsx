@@ -166,7 +166,7 @@ export default function Contacthero({
       </div>
 
       {/* Locations Grid */}
-      <div className="grid grid-cols-12 items-end bg-white py-10 rounded-r-3xl gap-6 mr-[10%] relative z-3 lg:z-1">
+      <div className="grid grid-cols-12 items-end bg-white py-10 rounded-r-3xl gap-6 mr-[10%] relative z-3 lg:z-1 white-grad">
         {/* Left Side */}
         <div className="col-span-12 lg:col-span-5 pl-6 lg:pl-10 pr-6 lg:pr-0">
           <h2 className="text-[28px] md:text-[34px] lg:text-[40px] font-bold text-black mb-4 leading-tight font-['Avenir']">
