@@ -1,80 +1,43 @@
-import type { Metadata } from "next";
+
 import { getLocations } from "@/lib/getLocations";
-import { getNavigation } from "@/lib/getNavigation";
-import { getFooter } from '@/lib/getFooter'
-import Navbar from "@/app/components/Navbar";
-import Footer from "@/app/components/Footer";
 import Image from "next/image";
 import Link from "next/link";
 
 export const dynamic = 'force-dynamic';
 
 
-export const metadata: Metadata = {
-  title: "Jones Paint & Glass Locations | Utah Paint, Glass & Window Stores",
-  description:
-    "Find your nearest Jones Paint & Glass in Utah — 7 locations from Provo and American Fork to St. George, Cedar City, Roosevelt, and Vernal. Paint, glass, windows, doors, auto glass, and more.",
-  alternates: {
-    canonical: "https://jonespg.com/locations/",
-  },
-  openGraph: {
-    title: "Jones Paint & Glass Locations | 7 Utah Stores",
-    description:
-      "Find your nearest Jones Paint & Glass in Utah — 7 locations from Provo and American Fork to St. George, Cedar City, Roosevelt, and Vernal. Paint, glass, windows, doors, auto glass, and more.",
-    url: "https://jonespg.com/locations/",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Jones Paint & Glass Locations | 7 Utah Stores",
-    description:
-      "Find your nearest Jones Paint & Glass in Utah — 7 locations from Provo and American Fork to St. George, Cedar City, Roosevelt, and Vernal. Paint, glass, windows, doors, auto glass, and more.",
-  },
-};
 
+export default async function Aboutlocation() {
 
-export default async function LocationsPage() {
-  const navData = await getNavigation();
   const locations = await getLocations();
-  const footerData = await getFooter();
 
   return (
     <>
-      <Navbar navData={navData} />
+   
 
       <section className="relative py-16 md:py-24 bg-white overflow-hidden mt-17.5">
 
-        {/* Paint splash */}
         <div
-          className="absolute md:top-[-150px] left-0 w-full pointer-events-none z-2"
-          style={{
-            backgroundImage: 'url(/assets/jt/elements/paint-21.png)',
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'top left',
-            height: '70%',
-          }}
-        />
-        <div
-          className="absolute md:top-[-150px] left-0 w-full pointer-events-none z-2"
-          style={{
-            backgroundImage: 'url(/assets/jt/elements/paint-22.png)',
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'bottom right',
-            height: '70%',
-          }}
-        />
+        className="absolute md:top-[-150px] left-0 w-full pointer-events-none z-2"
+        style={{
+          backgroundImage: 'url(/assets/jt/elements/paint-11.png)',
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'top left',
+          height: '70%',
+        }}
+      />
+        
 
         <div className="container mx-auto px-4 lg:px-6 relative z-10">
 
           {/* Header */}
           <div className="text-center mb-10">
             <h2 className="text-[32px] md:text-[44px] font-extrabold text-gray-900 mb-3 font-['Avenir']">
-              Your Local Shop
+              JP&G Locations
             </h2>
             <p className="text-gray-500 text-[14px] md:text-[16px] max-w-md mx-auto leading-relaxed">
-              Find your nearest Jones Paint & Glass store, where a team of friendly pros are ready to talk through your project and get you the products you need.
+              We have stores scattered throughout Utah. Check out the  products and information for the store nearest you!
             </p>
           </div>
 
@@ -141,7 +104,6 @@ export default async function LocationsPage() {
         </div>
       </section>
 
-      <Footer footerData={footerData} />
       
     </>
   )
