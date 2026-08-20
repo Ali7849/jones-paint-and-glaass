@@ -1,35 +1,36 @@
 import { NextResponse } from 'next/server'
 
-export const revalidate = 3600 // cache for 1 hour
+export const revalidate = 3600
 
 export async function GET() {
-  const IG_USER_ID = process.env.IG_USER_ID
-  const IG_ACCESS_TOKEN = process.env.IG_ACCESS_TOKEN
+  const token = process.env.INSTAGRAM_ACCESS_TOKEN
+  const userId = process.env.INSTAGRAM_BUSINESS_ID
 
-  if (!IG_USER_ID || !IG_ACCESS_TOKEN) {
-    return NextResponse.json(
-      { error: 'Missing Instagram env vars' },
-      { status: 500 }
-    )
+  if (!token || !userId) {
+    console.warn('Missing INSTAGRAM_ACCESS_TOKEN or INSTAGRAM_BUSINESS_ID')
+    return NextResponse.json({ posts: [] }, { status: 200 })
   }
 
   try {
-    const fields = 'id,caption,media_type,media_url,thumbnail_url,permalink,timestamp'
-    const url = `https://graph.facebook.com/v19.0/${IG_USER_ID}/media?fields=${fields}&access_token=${IG_ACCESS_TOKEN}&limit=25`
+    // ✅ Business accounts use graph.facebook.com, NOT graph.instagram.com
+    const url = `https://graph.facebook.com/v19.0/${userId}/media?fields=id,media_type,media_url,thumbnail_url,permalink,caption&limit=20&access_token=${token}`
 
     const res = await fetch(url, { next: { revalidate: 3600 } })
 
     if (!res.ok) {
-      const errBody = await res.json().catch(() => ({}))
-      console.error('Instagram API error:', errBody)
-      return NextResponse.json({ posts: [] }, { status: 200 })
+      const errorText = await res.text()
+      console.error('Instagram API error:', errorText)
+      return NextResponse.json({ posts: [], error: errorText }, { status: 200 })
     }
 
     const data = await res.json()
 
-    return NextResponse.json({ posts: data.data ?? [] })
+    // ✅ Log so you can see in Railway logs what's coming back
+    console.log('Instagram API response:', JSON.stringify(data))
+
+    return NextResponse.json({ posts: data.data || [] })
   } catch (err) {
-    console.error('Failed to fetch Instagram posts:', err)
+    console.error('Instagram fetch error:', err)
     return NextResponse.json({ posts: [] }, { status: 200 })
   }
 }
