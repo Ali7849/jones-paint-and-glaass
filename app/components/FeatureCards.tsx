@@ -63,8 +63,8 @@ export default function FeatureCards({
     <section className="pt-16 ">
       <div className="container mx-auto px-4 lg:px-6">
         <div className="mb-14">
-          <div>
-            <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center">
+            <div >
               <h2 className="text-[48px] font-extrabold mb-5 font-['Avenir']">
                 {heading}
               </h2>
