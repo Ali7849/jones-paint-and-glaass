@@ -70,8 +70,11 @@ const nextConfig: NextConfig = {
         hostname: '*.fbcdn.net',
         pathname: '/**',
       },
+      
     ],
   },
+
+
 
   webpack: (config) => {
     config.resolve.fallback = {

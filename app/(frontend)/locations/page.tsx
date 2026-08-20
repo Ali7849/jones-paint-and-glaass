@@ -48,10 +48,20 @@ export default async function LocationsPage() {
         <div
           className="absolute md:top-[-150px] left-0 w-full pointer-events-none z-2"
           style={{
-            backgroundImage: 'url(/assets/jt/elements/paint-11.png)',
+            backgroundImage: 'url(/assets/jt/elements/paint-21.png)',
             backgroundSize: 'contain',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'top left',
+            height: '70%',
+          }}
+        />
+        <div
+          className="absolute md:top-[-150px] left-0 w-full pointer-events-none z-2"
+          style={{
+            backgroundImage: 'url(/assets/jt/elements/paint-22.png)',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'bottom right',
             height: '70%',
           }}
         />
@@ -61,23 +71,22 @@ export default async function LocationsPage() {
           {/* Header */}
           <div className="text-center mb-10">
             <h2 className="text-[32px] md:text-[44px] font-extrabold text-gray-900 mb-3 font-['Avenir']">
-              JP&amp;G Locations
+              Your Local Shop
             </h2>
             <p className="text-gray-500 text-[14px] md:text-[16px] max-w-md mx-auto leading-relaxed">
-              We have stores scattered throughout Utah. Check out
-              the products and information for the store nearest you!
+              Find your nearest Jones Paint & Glass store, where a team of friendly pros are ready to talk through your project and get you the products you need.
             </p>
           </div>
 
           {/* Grid */}
           {locations.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {locations.map((loc: any) => (
                 <Link
                   key={loc.id}
                   href={`/${loc.slug}`}  // ✅ domain.com/provo not domain.com/locations/provo
-                  className="group bg-[#F8F9FC] rounded-[16px] overflow-hidden flex flex-col p-5"
-                  style={{ boxShadow: '0 2px 12px rgba(0,82,198,0.06)' }}
+                  className="group bg-[#F6F7FB] rounded-[16px] overflow-hidden flex flex-col p-5 custom-border"
+                  
                 >
                   {/* Image */}
                   <div className="relative w-full h-[225px] bg-blue-50 overflow-hidden rounded-[8px]">

@@ -1,141 +1,161 @@
-'use client';
-
+"use client";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import type { Swiper as SwiperType } from "swiper";
 import Image from "next/image";
-import Link from "next/link";
 
 import "swiper/css";
 import "swiper/css/navigation";
 
-type Location = {
+type DiyItem = {
   id?: string;
   name: string;
-  slug?: string;
-  locationImage?: {
-    url?: string | null;
-    alt?: string | null;
-  } | null;
+  image: {
+    url: string;
+    alt?: string;
+    filename?: string;
+  };
 };
 
-type ImageSliderBlockProps = {
+type InstagramPost = {
+  id: string
+  media_type: 'IMAGE' | 'VIDEO' | 'CAROUSEL_ALBUM'
+  media_url: string
+  thumbnail_url?: string
+  permalink: string
+  caption?: string
+}
+
+type DiySliderBlockProps = {
   heading?: string;
-  description?: string;
-  adddescription?: string;
-  // IDs of selected locations from Payload block field — empty = show all
-  locations?: { id: string; value?: any }[] | string[] | null;
+  subtext?: string;
+  showInstagram?: boolean;
+  showTiktok?: boolean;
+  darkBackground?: boolean;
+  slides?: DiyItem[];
 };
 
-export default function ImageSlider({
-  heading = "JP&G Locations",
-  description = "We have stores scattered throughout Utah. Check out the products and information for the store nearest you!",
-  adddescription = "",
-  locations: selectedLocations,
-}: ImageSliderBlockProps) {
+export default function Imageslider({
+  heading = "Get More DIY Tips & Ideas",
+  subtext = "Follow us on social media for how-to videos and product info from the same pros who will help you in our stores.",
+  showInstagram = true,
+  showTiktok = true,
+  darkBackground = true,
+  slides = [],
+}: DiySliderBlockProps) {
+  const [activeTab, setActiveTab] = useState<"instagram" | "tiktok">("instagram");
+  const [instagramPosts, setInstagramPosts] = useState<InstagramPost[]>([])
+  const [loadingInstagram, setLoadingInstagram] = useState(false)
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
   const swiperRef = useRef<SwiperType | null>(null);
 
-  const [fetchedLocations, setFetchedLocations] = useState<Location[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
+  // ✅ Fetch Instagram posts when component mounts
   useEffect(() => {
-    async function loadLocations() {
-      try {
-        setIsLoading(true);
-        const res = await fetch('/api/locations?limit=100&sort=name&depth=3');
-        const data = await res.json();
-        const docs: any[] = data?.docs ?? [];
+    if (!showInstagram) return
 
-        const mapped: Location[] = docs.map((loc: any) => ({
-          id: loc.id,
-          name: loc.name,
-          slug: loc.slug,
-          locationImage: loc.locationImage
-            ? {
-                url: typeof loc.locationImage === 'object'
-                  ? loc.locationImage.url
-                  : loc.locationImage,
-                alt: loc.locationImage?.alt || loc.name,
-              }
-            : null,
-        }));
-
-        // Filter if specific locations are selected in block
-        if (!selectedLocations || selectedLocations.length === 0) {
-          setFetchedLocations(mapped);
-        } else {
-          const selectedIds = selectedLocations.map((loc: any) =>
-            typeof loc === 'object' ? (loc.value?.id ?? loc.id ?? loc.value) : loc
-          );
-          setFetchedLocations(mapped.filter((loc) => selectedIds.includes(loc.id)));
-        }
-      } catch (err) {
-        console.error('Failed to load locations:', err);
-        setFetchedLocations([]);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    loadLocations();
-  }, []);
-
-  useEffect(() => {
-    if (!isLoading && fetchedLocations.length > 0) {
-      const timer = setTimeout(() => {
-        swiperRef.current?.update();
-      }, 100);
-      return () => clearTimeout(timer);
-    }
-  }, [isLoading, fetchedLocations.length]);
+    setLoadingInstagram(true)
+    fetch('/api/instagram')
+      .then(res => res.json())
+      .then(data => {
+        setInstagramPosts(data.posts || [])
+      })
+      .catch(err => {
+        console.error('Failed to fetch Instagram posts:', err)
+      })
+      .finally(() => {
+        setLoadingInstagram(false)
+      })
+  }, [showInstagram])
 
   const handleBeforeInit = (swiper: SwiperType) => {
-    swiperRef.current = swiper;
+    swiperRef.current = swiper
     if (typeof swiper.params.navigation === "object" && swiper.params.navigation) {
       swiper.params.navigation.prevEl = prevRef.current;
       swiper.params.navigation.nextEl = nextRef.current;
     }
   };
 
+  const showSocialTabs = showInstagram || showTiktok;
+  const activeSlides = activeTab === 'instagram' ? instagramPosts : slides
+
+  // ── Theme values ──
+  const sectionBg = darkBackground
+    ? "bg-gradient-to-b from-[#002559] to-[#0052C6]"
+    : "bg-white";
+  const headingColor = darkBackground ? "text-white" : "text-black";
+  const subtextColor = darkBackground ? "text-white" : "text-black";
+  const buttonActiveBg = darkBackground
+    ? "bg-white text-[#0052C6] border-white"
+    : "bg-[#0052C6] text-white";
+  const buttonInactiveBg = darkBackground
+    ? "bg-transparent text-white border-white/40 hover:border-white/80"
+    : "bg-[#0052C6] text-white";
+
   return (
-    <section
-      className="mt-[-100px] pr-[10%] pt-40 pb-20 overflow-hidden bg-gradient-to-b from-[#0052C6] to-[#002559]"
-      id="jp-slider"
-    >
-      <div className="grid grid-cols-12 items-end bg-white py-10 rounded-r-3xl gap-6 white-grad">
+    <section className={`relative w-full ${sectionBg} py-6 sm:py-12 md:py-14`}>
 
+      {darkBackground && (
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-blue-600/30 blur-3xl" />
+          <div className="absolute -bottom-24 -left-16 w-80 h-80 rounded-full bg-blue-500/20 blur-3xl" />
+        </div>
+      )}
 
-        {/* LEFT SIDE */}
-        <div className="col-span-12 lg:col-span-5 pl-6 lg:pl-10 pr-6 lg:pr-0">
-          <h2 className="text-[28px] md:text-[34px] lg:text-[40px] font-bold text-black mb-4 leading-tight font-['Avenir']">
-            {heading}
-          </h2>
-          <p className="text-[16px] text-gray-500 leading-relaxed mb-4 lg:pr-[20%] font-['Avenir']">
-            {description}
-          </p>
-          {adddescription && (
-            <p className="text-[16px] text-gray-500 leading-relaxed mb-8 lg:pr-[20%] font-['Avenir']">
-              {adddescription}
+      <div className="relative z-10">
+        {/* Header row */}
+        <div className="container mx-auto flex flex-col md:flex-row md:items-end justify-between text-center md:text-start gap-6 mb-15 px-4 sm:px-6 md:px-12">
+          <div className="w-full xl:w-1/2 lg:w-2/3 md:w-2/3">
+            <h2 className={`text-[28px] md:text-[34px] lg:text-[48px] font-bold ${headingColor} mb-3 leading-tight font-['Avenir']`}>
+              {heading}
+            </h2>
+            <p className={`text-[16px] ${subtextColor} leading-relaxed mb-6 pr-0 md:pr-[15%] font-['Avenir']`}>
+              {subtext}
             </p>
-          )}
-          <div className="flex gap-3">
-            <button
-              ref={prevRef}
-              className="w-11 h-11 rounded-full bg-[#D9FDED] hover:bg-[#A5EBCD] flex items-center justify-center transition-colors cursor-pointer"
-              aria-label="Previous slide"
-            >
+
+            {/* Platform buttons */}
+            {showSocialTabs && (
+              <div className="flex gap-3 mt-4 justify-center md:justify-start">
+                {showInstagram && (
+                  <button
+                    onClick={() => setActiveTab("instagram")}
+                    className={`flex items-center gap-2 px-4 py-2.5 rounded-md border text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                      activeTab === "instagram" ? buttonActiveBg : buttonInactiveBg
+                    }`}
+                  >
+                    <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                    </svg>
+                    Instagram
+                  </button>
+                )}
+
+                {showTiktok && (
+                  <button
+                    onClick={() => setActiveTab("tiktok")}
+                    className={`flex items-center gap-2 px-4 py-2.5 rounded-md border text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                      activeTab === "tiktok" ? buttonActiveBg : buttonInactiveBg
+                    }`}
+                  >
+                    <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.21 8.21 0 004.79 1.53V6.77a4.85 4.85 0 01-1.02-.08z" />
+                    </svg>
+                    TikTok
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Arrow controls */}
+          <div className="flex gap-3 justify-end md:justify-start flex-shrink-0 md:mb-0 -mb-8">
+            <button ref={prevRef} aria-label="Previous" className="w-11 h-11 rounded-full bg-[#D9FDED] hover:bg-[#A5EBCD] flex items-center justify-center transition-colors cursor-pointer">
               <svg className="w-8 h-8 stroke-black fill-none" strokeWidth={1.2} viewBox="0 0 24 24">
                 <polyline points="15 18 9 12 15 6" />
               </svg>
             </button>
-            <button
-              ref={nextRef}
-              className="w-11 h-11 rounded-full bg-[#D9FDED] hover:bg-[#A5EBCD] flex items-center justify-center transition-colors cursor-pointer"
-              aria-label="Next slide"
-            >
+            <button ref={nextRef} aria-label="Next" className="w-11 h-11 rounded-full bg-[#D9FDED] hover:bg-[#A5EBCD] flex items-center justify-center transition-colors cursor-pointer">
               <svg className="w-8 h-8 stroke-black fill-none" strokeWidth={1.2} viewBox="0 0 24 24">
                 <polyline points="9 6 15 12 9 18" />
               </svg>
@@ -143,71 +163,139 @@ export default function ImageSlider({
           </div>
         </div>
 
-        {/* RIGHT SIDE — SWIPER */}
-        <div className="col-span-12 lg:col-span-7 overflow-hidden">
-          {isLoading ? (
-            <div className="flex items-center justify-center h-[420px] bg-gray-100 rounded-xl">
-              <div className="animate-pulse text-gray-400">Loading locations...</div>
-            </div>
-          ) : fetchedLocations.length > 0 ? (
-            <Swiper
-              modules={[Navigation, Autoplay]}
-              loop={fetchedLocations.length > 1}
-              onBeforeInit={handleBeforeInit}
-              slidesPerView={1.1}
-              spaceBetween={16}
-              breakpoints={{
-                640: { slidesPerView: 1.5 },
-                768: { slidesPerView: 2 },
-                1024: { slidesPerView: 2.2 },
-                1200: { slidesPerView: 2.5 },
-                1400: { slidesPerView: 3 },
-              }}
-              autoplay={
-                fetchedLocations.length > 1
-                  ? { delay: 2500, disableOnInteraction: false }
-                  : false
-              }
-            >
-              {fetchedLocations.map((loc, index) => {
-                const imageUrl = loc.locationImage?.url?.trim()
-                  ? loc.locationImage.url
-                  : "/assets/jt/default.jpg";
+        {/* Swiper */}
+        <div className="bg-white py-6 sm:py-8 pl-4 sm:pl-6 md:pl-8 ml-[10%] xl:ml-[6%] rounded-l-3xl">
+          <div className="w-full overflow-hidden">
 
-                return (
-                  <SwiperSlide key={loc.id || index}>
-                    <Link href={`/${loc.slug}`}>
-                      <div className="relative rounded-xl overflow-hidden border border-gray-100 bg-white">
-                        <div className="relative w-full h-[350px] md:h-[380px] lg:h-[420px]">
+            {/* ✅ Instagram loading state */}
+            {activeTab === 'instagram' && loadingInstagram ? (
+              <div className="flex items-center justify-center h-[300px]">
+                <div className="flex gap-2 items-center text-gray-400">
+                  <svg className="animate-spin w-5 h-5" viewBox="0 0 24 24" fill="none">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                  Loading Instagram posts...
+                </div>
+              </div>
+
+            ) : activeTab === 'instagram' && instagramPosts.length > 0 ? (
+              // ✅ Instagram posts slider
+              <Swiper
+                modules={[Navigation, Autoplay]}
+                loop={true}
+                onBeforeInit={handleBeforeInit}
+                spaceBetween={12}
+                slidesPerView={1.2}
+                breakpoints={{
+                  400: { slidesPerView: 1.5, spaceBetween: 12 },
+                  540: { slidesPerView: 2, spaceBetween: 14 },
+                  768: { slidesPerView: 2.4, spaceBetween: 16 },
+                  1024: { slidesPerView: 2.8, spaceBetween: 16 },
+                  1200: { slidesPerView: 3.3, spaceBetween: 16 },
+                  1400: { slidesPerView: 4, spaceBetween: 16 },
+                  1600: { slidesPerView: 4.5, spaceBetween: 16 },
+                }}
+                autoplay={{ delay: 2500, disableOnInteraction: false }}
+              >
+                {instagramPosts.map((post) => {
+                  const imageUrl = post.media_type === 'VIDEO'
+                    ? post.thumbnail_url || post.media_url
+                    : post.media_url
+
+                  return (
+                    <SwiperSlide key={post.id}>
+                      
+                      <a  href={post.permalink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block relative rounded-2xl overflow-hidden border border-gray-100 bg-white group"
+                      >
+                        <div className="relative w-full h-[260px] sm:h-[320px] md:h-[380px] lg:h-[450px]">
                           <Image
                             src={imageUrl}
-                            alt={loc.locationImage?.alt || loc.name}
+                            alt={post.caption?.slice(0, 50) || 'Instagram post'}
                             fill
-                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                            className="object-cover"
-                            loading="lazy"
-                            quality={75}
+                            className="object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                          />
+
+                          {/* ✅ Video indicator */}
+                          {post.media_type === 'VIDEO' && (
+                            <div className="absolute top-3 right-3 bg-black/50 rounded-full p-1.5">
+                              <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                              </svg>
+                            </div>
+                          )}
+
+                          {/* ✅ Instagram hover overlay */}
+                          <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <svg className="w-10 h-10 text-white" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </a>
+                    </SwiperSlide>
+                  )
+                })}
+              </Swiper>
+
+            ) : activeTab === 'instagram' && !loadingInstagram ? (
+              <div className="flex items-center justify-center h-[300px]">
+                <p className="text-gray-400">No Instagram posts found. Check your token and account ID.</p>
+              </div>
+
+            ) : activeTab === 'tiktok' && slides.length > 0 ? (
+              // ✅ TikTok — manual slides
+              <Swiper
+                modules={[Navigation, Autoplay]}
+                loop={true}
+                onBeforeInit={handleBeforeInit}
+                spaceBetween={12}
+                slidesPerView={1.2}
+                breakpoints={{
+                  400: { slidesPerView: 1.5, spaceBetween: 12 },
+                  540: { slidesPerView: 2, spaceBetween: 14 },
+                  768: { slidesPerView: 2.4, spaceBetween: 16 },
+                  1024: { slidesPerView: 2.8, spaceBetween: 16 },
+                  1200: { slidesPerView: 3.3, spaceBetween: 16 },
+                  1400: { slidesPerView: 4, spaceBetween: 16 },
+                  1600: { slidesPerView: 4.5, spaceBetween: 16 },
+                }}
+                autoplay={{ delay: 2500, disableOnInteraction: false }}
+              >
+                {slides.map((slide, index) => {
+                  const imageUrl = slide.image?.url ?? "/assets/jt/diy-1.png"
+                  const imageAlt = slide.image?.alt ?? slide.name
+
+                  return (
+                    <SwiperSlide key={slide.id || index}>
+                      <div className="relative rounded-2xl overflow-hidden border border-gray-100 bg-white">
+                        <div className="relative w-full h-[260px] sm:h-[320px] md:h-[380px] lg:h-[450px]">
+                          <Image
+                            src={imageUrl}
+                            alt={imageAlt}
+                            fill
+                            className="object-cover object-center"
+                            priority={index === 0}
                           />
                         </div>
-                        <div className="absolute bottom-0 left-0 right-0 bg-white/95 rounded-xl px-5 py-4 w-[90%] mx-auto mb-4 shadow-sm">
-                          <h3 className="font-bold text-gray-900 text-[20px] mb-1">
-                            {loc.name}
-                          </h3>
-                          <span className="text-[16px] text-gray-500 hover:text-gray-700 transition-colors">
-                            Store Info
-                          </span>
-                        </div>
                       </div>
-                    </Link>
-                  </SwiperSlide>
-                );
-              })}
-            </Swiper>
-          ) : (
-            <div className="flex items-center justify-center h-[420px] bg-gray-100 rounded-xl">
-              <p className="text-gray-400">No locations added yet.</p>
-            </div>
-          )}
+                    </SwiperSlide>
+                  )
+                })}
+              </Swiper>
+
+            ) : (
+              <div className="flex items-center justify-center h-[300px]">
+                <p className="text-gray-400">
+                  {activeTab === 'instagram' ? 'No Instagram posts.' : 'No TikTok slides.'}
+                </p>
+              </div>
+            )}
+
+          </div>
         </div>
       </div>
     </section>

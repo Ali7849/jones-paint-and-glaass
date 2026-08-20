@@ -29,11 +29,47 @@ function extractSummary(content: any, maxLength = 200): string {
     if (node.type === 'paragraph') {
       const text = node.children?.map((c: any) => c.text || '').join('') || ''
       if (text.trim()) {
-        return text.length > maxLength ? text.slice(0, maxLength) + '...' : text
+        if (text.length <= maxLength) return text
+        // Find last space before maxLength so we never cut mid-word
+        const trimmed = text.slice(0, maxLength)
+        const lastSpace = trimmed.lastIndexOf(' ')
+        return (lastSpace > 0 ? trimmed.slice(0, lastSpace) : trimmed) + '...'
       }
     }
   }
   return ''
+}
+
+function getPaginationItems(currentPage: number, totalPages: number): (number | 'dots')[] {
+  if (totalPages <= 7) {
+    return Array.from({ length: totalPages }, (_, i) => i + 1)
+  }
+
+  const items: (number | 'dots')[] = []
+
+  items.push(1, 2, 3, 4)
+
+  if (currentPage <= 4) {
+    items.push('dots')
+    items.push(totalPages - 1, totalPages)
+    return items
+  }
+
+  if (currentPage >= totalPages - 1) {
+    items.push('dots')
+    items.push(totalPages - 1, totalPages)
+    return items
+  }
+
+  items.push('dots')
+  items.push(currentPage - 1, currentPage, currentPage + 1)
+  items.push('dots')
+  items.push(totalPages - 1, totalPages)
+
+  return items.filter((item, index, arr) => {
+    if (item === 'dots') return true
+    return arr.indexOf(item) === index
+  })
 }
 
 export default function BlogDetail({
@@ -68,9 +104,10 @@ export default function BlogDetail({
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
-    // Scroll to top of section smoothly
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
+
+  const paginationItems = getPaginationItems(currentPage, totalPages)
 
   return (
     <section className="relative mt-20 py-14 md:py-20 bg-white overflow-hidden">
@@ -189,7 +226,8 @@ export default function BlogDetail({
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="flex items-center justify-center gap-2 mt-14">
+              <div className="flex items-center justify-center gap-2 mt-14 flex-wrap">
+
                 {/* Prev button */}
                 <button
                   onClick={() => handlePageChange(currentPage - 1)}
@@ -201,20 +239,29 @@ export default function BlogDetail({
                   </svg>
                 </button>
 
-                {/* Page numbers */}
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <button
-                    key={page}
-                    onClick={() => handlePageChange(page)}
-                    className={`w-10 h-10 rounded-full text-[15px] font-semibold transition-colors cursor-pointer ${
-                      currentPage === page
-                        ? 'bg-[#0052C6] text-white'
-                        : 'bg-[#F4F7FF] text-gray-700 hover:bg-[#D9FDED]'
-                    }`}
-                  >
-                    {page}
-                  </button>
-                ))}
+                {/* Smart page numbers */}
+                {paginationItems.map((item, index) =>
+                  item === 'dots' ? (
+                    <span
+                      key={`dots-${index}`}
+                      className="w-10 h-10 flex items-center justify-center text-gray-400 text-[15px] font-semibold select-none"
+                    >
+                      ...
+                    </span>
+                  ) : (
+                    <button
+                      key={item}
+                      onClick={() => handlePageChange(item)}
+                      className={`w-10 h-10 rounded-full text-[15px] font-semibold transition-colors cursor-pointer ${
+                        currentPage === item
+                          ? 'bg-[#0052C6] text-white'
+                          : 'bg-[#F4F7FF] text-gray-700 hover:bg-[#D9FDED]'
+                      }`}
+                    >
+                      {item}
+                    </button>
+                  )
+                )}
 
                 {/* Next button */}
                 <button
@@ -226,6 +273,7 @@ export default function BlogDetail({
                     <polyline points="9 6 15 12 9 18" />
                   </svg>
                 </button>
+
               </div>
             )}
           </>

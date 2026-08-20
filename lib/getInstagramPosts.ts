@@ -5,49 +5,51 @@ type InstagramPost = {
   thumbnail_url?: string
   permalink: string
   caption?: string
+  timestamp?: string
 }
 
-// ✅ Simple in-memory cache
 let cache: {
   posts: InstagramPost[]
   fetchedAt: number
 } | null = null
 
-const CACHE_DURATION = 60 * 60 * 1000 // 1 hour in milliseconds
+const CACHE_DURATION = 60 * 60 * 1000 // 1 hour
 
 export async function getInstagramPosts(limit = 6): Promise<InstagramPost[]> {
   try {
-    // ✅ Return cached data if still fresh
+    // ✅ Return cached if fresh
     if (cache && Date.now() - cache.fetchedAt < CACHE_DURATION) {
       console.log('Instagram: returning cached posts')
       return cache.posts.slice(0, limit)
     }
 
     const token = process.env.INSTAGRAM_ACCESS_TOKEN
-    if (!token) {
-      console.error('Instagram: INSTAGRAM_ACCESS_TOKEN not set')
+    const accountId = process.env.INSTAGRAM_BUSINESS_ACCOUNT_ID
+
+    if (!token || !accountId) {
+      console.error('Instagram: missing token or account ID')
       return []
     }
 
-    const url = `https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,thumbnail_url,permalink&limit=12&access_token=${token}`
+    const url = `https://graph.instagram.com/${accountId}/media?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp&limit=12&access_token=${token}`
 
     const res = await fetch(url, {
-      next: { revalidate: 3600 }, // ✅ Next.js cache 1 hour
+      next: { revalidate: 3600 }, // Cache 1 hour
     })
 
     if (!res.ok) {
-      console.error('Instagram API error:', res.status, await res.text())
-      return cache?.posts ?? [] // ✅ return stale cache if API fails
+      const errorText = await res.text()
+      console.error('Instagram API error:', res.status, errorText)
+      return cache?.posts ?? []
     }
 
     const data = await res.json()
 
     if (!data.data) {
       console.error('Instagram: no data in response', data)
-      return []
+      return cache?.posts ?? []
     }
 
-    // ✅ Filter only IMAGE and VIDEO posts (skip CAROUSEL_ALBUM if needed)
     const posts: InstagramPost[] = data.data.filter(
       (post: InstagramPost) =>
         post.media_type === 'IMAGE' ||
@@ -55,7 +57,6 @@ export async function getInstagramPosts(limit = 6): Promise<InstagramPost[]> {
         post.media_type === 'CAROUSEL_ALBUM'
     )
 
-    // ✅ Update cache
     cache = {
       posts,
       fetchedAt: Date.now(),
