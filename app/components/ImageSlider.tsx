@@ -105,7 +105,8 @@ export default function ImageSlider({
       className="mt-[-100px] pr-[10%] pt-40 pb-20 overflow-hidden bg-gradient-to-b from-[#0052C6] to-[#002559]"
       id="jp-slider"
     >
-      <div className="grid grid-cols-12 items-end bg-white py-10 rounded-r-3xl gap-6">
+      <div className="grid grid-cols-12 items-end bg-white py-10 rounded-r-3xl gap-6 white-grad">
+
 
         {/* LEFT SIDE */}
         <div className="col-span-12 lg:col-span-5 pl-6 lg:pl-10 pr-6 lg:pr-0">

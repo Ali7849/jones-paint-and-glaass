@@ -22,6 +22,20 @@ button{
   cursor: pointer;
 }
 
+.white-grad{
+  position: relative;
+}
+.white-grad::after{
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20%;
+  height: 100%;
+  background: linear-gradient(270deg, #FFFFFF 40.14%, rgba(255, 255, 255, 0) 100%);
+
+}
+
 .search-bar{
   width:60%;
   margin-left:auto;
