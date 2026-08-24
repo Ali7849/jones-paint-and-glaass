@@ -253,7 +253,7 @@ function SearchBar({ onClose }: { onClose: () => void }) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-            placeholder="Search blogs..."
+            placeholder="Search"
             className="w-full outline-none border-none text-[16px] ring-0 bg-transparent"
           />
         </div>
@@ -302,7 +302,7 @@ export default function Navbar({ navData }: { navData: NavData }) {
       aria-label="Main navigation"
       className="bg-neutral-primary fixed w-full z-20 top-0 inset-s-0 border-b border-default"
     >
-      <div className="w-[92%] flex items-center justify-between mx-auto px-4 py-3">
+      <div className="width-92 flex items-center justify-between mx-auto px-4 py-3">
 
         {/* Desktop Menu */}
         <ul className="hidden lg:flex items-center gap-3 font-medium" role="menubar">
