@@ -1,333 +1,297 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
 
-interface ProductItem {
-  text: string;
-}
-
-interface Product {
+type Service = {
   id?: string;
-  tag: string;
   title: string;
-  subtitle?: string;
-  image?: {
-    url?: string | null;
-    alt?: string | null;
-  } | null;
-  imageLeft?: boolean;
-  items?: ProductItem[];
-}
-
-interface ExteriorServicesBlockProps {
-  sectionTag?: string;
-  heading?: string;
-  description?: string;
-  buttonText?: string;
-  buttonLink?: string;
-  products?: Product[];
-  storeManager?: {
-    name: string;
-    title: string;
-    image?: { url: string }[];
+  href?: string;
+  image: {
+    url: string;
+    alt?: string;
   };
-}
+};
 
-function ProductCard({ p, index }: { p: Product; index: number }) {
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const imageUrl = p.image?.url?.trim() ? p.image.url : '/assets/jt/exterior-ser-1.png';
-  const imageAlt = p.image?.alt?.trim() ? p.image.alt : p.title;
+type Specialist = {
+  id?: string;
+  specialistName: string;
+  specialistTitle: string;
+  specialistImage?: { url: string; alt?: string } | null;
+};
+
+type StoreLocationBlockProps = {
+  locationLabel?: string;
+  heading?: string;
+  address?: string;
+  storeImage?: { url: string; alt?: string } | string | null;
+  Specialists?: Specialist[];
+  heroCardLabel?: string;
+  heroCardHeading?: string;
+  heroCardText?: string;
+  services?: Service[];
+};
+
+// ── Service Card ──
+function ServiceCard({ service }: { service: Service }) {
+  const imageUrl = service.image?.url ?? "/assets/jt/paint.png";
+  const imageAlt = service.image?.alt ?? service.title;
 
   return (
-    <div className="flex flex-col gap-2">
-      {/* Image */}
-      <div className="relative w-full h-[180px] rounded-[12px] overflow-hidden bg-[#EEF4FB]">
+    <div className="rounded-[16px] p-4 overflow-hidden bg-[#F4F7FF] flex flex-col">
+      <div className="w-full overflow-hidden rounded-[8px]" style={{ height: "148px" }}>
         <Image
           src={imageUrl}
           alt={imageAlt}
-          fill
-          className="object-cover"
+          width={220}
+          height={148}
+          className="w-full h-full object-cover"
         />
       </div>
-
-      {/* Title & Link */}
-      <h3 className="text-[16px] font-bold text-gray-900">{p.title}</h3>
-      <button
-        onClick={() => setLightboxOpen(true)}
-        className="text-[14px] text-[#0052C6] font-semibold hover:underline cursor-pointer"
-      >
-        Learn More →
-      </button>
+      <div className="pt-3 flex flex-col gap-1">
+        <p className="text-[18px] font-bold">{service.title}</p>
+        
+        <a href={service.href || "#"}
+          className="inline-flex items-center gap-1 text-[16px] font-medium hover:text-[#0052C6] transition-colors group"
+        >
+          Learn More
+          <svg className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </a>
+      </div>
     </div>
   );
 }
 
-// Layout: 2 Services (Provo Glass Style)
-function Layout2Services({ products, storeManager }: { products: Product[]; storeManager?: any }) {
+// ── Single Specialist — green horizontal card ──
+function SingleSpecialist({ specialist }: { specialist: Specialist }) {
   return (
-    <div className="flex flex-col lg:flex-row gap-10 items-start">
-      {/* Left: Store Image */}
-      <div className="w-full lg:w-[45%]">
-        <div className="rounded-[16px] overflow-hidden h-[300px] bg-[#EEF4FB]">
+    <div className="rounded-[16px] bg-black p-5 sm:p-8 flex flex-col h-auto lg:h-[244px] items-start gap-4 relative overflow-hidden flex-shrink-0">
+      <div
+        className="absolute right-0 top-0 w-full h-full pointer-events-none z-0"
+        style={{
+          backgroundImage: "url(/assets/jt/elements/paint-15.png)",
+          backgroundSize: "contain",
+          backgroundPosition: "right center",
+          backgroundRepeat: "no-repeat",
+        }}
+      />
+      <h4 className="relative z-10 text-[16px] text-[#A5EBCD] font-bold tracking-[0.15em] uppercase">
+        Your Local Specialist
+      </h4>
+      <div className="relative z-10 flex items-center gap-6 sm:gap-8">
+        <div className="w-[100px] lg:w-[132px] h-[100px] lg:h-[132px] bg-white rounded-full flex-shrink-0 overflow-hidden">
           <Image
-            src={products[0]?.image?.url || '/assets/jt/default.jpg'}
-            alt="Store"
-            fill
-            className="object-cover"
+            src={specialist.specialistImage?.url ?? "/assets/jt/profile.png"}
+            alt={specialist.specialistImage?.alt ?? specialist.specialistName}
+            width={132}
+            height={132}
+            className="w-full h-full object-cover"
           />
         </div>
-      </div>
-
-      {/* Right: Services + Manager */}
-      <div className="w-full lg:w-[55%] flex flex-col gap-6">
-        {/* Services */}
-        <div className="grid grid-cols-1 gap-6">
-          {products.map((p, i) => (
-            <ProductCard key={i} p={p} index={i} />
-          ))}
+        <div>
+          <h3 className="font-bold text-[40px] text-white sm:text-[32px] leading-tight">
+            {specialist.specialistName}
+          </h3>
+          <p className="text-[20px] mt-2 text-white/70">
+            {specialist.specialistTitle}
+          </p>
         </div>
-
-        {/* Store Manager */}
-        {storeManager && (
-          <div className="bg-black text-white rounded-[12px] p-5 flex gap-3 items-center">
-            <div className="w-12 h-12 rounded-full bg-white/20" />
-            <div>
-              <p className="font-bold text-[14px]">{storeManager.name}</p>
-              <p className="text-[12px] text-gray-300">Store Manager</p>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
 }
 
-// Layout: 3 Services (Provo Paint Style)
-function Layout3Services({ products, storeManager }: { products: Product[]; storeManager?: any }) {
+// ── Multiple Specialists — dark stacked card ──
+function MultipleSpecialists({ specialists }: { specialists: Specialist[] }) {
   return (
-    <div className="flex flex-col gap-10">
-      {/* Top: Image */}
-      <div className="rounded-[16px] overflow-hidden h-[250px] bg-[#EEF4FB]">
-        <Image
-          src={products[0]?.image?.url || '/assets/jt/default.jpg'}
-          alt="Store"
-          fill
-          className="object-cover"
-        />
-      </div>
-
-      {/* Managers */}
-      {storeManager && (
-        <div className="bg-black text-white rounded-[12px] p-5 flex gap-6">
-          <div className="flex gap-3 items-center flex-1">
-            <div className="w-12 h-12 rounded-full bg-white/20" />
-            <div>
-              <p className="font-bold text-[14px]">{storeManager.name}</p>
-              <p className="text-[12px] text-gray-300">Store Manager</p>
+    <div className="rounded-[16px] bg-black h-[584px] p-6 sm:p-8 flex flex-col relative  overflow-hidden flex-shrink-0">
+      <div
+        className="absolute right-0 bottom-0 w-full h-full pointer-events-none z-0"
+        style={{
+          backgroundImage: "url(/assets/jt/elements/paint-23.png)",
+          backgroundSize: "contain",
+          backgroundPosition: "right bottom",
+          backgroundRepeat: "no-repeat",
+        }}
+      />
+      <h4 className="relative z-10 text-[16px] font-bold tracking-[0.15em] text-[#A5EBCD] uppercase mb-5">
+        Your Local Specialist
+      </h4>
+      <div className="relative z-10 flex flex-col">
+        {specialists.map((specialist, index) => (
+          <div key={specialist.id || index}>
+            <div className="flex items-center gap-5 py-4">
+              <div className="w-[72px] h-[72px] rounded-full bg-white flex-shrink-0 overflow-hidden">
+                <Image
+                  src={specialist.specialistImage?.url ?? "/assets/jt/profile.png"}
+                  alt={specialist.specialistImage?.alt ?? specialist.specialistName}
+                  width={165}
+                  height={165}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <h3 className="font-bold text-white text-[400px] sm:text-[32px] leading-tight">
+                  {specialist.specialistName}
+                </h3>
+                <p className="text-[20px] text-white/70 mt-1">
+                  {specialist.specialistTitle}
+                </p>
+              </div>
             </div>
+            
           </div>
-        </div>
-      )}
-
-      {/* Services Grid: 1 + 2 */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="flex flex-col gap-2">
-          <h3 className="text-[18px] font-bold text-gray-900">{products[0]?.title}</h3>
-          <p className="text-[14px] text-gray-600">{products[0]?.subtitle}</p>
-        </div>
-        {products.slice(1).map((p, i) => (
-          <ProductCard key={i} p={p} index={i} />
         ))}
       </div>
     </div>
   );
 }
 
-// Layout: 4 Services (Payson Style)
-function Layout4Services({ products, storeManager }: { products: Product[]; storeManager?: any }) {
+// ── Empty Specialists — dark placeholder card ──
+function EmptySpecialist() {
   return (
-    <div className="flex flex-col lg:flex-row gap-10">
-      {/* Left: Image */}
-      <div className="w-full lg:w-[40%]">
-        <div className="rounded-[16px] overflow-hidden h-[280px] bg-[#EEF4FB]">
-          <Image
-            src={products[0]?.image?.url || '/assets/jt/default.jpg'}
-            alt="Store"
-            fill
-            className="object-cover"
-          />
-        </div>
-      </div>
-
-      {/* Right: Services Grid 2x2 */}
-      <div className="w-full lg:w-[60%]">
-        <div className="grid grid-cols-2 gap-5 mb-6">
-          {products.slice(1).map((p, i) => (
-            <ProductCard key={i} p={p} index={i} />
-          ))}
-        </div>
-
-        {/* Store Manager */}
-        {storeManager && (
-          <div className="bg-black text-white rounded-[12px] p-5 flex gap-3 items-center">
-            <div className="w-12 h-12 rounded-full bg-white/20" />
-            <div>
-              <p className="font-bold text-[14px]">{storeManager.name}</p>
-              <p className="text-[12px] text-gray-300">Store Manager</p>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-// Layout: 5 Services (Cedar City Style)
-function Layout5Services({ products, storeManager }: { products: Product[]; storeManager?: any }) {
-  return (
-    <div className="flex flex-col lg:flex-row gap-10">
-      {/* Left: Image */}
-      <div className="w-full lg:w-[40%]">
-        <div className="rounded-[16px] overflow-hidden h-[280px] bg-[#EEF4FB]">
-          <Image
-            src={products[0]?.image?.url || '/assets/jt/default.jpg'}
-            alt="Store"
-            fill
-            className="object-cover"
-          />
-        </div>
-      </div>
-
-      {/* Right: Services Grid + Manager */}
-      <div className="w-full lg:w-[60%]">
-        {/* 2x2 Grid + 1 */}
-        <div className="grid grid-cols-2 gap-5 mb-6">
-          {products.slice(1, 5).map((p, i) => (
-            <ProductCard key={i} p={p} index={i} />
-          ))}
-        </div>
-
-        {/* Extra service if 5th exists */}
-        {products[5] && (
-          <div className="mb-6">
-            <ProductCard p={products[5]} index={5} />
-          </div>
-        )}
-
-        {/* Store Manager */}
-        {storeManager && (
-          <div className="bg-black text-white rounded-[12px] p-5 flex gap-3 items-center">
-            <div className="w-12 h-12 rounded-full bg-white/20" />
-            <div>
-              <p className="font-bold text-[14px]">{storeManager.name}</p>
-              <p className="text-[12px] text-gray-300">Store Manager</p>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-// Layout: 6+ Services (Vernal/St. George Style)
-function Layout6PlusServices({ products, storeManager }: { products: Product[]; storeManager?: any }) {
-  return (
-    <div className="flex flex-col lg:flex-row gap-10">
-      {/* Left: Image */}
-      <div className="w-full lg:w-[35%]">
-        <div className="rounded-[16px] overflow-hidden h-[300px] bg-[#EEF4FB]">
-          <Image
-            src={products[0]?.image?.url || '/assets/jt/default.jpg'}
-            alt="Store"
-            fill
-            className="object-cover"
-          />
-        </div>
-      </div>
-
-      {/* Right: Services Grid */}
-      <div className="w-full lg:w-[65%]">
-        {/* 3-column grid for services */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-5 mb-6">
-          {products.slice(1).map((p, i) => (
-            <ProductCard key={i} p={p} index={i} />
-          ))}
-        </div>
-
-        {/* Store Manager */}
-        {storeManager && (
-          <div className="bg-black text-white rounded-[12px] p-5 flex gap-3 items-center">
-            <div className="w-12 h-12 rounded-full bg-white/20" />
-            <div>
-              <p className="font-bold text-[14px]">{storeManager.name}</p>
-              <p className="text-[12px] text-gray-300">Store Manager</p>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-// Main Component
-export default function ExteriorServices({
-  sectionTag = "Exterior Paint",
-  heading = "Products & Services",
-  description = "Whether you know exactly what you're looking for or need a little guidance, Jones Paint & Glass has what you need.",
-  buttonText = "Get a Quote",
-  buttonLink = "#",
-  products = [],
-  storeManager,
-}: ExteriorServicesBlockProps) {
-  if (!products || products.length === 0) return null;
-
-  const serviceCount = products.length;
-
-  return (
-    <section className="relative py-14 md:py-20 bg-white overflow-hidden">
+    <div className="rounded-[16px] bg-black p-6 sm:p-8 flex flex-col relative lg:h-[244px] overflow-hidden flex-shrink-0">
       <div
-        className="pointer-events-none absolute top-60 lg:top-10 right-0 w-full h-56 lg:h-120 z-0"
+        className="absolute right-0 bottom-0 w-[60%] h-[50%] pointer-events-none z-0"
         style={{
-          backgroundImage: "url(/assets/jt/elements/paint-17.png)",
+          backgroundImage: "url(/assets/jt/elements/paint-15.png)",
           backgroundSize: "contain",
+          backgroundPosition: "right bottom",
           backgroundRepeat: "no-repeat",
-          backgroundPosition: "top right",
         }}
       />
+      <h4 className="relative z-10 text-[16px] font-bold tracking-[0.15em] text-[#A5EBCD] uppercase mb-5">
+        Your Local Specialist
+      </h4>
+      <div className="relative z-10 flex items-center gap-5 py-4">
+        <div className="w-[72px] h-[72px] rounded-full bg-white/10 flex-shrink-0 flex items-center justify-center">
+          <svg className="w-8 h-8 text-white/30" viewBox="0 0 24 24" fill="none">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="1.5" />
+          </svg>
+        </div>
+        <div>
+          <h3 className="font-bold text-white/40 text-[40px] sm:text-[32px] leading-tight">N/A</h3>
+          <p className="text-[20px] text-white/25 mt-1">No specialist assigned</p>
+        </div>
+      </div>
+    </div>
+  );
+}
 
-      <div className="container mx-auto px-4 lg:px-6 relative z-10">
+// ── Main Component ──
+export default function StoreLocation({
+  locationLabel = "Store Location",
+  heading = "American Fork",
+  address = "65 South 500 East American Fork, UT 84003",
+  storeImage = null,
+  Specialists = [],
+  heroCardLabel = "Products & Services",
+  heroCardHeading = "From Inspiration to Installation",
+  heroCardText = "Our team will make sure you not only have the products you need, but a solid plan to go with them.",
+  services = [],
+}: StoreLocationBlockProps) {
+
+  // ── Resolve storeImage — handles string URL or Payload media object ──
+  const imgUrl =
+    typeof storeImage === "string"
+      ? storeImage || null
+      : storeImage?.url ?? null;
+
+  const imgAlt =
+    typeof storeImage === "object" && storeImage !== null
+      ? storeImage.alt ?? heading
+      : heading;
+
+  return (
+    <section className="mt-20 py-14 md:py-20 bg-white">
+      <div className="container mx-auto px-4 lg:px-6">
+
         {/* Header */}
-        <div className="mb-20 text-center lg:text-start">
-          <p className="text-[16px] font-bold tracking-[0.18em] text-[#0052C6] uppercase mb-2">
-            {sectionTag}
+        <div className="text-center mb-20">
+          <p className="text-[16px] font-bold tracking-widest text-[#0052C6] uppercase mb-2">
+            {locationLabel}
           </p>
-          <h2 className="text-[36px] md:text-[48px] font-extrabold mb-3 font-['Avenir']">
+          <h1 className="text-[36px] md:text-[48px] font-extrabold mb-3 font-['Avenir']">
             {heading}
-          </h2>
-          {description && (
-            <p className="text-[18px] leading-relaxed mx-auto lg:mx-0 max-w-xl mb-5">
-              {description}
-            </p>
-          )}
-          {buttonText && (
-            
-            <a  href={buttonLink}
-              className="group inline-flex items-center gap-2 bg-[#0052C6] hover:bg-[#003fa0] transition-colors text-white font-bold text-[16px] px-5 py-3 rounded-[8px]"
-            >
-              {buttonText}
-              <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none">
-                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </a>
-          )}
+          </h1>
+          <div className="flex items-center justify-center gap-3 font-normal text-[18px] md:text-[24px]">
+            <img src="/assets/jt/location-icon.png" className="w-5 h-6" alt="location" />
+            {address}
+          </div>
         </div>
 
-        {/* Dynamic Layout Based on Service Count */}
-        {serviceCount === 2 && <Layout2Services products={products} storeManager={storeManager} />}
-        {serviceCount === 3 && <Layout3Services products={products} storeManager={storeManager} />}
-        {serviceCount === 4 && <Layout4Services products={products} storeManager={storeManager} />}
-        {serviceCount === 5 && <Layout5Services products={products} storeManager={storeManager} />}
-        {serviceCount >= 6 && <Layout6PlusServices products={products} storeManager={storeManager} />}
+        {/* Main grid */}
+        <div className="flex flex-col lg:flex-row gap-4 items-stretch">
+
+          {/* ── Left column ── */}
+          <div className="flex flex-col gap-4 w-full lg:w-[45%] xl:w-[50%] flex-shrink-0">
+
+            {/* Location image */}
+            {imgUrl ? (
+              <div className="relative rounded-2xl overflow-hidden bg-[#DDEEFF] flex-1 min-h-[300px]">
+                <Image
+                  src={imgUrl}
+                  alt={imgAlt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
+            ) : (
+              <div className="rounded-2xl bg-[#DDEEFF] flex-1 min-h-[300px] flex items-center justify-center">
+                <p className="text-gray-400">No location image provided</p>
+              </div>
+            )}
+
+            {/* Specialist card — always shows */}
+            {Specialists.length === 0 && <EmptySpecialist />}
+            {Specialists.length === 1 && <SingleSpecialist specialist={Specialists[0]} />}
+            {Specialists.length > 1 && <MultipleSpecialists specialists={Specialists} />}
+
+          </div>
+
+          {/* ── Right column ── */}
+          <div className="flex-1 grid grid-cols-2 gap-4 auto-rows-min">
+
+            {/* Blue hero card — spans full left column, 2 rows */}
+            <div className="row-span-2 rounded-2xl bg-[#0052C6] overflow-hidden relative flex flex-col justify-start p-6">
+              <div
+                className="absolute right-0 bottom-0 w-full pointer-events-none mix-blend-multiply"
+                style={{
+                  backgroundImage: "url(/assets/jt/elements/paint-16.png)",
+                  backgroundSize: "contain",
+                  backgroundPosition: "right bottom",
+                  backgroundRepeat: "no-repeat",
+                  height: "50%",
+                }}
+              />
+              <div className="relative z-10">
+                <p className="text-[14px] font-bold tracking-[0.2em] text-[#A5EBCD] uppercase mb-3">
+                  {heroCardLabel}
+                </p>
+                <h3 className="text-white text-[26px] lg:text-[30px] leading-tight mb-4 font-['Avenir'] font-extrabold">
+                  {heroCardHeading}
+                </h3>
+                <p className="text-white text-[16px] leading-relaxed">
+                  {heroCardText}
+                </p>
+              </div>
+            </div>
+
+            {/* Service cards — fill right column */}
+            {services.length > 0 ? (
+              services.map((service, index) => (
+                <ServiceCard key={service.id || index} service={service} />
+              ))
+            ) : (
+              <div className="col-span-1 flex items-center justify-center h-[200px] bg-gray-50 rounded-2xl">
+                <p className="text-gray-400 text-sm">No services added yet.</p>
+              </div>
+            )}
+
+          </div>
+        </div>
       </div>
     </section>
   );
