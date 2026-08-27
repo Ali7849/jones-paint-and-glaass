@@ -41,6 +41,7 @@ export default function Inquireform({
   const [agreed, setAgreed] = useState(false)
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [country, setCountry] = useState('US')
   const [formData, setFormData] = useState({
     firstName: '',
@@ -60,20 +61,39 @@ export default function Inquireform({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!agreed) return
+
     setLoading(true)
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    setSubmitted(true)
-    setLoading(false)
+    setError(null)
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, formType: 'general-inquiry' }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok || data.error) {
+        setError('Something went wrong. Please try again or call us directly.')
+        return
+      }
+
+      setSubmitted(true)
+    } catch (err) {
+      console.error('Form submit error:', err)
+      setError('Something went wrong. Please try again or call us directly.')
+    } finally {
+      setLoading(false)
+    }
   }
 
-  // ── Shared input class ──
   const inputClass = "w-full bg-white rounded-[8px] px-3 py-3 text-sm text-gray-800 placeholder-gray-400 outline-none focus:ring-2 focus:ring-blue-200 border border-[#0000001A]"
   const labelClass = "block text-gray-700 text-[14px] font-medium mb-1.5"
 
   return (
     <section className="py-16 md:py-28 relative overflow-hidden" id="general-inquiries">
 
-      {/* Paint decoration */}
       <div
         className="absolute -bottom-[100px] md:-bottom-[150px] left-0 w-full pointer-events-none z-0"
         style={{
@@ -88,7 +108,7 @@ export default function Inquireform({
       <div className="mx-auto container px-4 lg:px-6 pb-20">
         <div className="flex flex-col xl:flex-row gap-8 md:gap-10 xl:gap-16">
 
-          {/* ── Left: Info ── */}
+          {/* Left: Info */}
           <div className="relative z-10 flex-1 xl:max-w-md xl:text-start text-center">
             <h2 className="text-[28px] md:text-[34px] lg:text-[48px] font-bold text-black mb-4 leading-tight font-['Avenir']">
               {heading}
@@ -98,36 +118,24 @@ export default function Inquireform({
             </p>
             <p className="text-[16px] leading-relaxed mb-10 xl:w-[85%]">
               {quoteFormText}{' '}
-              
-              <a  href={quoteFormLink}
-                className="text-[#0052C6] underline hover:text-blue-800 transition-colors"
-              >
+              <a href={quoteFormLink} className="text-[#0052C6] underline hover:text-blue-800 transition-colors">
                 {quoteFormLinkText}
               </a>
               {' '}form, or visit your local Jones Paint & Glass store.
             </p>
-
             <h3 className="text-[24px] md:text-[28px] lg:text-[32px] font-bold text-black mb-4 leading-tight font-['Avenir']">
               {corporateHeading}
             </h3>
-            
-            <a  href={`tel:${phone?.replace(/-/g, '')}`}
-              className="block text-[18px] font-medium text-[#0052C6] hover:underline mb-1"
-            >
+            <a href={`tel:${phone?.replace(/-/g, '')}`} className="block text-[18px] font-medium text-[#0052C6] hover:underline mb-1">
               {phone}
             </a>
-            
-            
           </div>
 
-          {/* ── Right: Form ── */}
+          {/* Right: Form */}
           <div className="relative z-10 flex flex-1 w-full justify-center xl:justify-start" id="inquire-form">
             <div
               className="w-full max-w-2xl rounded-2xl p-6 md:px-10 md:py-10"
-              style={{
-                background: '#F6F7FB',
-                border: '1px solid #0000001A',
-              }}
+              style={{ background: '#F6F7FB', border: '1px solid #0000001A' }}
             >
               {submitted ? (
                 <div className="text-center py-16">
@@ -188,7 +196,6 @@ export default function Inquireform({
                   <div className="mb-5">
                     <label className={labelClass}>{labelPhone}</label>
                     <div className="flex gap-2">
-                      {/* Country selector */}
                       <select
                         value={country}
                         onChange={(e) => setCountry(e.target.value)}
@@ -232,7 +239,6 @@ export default function Inquireform({
                         <option value="st-george">St. George</option>
                         <option value="vernal">Vernal</option>
                       </select>
-                      {/* Custom chevron */}
                       <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
                         <svg className="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none">
                           <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -263,14 +269,18 @@ export default function Inquireform({
                     />
                     <span className="text-gray-600 text-[14px]">
                       You agree to our friendly{' '}
-                      
-                      <a href={privacyPolicyLink}
-                        className="text-gray-800 underline hover:text-[#0052C6] transition-colors"
-                      >
+                      <a href={privacyPolicyLink} className="text-gray-800 underline hover:text-[#0052C6] transition-colors">
                         privacy policy
                       </a>.
                     </span>
                   </label>
+
+                  {/* Error message */}
+                  {error && (
+                    <div className="mb-4 p-3 rounded-[8px] bg-red-50 border border-red-200">
+                      <p className="text-red-600 text-[14px]">{error}</p>
+                    </div>
+                  )}
 
                   {/* Submit */}
                   <button

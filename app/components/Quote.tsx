@@ -24,10 +24,11 @@ export default function Quote({
   labelLocation = 'Where are you located?',
   labelMessage = 'Message',
 }: QuoteProps) {
-  const [agreed, setAgreed] = useState(false);
-  const [country, setCountry] = useState('US');
+  const [agreed, setAgreed] = useState(false)
+  const [country, setCountry] = useState('US')
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -44,10 +45,31 @@ export default function Quote({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!agreed) return
+
     setLoading(true)
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    setSubmitted(true)
-    setLoading(false)
+    setError(null)
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, formType: 'quote-request' }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok || data.error) {
+        setError('Something went wrong. Please try again or call us directly.')
+        return
+      }
+
+      setSubmitted(true)
+    } catch (err) {
+      console.error('Form submit error:', err)
+      setError('Something went wrong. Please try again or call us directly.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -213,7 +235,7 @@ export default function Quote({
             </div>
 
             {/* Checkbox */}
-            <label className="flex items-center gap-2 mb-10 cursor-pointer">
+            <label className="flex items-center gap-2 mb-6 cursor-pointer">
               <input
                 type="checkbox"
                 checked={agreed}
@@ -221,24 +243,41 @@ export default function Quote({
                 className="w-4 h-4 rounded-md accent-blue-400 cursor-pointer"
               />
               <span className="text-white text-[16px] tracking-wide">
-                You agree to our friendly 
+                You agree to our friendly{' '}
                 <a href="/privacy-policy" className="underline hover:text-blue-200 transition-colors">
-                   privacy policy.
+                  privacy policy.
                 </a>
               </span>
             </label>
+
+            {/* Error message */}
+            {error && (
+              <div className="mb-4 p-3 rounded-[8px] bg-red-400/20 border border-red-300/40">
+                <p className="text-white text-[14px]">{error}</p>
+              </div>
+            )}
 
             {/* Submit */}
             <button
               type="submit"
               disabled={!agreed || loading}
-              className="group w-full bg-white text-[#0052C6] font-semibold text-sm py-3 rounded-[8px] hover:bg-blue-50 transition-colors  cursor-pointer flex items-center justify-center gap-2"
+              className="group w-full bg-white text-[#0052C6] font-semibold text-sm py-3 rounded-[8px] hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer flex items-center justify-center gap-2"
             >
-              {loading ? 'Sending...' : submitButtonText}
-              {!loading && (
-                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+              {loading ? (
+                <>
+                  <svg className="animate-spin w-4 h-4 text-[#0052C6]" viewBox="0 0 24 24" fill="none">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                  Sending...
+                </>
+              ) : (
+                <>
+                  {submitButtonText}
+                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </>
               )}
             </button>
 
@@ -246,5 +285,5 @@ export default function Quote({
         )}
       </div>
     </section>
-  );
+  )
 }
