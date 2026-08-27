@@ -15,6 +15,7 @@ import Glass from './collections/Glass'
 import Doors from './collections/Doors'
 import Blogs from './collections/Blogs'
 import Footer from './collections/Footer'
+import Redirects from './collections/Redirects'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -55,6 +56,7 @@ export default buildConfig({
     Glass,
     Doors,
     Blogs,
+    Redirects,
   ],
 
   globals: [

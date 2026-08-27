@@ -11,9 +11,35 @@ const getHostname = (url?: string): string => {
   }
 };
 
+async function fetchRedirects() {
+  try {
+    const { getPayload } = await import('payload')
+    const { default: config } = await import('./payload.config')
+    const payload = await getPayload({ config })
+    const result = await payload.find({
+      collection: 'redirects' as any,
+      limit: 1000,
+    })
+
+    return result.docs.map((redirect: any) => ({
+      source: redirect.from,
+      destination: redirect.to,
+      permanent: redirect.type === '301' || redirect.type === '308',
+    }))
+  } catch (err) {
+    console.error('Could not load redirects:', err)
+    return []
+  }
+}
+
 const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
+  },
+
+  async redirects() {
+    const redirects = await fetchRedirects()
+    return redirects
   },
 
   images: {
@@ -59,7 +85,7 @@ const nextConfig: NextConfig = {
         hostname: 'res.cloudinary.com',
         pathname: '/**',
       },
-      // ✅ Instagram CDN domains
+      // Instagram CDN domains
       {
         protocol: 'https',
         hostname: '*.cdninstagram.com',
@@ -70,11 +96,8 @@ const nextConfig: NextConfig = {
         hostname: '*.fbcdn.net',
         pathname: '/**',
       },
-      
     ],
   },
-
-
 
   webpack: (config) => {
     config.resolve.fallback = {
