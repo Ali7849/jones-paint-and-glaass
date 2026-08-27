@@ -109,19 +109,19 @@ body {
 
 .privacy-policy h1{
   margin-bottom: 2rem;
-  font-size: 56px;
+  font-size: 48px;
 }
 .privacy-policy h2{
   margin-bottom: 1rem;
-  font-size: 48px;
+  font-size: 36px;
 }
 .privacy-policy p{
   margin-bottom: 1rem;
-  font-size: 18px;
+  font-size: 18px !important;
 }
 .privacy-policy li{
   margin-bottom: 1rem;
-  font-size: 18px;
+  font-size: 18px !important;
 }
 
 

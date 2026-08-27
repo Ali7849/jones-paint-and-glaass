@@ -19,7 +19,7 @@ export default async function Page() {
     <>
       <Navbar navData={navData} />
 
-     <div className="privacy-policy mt-20 py-14 md:py-20">
+     <div className="privacy-policy mt-20 py-14 md:py-20 container mx-auto px-4 lg:px-6">
       <h1>Privacy Policy for Jones Paint &amp; Glass</h1>
       <p>
         At Jones Paint &amp; Glass, accessible from jonespg.com, one of our main
