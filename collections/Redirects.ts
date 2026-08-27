@@ -43,8 +43,6 @@ const Redirects: CollectionConfig = {
       options: [
         { label: '301 — Permanent', value: '301' },
         { label: '302 — Temporary', value: '302' },
-        { label: '307 — Temporary (preserves method)', value: '307' },
-        { label: '308 — Permanent (preserves method)', value: '308' },
       ],
       admin: {
         description: 'Use 301 for permanent, 302 for temporary redirects.',
