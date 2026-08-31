@@ -35,17 +35,20 @@ const Redirects: CollectionConfig = {
       },
     },
     {
-      name: 'type',
-      type: 'select',
-      label: 'Redirect Type',
-      defaultValue: '308',
+      name: 'from',
+      type: 'text',
+      label: 'From URL',
       required: true,
-      options: [
-        { label: '301 — Permanent', value: '301' },
-        { label: '302 — Temporary', value: '302' },
-      ],
+      unique: true,
+      validate: (value: string | string[] | null | undefined) => {
+        if (Array.isArray(value)) {
+          return value.every((item) => !!item && item.startsWith('/')) || 'From URL must start with /'
+        }
+        if (!value || !value.startsWith('/')) return 'From URL must start with /'
+        return true
+      },
       admin: {
-        description: 'Use 301 for permanent, 302 for temporary redirects.',
+        description: 'Must start with / e.g. /old-page',
       },
     },
   ],

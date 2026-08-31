@@ -1,11 +1,15 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
+// ✅ Use your public URL env var instead of fetching self
+const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || ''
+
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
   try {
-    const res = await fetch(`${request.nextUrl.origin}/api/redirects`, {
+    // ✅ Use absolute URL from env var — not request.nextUrl.origin
+    const res = await fetch(`${SERVER_URL}/api/redirects`, {
       next: { revalidate: 60 },
     })
 
