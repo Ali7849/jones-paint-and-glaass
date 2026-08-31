@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import path from "path";
+import { pathToFileURL } from "url";
 
 const getHostname = (url?: string): string => {
   if (!url) return 'jones-paint-and-glass.up.railway.app';
@@ -14,7 +15,10 @@ const getHostname = (url?: string): string => {
 async function fetchRedirects() {
   try {
     const { getPayload } = await import('payload')
-    const { default: config } = await import('./payload.config')
+    const configPath = pathToFileURL(
+      path.resolve(process.cwd(), 'payload.config.ts')
+    ).href
+    const { default: config } = await import(configPath)
     const payload = await getPayload({ config })
     const result = await payload.find({
       collection: 'redirects' as any,
