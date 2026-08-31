@@ -1,6 +1,5 @@
 import type { NextConfig } from "next";
 import path from "path";
-import { pathToFileURL } from "url";
 
 const getHostname = (url?: string): string => {
   if (!url) return 'jones-paint-and-glass.up.railway.app';
@@ -12,38 +11,15 @@ const getHostname = (url?: string): string => {
   }
 };
 
-async function fetchRedirects() {
-  try {
-    const { getPayload } = await import('payload')
-    const configPath = pathToFileURL(
-      path.resolve(process.cwd(), 'payload.config.ts')
-    ).href
-    const { default: config } = await import(configPath)
-    const payload = await getPayload({ config })
-    const result = await payload.find({
-      collection: 'redirects' as any,
-      limit: 1000,
-    })
-
-    return result.docs.map((redirect: any) => ({
-      source: redirect.from,
-      destination: redirect.to,
-      permanent: redirect.type === '301' || redirect.type === '308',
-    }))
-  } catch (err) {
-    console.error('Could not load redirects:', err)
-    return []
-  }
-}
+// Redirects are now handled in middleware.ts at request time, querying
+// /api/redirects live — this avoids importing payload.config.ts (a raw
+// .ts file) via dynamic import() during Next's config transpilation,
+// which Node's module loader can't resolve, and it also means redirects
+// added in the CMS take effect immediately without a rebuild.
 
 const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
-  },
-
-  async redirects() {
-    const redirects = await fetchRedirects()
-    return redirects
   },
 
   images: {
