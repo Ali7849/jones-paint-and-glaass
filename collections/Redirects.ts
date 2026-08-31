@@ -35,22 +35,22 @@ const Redirects: CollectionConfig = {
       },
     },
     {
-      name: 'from',
-      type: 'text',
-      label: 'From URL',
-      required: true,
-      unique: true,
-      validate: (value: string | string[] | null | undefined) => {
-        if (Array.isArray(value)) {
-          return value.every((item) => !!item && item.startsWith('/')) || 'From URL must start with /'
-        }
-        if (!value || !value.startsWith('/')) return 'From URL must start with /'
-        return true
-      },
-      admin: {
-        description: 'Must start with / e.g. /old-page',
-      },
+    name: 'type',
+    type: 'text',
+    label: 'Redirect Type',
+    required: true,
+    unique: true,
+    validate: (value: string | string[] | null | undefined) => {
+      if (Array.isArray(value)) {
+        return value.every((item) => !!item && item.startsWith('/')) || 'From URL must start with /'
+      }
+      if (!value || !value.startsWith('/')) return 'From URL must start with /'
+      return true
     },
+    admin: {
+      description: 'Must start with / e.g. /old-page',
+    },
+  },
   ],
 }
 
