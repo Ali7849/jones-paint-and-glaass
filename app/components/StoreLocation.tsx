@@ -49,7 +49,7 @@ function ServiceCard({ service }: { service: Service }) {
       <div className="pt-3 flex flex-col gap-1">
         <p className="text-[16px] font-bold">{service.title}</p>
         
-          href={service.href || "#"}
+        <a  href={service.href || "#"}
           className="text-[14px] font-semibold text-[#0052C6] hover:underline"
         >
           Learn More →
