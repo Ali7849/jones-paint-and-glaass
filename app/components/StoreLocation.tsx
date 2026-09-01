@@ -63,7 +63,7 @@ const ServiceCard = ({ service }: { service: Service }) => {
 // ── Single Specialist ──
 const SingleSpecialist = ({ specialist }: { specialist: Specialist }) => {
   return (
-    <div className="rounded-[16px] bg-black p-6 flex items-center gap-6 relative overflow-hidden">
+    <div className="rounded-[16px] bg-black p-6 flex items-center gap-6 relative overflow-hidden h-[260px]">
       <div
         className="absolute right-0 top-0 w-full h-full pointer-events-none z-0"
         style={{
@@ -100,7 +100,7 @@ const SingleSpecialist = ({ specialist }: { specialist: Specialist }) => {
 // ── Multiple Specialists ──
 const MultipleSpecialists = ({ specialists }: { specialists: Specialist[] }) => {
   return (
-    <div className="rounded-[16px] bg-black p-6 flex flex-col relative overflow-hidden">
+    <div className="rounded-[16px] bg-black p-6 flex flex-col relative overflow-hidden h-[580px]">
       <div
         className="absolute right-0 bottom-0 w-full h-full pointer-events-none z-0"
         style={{
@@ -175,11 +175,11 @@ const Layout2 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
       {/* LEFT: Image + Specialist (50%) */}
       <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {imgUrl ? (
-          <div className="relative rounded-[16px] overflow-hidden h-[250px]">
+          <div className="relative rounded-[16px] overflow-hidden h-full">
             <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
           </div>
         ) : (
-          <div className="rounded-[16px] bg-[#DDEEFF] h-[250px]" />
+          <div className="rounded-[16px] bg-[#DDEEFF] h-full" />
         )}
         {Specialists?.length === 1 && <SingleSpecialist specialist={Specialists[0]} />}
         {Specialists?.length > 1 && <MultipleSpecialists specialists={Specialists} />}
@@ -213,11 +213,11 @@ const Layout3 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
     <div className="flex flex-col gap-6">
       {/* Image full width */}
       {imgUrl ? (
-        <div className="relative rounded-[16px] overflow-hidden h-[220px]">
+        <div className="relative rounded-[16px] overflow-hidden h-full">
           <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
         </div>
       ) : (
-        <div className="rounded-[16px] bg-[#DDEEFF] h-[220px]" />
+        <div className="rounded-[16px] bg-[#DDEEFF] h-full" />
       )}
 
       {/* Specialist + Services in 2 columns */}
@@ -258,11 +258,11 @@ const Layout4 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
       {/* LEFT: Image + Specialist (45%) */}
       <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {imgUrl ? (
-          <div className="relative rounded-[16px] overflow-hidden h-[280px]">
+          <div className="relative rounded-[16px] overflow-hidden h-full">
             <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
           </div>
         ) : (
-          <div className="rounded-[16px] bg-[#DDEEFF] h-[280px]" />
+          <div className="rounded-[16px] bg-[#DDEEFF] h-full" />
         )}
         {Specialists?.length === 1 && <SingleSpecialist specialist={Specialists[0]} />}
         {Specialists?.length > 1 && <MultipleSpecialists specialists={Specialists} />}
@@ -294,11 +294,11 @@ const Layout5 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
       {/* LEFT: Image + Specialist (40%) */}
       <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {imgUrl ? (
-          <div className="relative rounded-[16px] overflow-hidden h-[300px]">
+          <div className="relative rounded-[16px] overflow-hidden h-full">
             <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
           </div>
         ) : (
-          <div className="rounded-[16px] bg-[#DDEEFF] h-[300px]" />
+          <div className="rounded-[16px] bg-[#DDEEFF] h-full" />
         )}
         {Specialists?.length === 1 && <SingleSpecialist specialist={Specialists[0]} />}
         {Specialists?.length > 1 && <MultipleSpecialists specialists={Specialists} />}
@@ -333,11 +333,11 @@ const Layout6 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
       {/* LEFT: Image + Specialist (35%) */}
       <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {imgUrl ? (
-          <div className="relative rounded-[16px] overflow-hidden h-[320px]">
+          <div className="relative rounded-[16px] overflow-hidden h-full">
             <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
           </div>
         ) : (
-          <div className="rounded-[16px] bg-[#DDEEFF] h-[320px]" />
+          <div className="rounded-[16px] bg-[#DDEEFF] h-full" />
         )}
         {Specialists?.length === 1 && <SingleSpecialist specialist={Specialists[0]} />}
         {Specialists?.length > 1 && <MultipleSpecialists specialists={Specialists} />}
@@ -369,11 +369,11 @@ const Layout7Plus = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, her
       {/* LEFT: Image + Specialist (30%) */}
       <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {imgUrl ? (
-          <div className="relative rounded-[16px] overflow-hidden h-[350px]">
+          <div className="relative rounded-[16px] overflow-hidden h-full">
             <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
           </div>
         ) : (
-          <div className="rounded-[16px] bg-[#DDEEFF] h-[350px]" />
+          <div className="rounded-[16px] bg-[#DDEEFF] h-full" />
         )}
         {Specialists?.length === 1 && <SingleSpecialist specialist={Specialists[0]} />}
         {Specialists?.length > 1 && <MultipleSpecialists specialists={Specialists} />}
