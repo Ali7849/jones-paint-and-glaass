@@ -17,11 +17,10 @@ async function getRedirects(origin: string): Promise<RedirectDoc[]> {
   }
 
   try {
-    // Wait with timeout to prevent hanging
     const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), 5000)
 
-    const res = await fetch(`${origin}/api/redirects`, {
+    const res = await fetch(`${origin}/api/redirects-list`, {
       headers: { accept: 'application/json' },
       signal: controller.signal,
     })
