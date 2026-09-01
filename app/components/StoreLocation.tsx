@@ -36,19 +36,19 @@ function ServiceCard({ service }: { service: Service }) {
   const imageAlt = service.image?.alt ?? service.title;
 
   return (
-    <div className="rounded-[12px] overflow-hidden bg-[#F4F7FF] flex flex-col">
-      <div className="w-full h-[148px] overflow-hidden rounded-[8px]">
+    <div className="rounded-[16px] p-4 overflow-hidden bg-[#F4F7FF] flex flex-col h-full">
+      <div className="w-full overflow-hidden rounded-[8px] h-[120px]">
         <Image
           src={imageUrl}
           alt={imageAlt}
-          width={220}
-          height={148}
+          width={200}
+          height={120}
           className="w-full h-full object-cover"
         />
       </div>
-      <div className="p-4 flex flex-col gap-2">
+      <div className="pt-3 flex flex-col gap-1">
         <p className="text-[16px] font-bold">{service.title}</p>
-        <a
+        
           href={service.href || "#"}
           className="text-[14px] font-semibold text-[#0052C6] hover:underline"
         >
@@ -59,10 +59,10 @@ function ServiceCard({ service }: { service: Service }) {
   );
 }
 
-// ── Single Specialist (Full Size) ──
+// ── Single Specialist ──
 function SingleSpecialist({ specialist }: { specialist: Specialist }) {
   return (
-    <div className="rounded-[16px] bg-black p-8 flex items-center gap-8 relative overflow-hidden">
+    <div className="rounded-[16px] bg-black p-6 flex items-center gap-6 relative overflow-hidden">
       <div
         className="absolute right-0 top-0 w-full h-full pointer-events-none z-0"
         style={{
@@ -72,24 +72,24 @@ function SingleSpecialist({ specialist }: { specialist: Specialist }) {
           backgroundRepeat: "no-repeat",
         }}
       />
-      <div className="relative z-10 flex items-center gap-8 w-full">
-        <div className="w-[132px] h-[132px] rounded-full flex-shrink-0 overflow-hidden bg-white">
+      <div className="relative z-10 flex items-center gap-6 w-full">
+        <div className="w-[100px] h-[100px] rounded-full flex-shrink-0 overflow-hidden bg-white">
           <Image
             src={specialist.specialistImage?.url ?? "/assets/jt/profile.png"}
             alt={specialist.specialistName}
-            width={132}
-            height={132}
+            width={100}
+            height={100}
             className="w-full h-full object-cover"
           />
         </div>
         <div>
-          <h4 className="text-[16px] text-[#A5EBCD] font-bold tracking-[0.1em] uppercase mb-4">
+          <h4 className="text-[12px] text-[#A5EBCD] font-bold tracking-[0.1em] uppercase mb-2">
             Your Local Specialist
           </h4>
-          <h3 className="text-white text-[40px] font-bold leading-tight">
+          <h3 className="text-white text-[28px] font-bold leading-tight">
             {specialist.specialistName}
           </h3>
-          <p className="text-white/70 text-[18px] mt-1">{specialist.specialistTitle}</p>
+          <p className="text-white/70 text-[14px] mt-1">{specialist.specialistTitle}</p>
         </div>
       </div>
     </div>
@@ -99,7 +99,7 @@ function SingleSpecialist({ specialist }: { specialist: Specialist }) {
 // ── Multiple Specialists ──
 function MultipleSpecialists({ specialists }: { specialists: Specialist[] }) {
   return (
-    <div className="rounded-[16px] bg-black p-8 flex flex-col relative overflow-hidden">
+    <div className="rounded-[16px] bg-black p-6 flex flex-col relative overflow-hidden">
       <div
         className="absolute right-0 bottom-0 w-full h-full pointer-events-none z-0"
         style={{
@@ -109,26 +109,26 @@ function MultipleSpecialists({ specialists }: { specialists: Specialist[] }) {
           backgroundRepeat: "no-repeat",
         }}
       />
-      <h4 className="relative z-10 text-[16px] text-[#A5EBCD] font-bold tracking-[0.1em] uppercase mb-6">
+      <h4 className="relative z-10 text-[12px] text-[#A5EBCD] font-bold tracking-[0.1em] uppercase mb-4">
         Your Local Specialist
       </h4>
-      <div className="relative z-10 flex flex-col gap-4">
+      <div className="relative z-10 flex flex-col gap-3">
         {specialists.map((specialist, index) => (
           <div key={specialist.id || index} className="flex items-center gap-4">
-            <div className="w-[72px] h-[72px] rounded-full flex-shrink-0 overflow-hidden bg-white">
+            <div className="w-[60px] h-[60px] rounded-full flex-shrink-0 overflow-hidden bg-white">
               <Image
                 src={specialist.specialistImage?.url ?? "/assets/jt/profile.png"}
                 alt={specialist.specialistName}
-                width={72}
-                height={72}
+                width={60}
+                height={60}
                 className="w-full h-full object-cover"
               />
             </div>
-            <div>
-              <h3 className="text-white text-[24px] font-bold">
+            <div className="flex-1">
+              <h3 className="text-white text-[18px] font-bold">
                 {specialist.specialistName}
               </h3>
-              <p className="text-white/70 text-[14px]">{specialist.specialistTitle}</p>
+              <p className="text-white/70 text-[12px]">{specialist.specialistTitle}</p>
             </div>
           </div>
         ))}
@@ -140,7 +140,7 @@ function MultipleSpecialists({ specialists }: { specialists: Specialist[] }) {
 // ── Hero Card ──
 function HeroCard({ heroCardLabel, heroCardHeading, heroCardText }: any) {
   return (
-    <div className="rounded-[16px] bg-[#0052C6] overflow-hidden relative p-6 flex flex-col justify-start">
+    <div className="rounded-[16px] bg-[#0052C6] overflow-hidden relative p-6 flex flex-col justify-start h-full">
       <div
         className="absolute right-0 bottom-0 w-full h-full pointer-events-none"
         style={{
@@ -155,7 +155,7 @@ function HeroCard({ heroCardLabel, heroCardHeading, heroCardText }: any) {
         <p className="text-[12px] font-bold tracking-[0.15em] text-[#A5EBCD] uppercase mb-3">
           {heroCardLabel}
         </p>
-        <h3 className="text-white text-[28px] font-bold leading-tight mb-4">
+        <h3 className="text-white text-[28px] font-bold leading-tight mb-3">
           {heroCardHeading}
         </h3>
         <p className="text-white text-[14px] leading-relaxed">{heroCardText}</p>
@@ -165,211 +165,95 @@ function HeroCard({ heroCardLabel, heroCardHeading, heroCardText }: any) {
 }
 
 // ──────────────────────────────────
-// LAYOUT 2: PROVO GLASS
-// Image + Specialist (Left) | Services Vertical (Right)
+// LAYOUT 2: PROVO GLASS (2 SERVICES)
 // ──────────────────────────────────
 function Layout2({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCardHeading, heroCardText }: any) {
   return (
     <div className="flex flex-col lg:flex-row gap-6">
-      {/* Left: Image + Specialist */}
+      {/* LEFT COLUMN: Image + Specialist (45%) */}
       <div className="w-full lg:w-[45%] flex flex-col gap-6">
+        {/* Store Image */}
         {imgUrl ? (
-          <div className="relative rounded-[16px] overflow-hidden h-[300px]">
+          <div className="relative rounded-[16px] overflow-hidden h-[250px]">
             <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
           </div>
         ) : (
-          <div className="rounded-[16px] bg-[#DDEEFF] h-[300px]" />
+          <div className="rounded-[16px] bg-[#DDEEFF] h-[250px]" />
         )}
+
+        {/* Specialist */}
         {Specialists?.length === 1 && <SingleSpecialist specialist={Specialists[0]} />}
         {Specialists?.length > 1 && <MultipleSpecialists specialists={Specialists} />}
       </div>
 
-      {/* Right: Services Stacked Vertically */}
+      {/* RIGHT COLUMN: Hero + Services (55%) */}
       <div className="w-full lg:w-[55%] flex flex-col gap-6">
-        {services.map((service: Service, i: number) => (
-          <ServiceCard key={service.id || i} service={service} />
-        ))}
+        {/* Grid: Hero on left, Services on right */}
+        <div className="grid grid-cols-3 gap-6 auto-rows-max">
+          {/* Hero Card: spans 2 rows */}
+          <div className="col-span-1 row-span-2">
+            <HeroCard 
+              heroCardLabel={heroCardLabel} 
+              heroCardHeading={heroCardHeading} 
+              heroCardText={heroCardText} 
+            />
+          </div>
+
+          {/* Service Cards: stacked on right */}
+          {services.map((service: Service, i: number) => (
+            <div key={service.id || i} className="col-span-1">
+              <ServiceCard service={service} />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
 // ──────────────────────────────────
-// LAYOUT 3: PROVO PAINT
-// Image (Left) | Specialist + Grid (Right)
+// LAYOUT 3: PROVO PAINT (3 SERVICES)
 // ──────────────────────────────────
 function Layout3({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCardHeading, heroCardText }: any) {
   return (
-    <div className="flex flex-col lg:flex-row gap-6">
-      {/* Left: Image Full Height */}
-      <div className="w-full lg:w-[45%]">
-        {imgUrl ? (
-          <div className="relative rounded-[16px] overflow-hidden h-[500px]">
-            <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
-          </div>
-        ) : (
-          <div className="rounded-[16px] bg-[#DDEEFF] h-[500px]" />
-        )}
-      </div>
-
-      {/* Right: Specialist + Hero + Services Grid */}
-      <div className="w-full lg:w-[55%] flex flex-col gap-6">
-        {/* Specialist at top */}
-        {Specialists?.length === 1 && <SingleSpecialist specialist={Specialists[0]} />}
-        {Specialists?.length > 1 && <MultipleSpecialists specialists={Specialists} />}
-
-        {/* Hero + Service Grid: 2 columns */}
-        <div className="grid grid-cols-2 gap-6">
-          <HeroCard heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />
-          {services.map((service: Service, i: number) => (
-            <ServiceCard key={service.id || i} service={service} />
-          ))}
+    <div className="flex flex-col gap-6">
+      {/* TOP: Full Width Image */}
+      {imgUrl ? (
+        <div className="relative rounded-[16px] overflow-hidden h-[220px]">
+          <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
         </div>
-      </div>
-    </div>
-  );
-}
+      ) : (
+        <div className="rounded-[16px] bg-[#DDEEFF] h-[220px]" />
+      )}
 
-// ──────────────────────────────────
-// LAYOUT 4: PAYSON
-// Image (Left) | Hero + 2x2 Grid + Specialist (Right)
-// ──────────────────────────────────
-function Layout4({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCardHeading, heroCardText }: any) {
-  return (
-    <div className="flex flex-col lg:flex-row gap-6">
-      {/* Left: Image */}
-      <div className="w-full lg:w-[40%]">
-        {imgUrl ? (
-          <div className="relative rounded-[16px] overflow-hidden h-[280px]">
-            <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
-          </div>
-        ) : (
-          <div className="rounded-[16px] bg-[#DDEEFF] h-[280px]" />
-        )}
-      </div>
-
-      {/* Right: Hero + 2x2 Grid + Specialist */}
-      <div className="w-full lg:w-[60%] flex flex-col gap-6">
-        <HeroCard heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />
-
-        <div className="grid grid-cols-2 gap-6">
-          {services.map((service: Service, i: number) => (
-            <ServiceCard key={service.id || i} service={service} />
-          ))}
+      {/* BOTTOM: 2 Column Layout */}
+      <div className="flex flex-col lg:flex-row gap-6">
+        {/* LEFT: Specialists (40%) */}
+        <div className="w-full lg:w-[40%]">
+          {Specialists?.length === 1 && <SingleSpecialist specialist={Specialists[0]} />}
+          {Specialists?.length > 1 && <MultipleSpecialists specialists={Specialists} />}
         </div>
 
-        {Specialists?.length === 1 && <SingleSpecialist specialist={Specialists[0]} />}
-        {Specialists?.length > 1 && <MultipleSpecialists specialists={Specialists} />}
-      </div>
-    </div>
-  );
-}
-
-// ──────────────────────────────────
-// LAYOUT 5: CEDAR CITY
-// Image (Left) | Hero + 2-3 Grid + Specialist (Right)
-// ──────────────────────────────────
-function Layout5({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCardHeading, heroCardText }: any) {
-  return (
-    <div className="flex flex-col lg:flex-row gap-6">
-      {/* Left: Image */}
-      <div className="w-full lg:w-[40%]">
-        {imgUrl ? (
-          <div className="relative rounded-[16px] overflow-hidden h-[280px]">
-            <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
-          </div>
-        ) : (
-          <div className="rounded-[16px] bg-[#DDEEFF] h-[280px]" />
-        )}
-      </div>
-
-      {/* Right: Hero + 2-3 Grid + Specialist */}
-      <div className="w-full lg:w-[60%] flex flex-col gap-6">
-        <HeroCard heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />
-
-        <div className="grid grid-cols-2 lg:grid-cols-2 gap-6">
-          {services.slice(0, 4).map((service: Service, i: number) => (
-            <ServiceCard key={service.id || i} service={service} />
-          ))}
-          {services.length === 5 && (
-            <div className="col-span-2 lg:col-span-1">
-              {services[4] && <ServiceCard service={services[4]} />}
+        {/* RIGHT: Hero + Services Grid (60%) */}
+        <div className="w-full lg:w-[60%]">
+          <div className="grid grid-cols-2 gap-6 auto-rows-max">
+            {/* Hero Card: spans 3 rows */}
+            <div className="col-span-1 row-span-3">
+              <HeroCard 
+                heroCardLabel={heroCardLabel} 
+                heroCardHeading={heroCardHeading} 
+                heroCardText={heroCardText} 
+              />
             </div>
-          )}
-        </div>
 
-        {Specialists?.length === 1 && <SingleSpecialist specialist={Specialists[0]} />}
-        {Specialists?.length > 1 && <MultipleSpecialists specialists={Specialists} />}
-      </div>
-    </div>
-  );
-}
-
-// ──────────────────────────────────
-// LAYOUT 6: VERNAL
-// Image (Left) | Hero + 3-Column Grid + Specialist (Right)
-// ──────────────────────────────────
-function Layout6({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCardHeading, heroCardText }: any) {
-  return (
-    <div className="flex flex-col lg:flex-row gap-6">
-      {/* Left: Image */}
-      <div className="w-full lg:w-[35%]">
-        {imgUrl ? (
-          <div className="relative rounded-[16px] overflow-hidden h-[300px]">
-            <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
+            {/* Service Cards: stacked vertically on right */}
+            {services.map((service: Service, i: number) => (
+              <div key={service.id || i} className="col-span-1">
+                <ServiceCard service={service} />
+              </div>
+            ))}
           </div>
-        ) : (
-          <div className="rounded-[16px] bg-[#DDEEFF] h-[300px]" />
-        )}
-      </div>
-
-      {/* Right: Hero + 3-Column Grid + Specialist */}
-      <div className="w-full lg:w-[65%] flex flex-col gap-6">
-        <HeroCard heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />
-
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((service: Service, i: number) => (
-            <ServiceCard key={service.id || i} service={service} />
-          ))}
         </div>
-
-        {Specialists?.length === 1 && <SingleSpecialist specialist={Specialists[0]} />}
-        {Specialists?.length > 1 && <MultipleSpecialists specialists={Specialists} />}
-      </div>
-    </div>
-  );
-}
-
-// ──────────────────────────────────
-// LAYOUT 7+: ST GEORGE
-// Image (Left) | Hero + 4-Column Grid + Specialist (Right)
-// ──────────────────────────────────
-function Layout7Plus({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCardHeading, heroCardText }: any) {
-  return (
-    <div className="flex flex-col lg:flex-row gap-6">
-      {/* Left: Image */}
-      <div className="w-full lg:w-[30%]">
-        {imgUrl ? (
-          <div className="relative rounded-[16px] overflow-hidden h-[300px]">
-            <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
-          </div>
-        ) : (
-          <div className="rounded-[16px] bg-[#DDEEFF] h-[300px]" />
-        )}
-      </div>
-
-      {/* Right: Hero + 4-Column Grid + Specialist */}
-      <div className="w-full lg:w-[70%] flex flex-col gap-6">
-        <HeroCard heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />
-
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-          {services.map((service: Service, i: number) => (
-            <ServiceCard key={service.id || i} service={service} />
-          ))}
-        </div>
-
-        {Specialists?.length === 1 && <SingleSpecialist specialist={Specialists[0]} />}
-        {Specialists?.length > 1 && <MultipleSpecialists specialists={Specialists} />}
       </div>
     </div>
   );
@@ -392,6 +276,7 @@ export default function StoreLocation({
 }: StoreLocationBlockProps) {
   const imgUrl = typeof storeImage === "string" ? storeImage || null : storeImage?.url ?? null;
   const imgAlt = typeof storeImage === "object" && storeImage !== null ? storeImage.alt ?? heading : heading;
+
   const serviceCount = services?.length || 0;
 
   if (serviceCount === 0) return null;
@@ -412,13 +297,30 @@ export default function StoreLocation({
           </p>
         </div>
 
-        {/* Dynamic Layout */}
-        {serviceCount === 2 && <Layout2 services={services} Specialists={Specialists} imgUrl={imgUrl} imgAlt={imgAlt} heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />}
-        {serviceCount === 3 && <Layout3 services={services} Specialists={Specialists} imgUrl={imgUrl} imgAlt={imgAlt} heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />}
-        {serviceCount === 4 && <Layout4 services={services} Specialists={Specialists} imgUrl={imgUrl} imgAlt={imgAlt} heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />}
-        {serviceCount === 5 && <Layout5 services={services} Specialists={Specialists} imgUrl={imgUrl} imgAlt={imgAlt} heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />}
-        {serviceCount === 6 && <Layout6 services={services} Specialists={Specialists} imgUrl={imgUrl} imgAlt={imgAlt} heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />}
-        {serviceCount >= 7 && <Layout7Plus services={services} Specialists={Specialists} imgUrl={imgUrl} imgAlt={imgAlt} heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />}
+        {/* Dynamic Layouts Based on Service Count */}
+        {serviceCount === 2 && (
+          <Layout2 
+            services={services} 
+            Specialists={Specialists} 
+            imgUrl={imgUrl} 
+            imgAlt={imgAlt} 
+            heroCardLabel={heroCardLabel} 
+            heroCardHeading={heroCardHeading} 
+            heroCardText={heroCardText} 
+          />
+        )}
+        
+        {serviceCount === 3 && (
+          <Layout3 
+            services={services} 
+            Specialists={Specialists} 
+            imgUrl={imgUrl} 
+            imgAlt={imgAlt} 
+            heroCardLabel={heroCardLabel} 
+            heroCardHeading={heroCardHeading} 
+            heroCardText={heroCardText} 
+          />
+        )}
       </div>
     </section>
   );
