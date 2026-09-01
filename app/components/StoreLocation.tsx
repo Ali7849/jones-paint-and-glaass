@@ -172,8 +172,8 @@ const HeroCard = ({ heroCardLabel, heroCardHeading, heroCardText }: any) => {
 const Layout2 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCardHeading, heroCardText }: any) => {
   return (
     <div className="flex flex-col lg:flex-row gap-6">
-      {/* LEFT: Image + Specialist (45%) */}
-      <div className="w-full lg:w-[45%] flex flex-col gap-6">
+      {/* LEFT: Image + Specialist (50%) */}
+      <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {imgUrl ? (
           <div className="relative rounded-[16px] overflow-hidden h-[250px]">
             <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
@@ -186,7 +186,7 @@ const Layout2 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
       </div>
 
       {/* RIGHT: Hero (spans 2 rows) + Services (55%) */}
-      <div className="w-full lg:w-[55%]">
+      <div className="w-full lg:w-[50%]">
         <div className="grid grid-cols-2 gap-6 auto-rows-max">
           {/* Hero: 1 col, spans 2 rows */}
           <div className="col-span-1 row-span-2">
@@ -223,13 +223,13 @@ const Layout3 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
       {/* Specialist + Services in 2 columns */}
       <div className="flex flex-col lg:flex-row gap-6">
         {/* LEFT: Specialist (40%) */}
-        <div className="w-full lg:w-[40%]">
+        <div className="w-full lg:w-[50%]">
           {Specialists?.length === 1 && <SingleSpecialist specialist={Specialists[0]} />}
           {Specialists?.length > 1 && <MultipleSpecialists specialists={Specialists} />}
         </div>
 
         {/* RIGHT: Hero (spans 3 rows) + Services 2-col grid (60%) */}
-        <div className="w-full lg:w-[60%]">
+        <div className="w-full lg:w-[50%]">
           <div className="grid grid-cols-2 gap-6 auto-rows-max">
             {/* Hero: 1 col, spans 3 rows */}
             <div className="col-span-1 row-span-3">
@@ -256,7 +256,7 @@ const Layout4 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
   return (
     <div className="flex flex-col lg:flex-row gap-6">
       {/* LEFT: Image + Specialist (45%) */}
-      <div className="w-full lg:w-[45%] flex flex-col gap-6">
+      <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {imgUrl ? (
           <div className="relative rounded-[16px] overflow-hidden h-[280px]">
             <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
@@ -269,7 +269,7 @@ const Layout4 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
       </div>
 
       {/* RIGHT: Hero + 2x2 Services Grid (55%) */}
-      <div className="w-full lg:w-[55%] flex flex-col gap-6">
+      <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {/* Hero Card */}
         <HeroCard heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />
         
@@ -292,7 +292,7 @@ const Layout5 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
   return (
     <div className="flex flex-col lg:flex-row gap-6">
       {/* LEFT: Image + Specialist (40%) */}
-      <div className="w-full lg:w-[40%] flex flex-col gap-6">
+      <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {imgUrl ? (
           <div className="relative rounded-[16px] overflow-hidden h-[300px]">
             <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
@@ -305,7 +305,7 @@ const Layout5 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
       </div>
 
       {/* RIGHT: Hero + 2-Column Services Grid (60%) */}
-      <div className="w-full lg:w-[60%]">
+      <div className="w-full lg:w-[50%]">
         <div className="grid grid-cols-2 gap-6 auto-rows-max">
           {/* Hero: single card at top */}
           <div className="col-span-1">
@@ -331,7 +331,7 @@ const Layout6 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
   return (
     <div className="flex flex-col lg:flex-row gap-6">
       {/* LEFT: Image + Specialist (35%) */}
-      <div className="w-full lg:w-[35%] flex flex-col gap-6">
+      <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {imgUrl ? (
           <div className="relative rounded-[16px] overflow-hidden h-[320px]">
             <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
@@ -344,7 +344,7 @@ const Layout6 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
       </div>
 
       {/* RIGHT: Hero + 2-Column Services Grid (65%) */}
-      <div className="w-full lg:w-[65%] flex flex-col gap-6">
+      <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {/* Hero Card */}
         <HeroCard heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />
         
@@ -367,7 +367,7 @@ const Layout7Plus = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, her
   return (
     <div className="flex flex-col lg:flex-row gap-6">
       {/* LEFT: Image + Specialist (30%) */}
-      <div className="w-full lg:w-[30%] flex flex-col gap-6">
+      <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {imgUrl ? (
           <div className="relative rounded-[16px] overflow-hidden h-[350px]">
             <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
@@ -380,7 +380,7 @@ const Layout7Plus = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, her
       </div>
 
       {/* RIGHT: Hero + 2-Column Services Grid (70%) */}
-      <div className="w-full lg:w-[70%] flex flex-col gap-6">
+      <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {/* Hero Card */}
         <HeroCard heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />
         
