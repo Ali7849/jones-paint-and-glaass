@@ -1,3 +1,4 @@
+// collections/Redirects.ts - UPDATED
 import type { CollectionConfig } from 'payload'
 
 const Redirects: CollectionConfig = {
@@ -5,7 +6,7 @@ const Redirects: CollectionConfig = {
   admin: {
     useAsTitle: 'from',
     group: 'Settings',
-    defaultColumns: ['from', 'to', 'type', 'updatedAt'],
+    defaultColumns: ['from', 'to', 'type', 'published', 'updatedAt'],
     description: 'Manage URL redirects across the site.',
   },
   access: {
@@ -62,6 +63,15 @@ const Redirects: CollectionConfig = {
       ],
       admin: {
         description: 'Determines whether the redirect is permanent or temporary.',
+      },
+    },
+    {
+      name: 'published',
+      type: 'checkbox',
+      defaultValue: true,
+      label: 'Active',
+      admin: {
+        description: 'Uncheck to disable this redirect without deleting it',
       },
     },
   ],
