@@ -17,6 +17,7 @@ type Specialist = {
   specialistName: string;
   specialistTitle: string;
   specialistImage?: { url: string; alt?: string } | null;
+  badgeImage?: { url: string; alt?: string } | null;
 };
 
 type StoreLocationBlockProps = {
@@ -49,8 +50,9 @@ const ServiceCard = ({ service }: { service: Service }) => {
       </div>
       <div className="pt-3 flex flex-col gap-1 flex-1">
         <p className="text-[16px] font-bold">{service.title}</p>
-        
-        <a  href={service.href || "#"}
+
+        <a
+          href={service.href || "#"}
           className="text-[14px] font-semibold text-[#0052C6] hover:underline mt-auto"
         >
           Learn More →
@@ -90,7 +92,9 @@ const SingleSpecialist = ({ specialist }: { specialist: Specialist }) => {
           <h3 className="text-white text-[28px] font-bold leading-tight">
             {specialist.specialistName}
           </h3>
-          <p className="text-white/70 text-[14px] mt-1">{specialist.specialistTitle}</p>
+          <p className="text-white/70 text-[14px] mt-1">
+            {specialist.specialistTitle}
+          </p>
         </div>
       </div>
     </div>
@@ -98,64 +102,74 @@ const SingleSpecialist = ({ specialist }: { specialist: Specialist }) => {
 };
 
 // ── Multiple Specialists ──
-const MultipleSpecialists = ({ specialists }: { specialists: Specialist[] }) => {
+const MultipleSpecialists = ({
+  specialists,
+}: {
+  specialists: Specialist[];
+}) => {
   return (
     <div className="rounded-[16px] bg-black h-[584px] p-6 sm:p-8 flex flex-col relative overflow-hidden flex-shrink-0">
-  <div
-    className="absolute right-0 bottom-0 w-full h-full pointer-events-none z-0"
-    style={{
-      backgroundImage: "url(/assets/jt/elements/paint-23.png)",
-      backgroundSize: "contain",
-      backgroundPosition: "right bottom",
-      backgroundRepeat: "no-repeat",
-    }}
-  />
-  <h4 className="relative z-10 text-[16px] font-bold tracking-[0.15em] text-[#A5EBCD] uppercase mb-5">
-    Your Local Specialist
-  </h4>
-  <div className="relative z-10 flex flex-col">
-    {specialists.map((specialist, index) => (
-      <div key={specialist.id || index}>
-        <div className="flex items-center gap-5 py-4">
-          <div className="relative w-[72px] h-[72px] flex-shrink-0">
-            <div className="w-full h-full rounded-full bg-white overflow-hidden">
-              <Image
-                src={specialist.specialistImage?.url ?? "/assets/jt/profile.png"}
-                alt={specialist.specialistImage?.alt ?? specialist.specialistName}
-                width={165}
-                height={165}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            {specialist.badgeImage?.url && (
-              <div className="absolute -top-1 -right-1 w-[28px] h-[28px] rounded-full ring-2 ring-[#4DA6FF] bg-black overflow-hidden">
-                <Image
-                  src={specialist.badgeImage.url}
-                  alt={specialist.badgeImage.alt ?? ""}
-                  width={56}
-                  height={56}
-                  className="w-full h-full object-cover"
-                />
+      <div
+        className="absolute right-0 bottom-0 w-full h-full pointer-events-none z-0"
+        style={{
+          backgroundImage: "url(/assets/jt/elements/paint-23.png)",
+          backgroundSize: "contain",
+          backgroundPosition: "right bottom",
+          backgroundRepeat: "no-repeat",
+        }}
+      />
+      <h4 className="relative z-10 text-[16px] font-bold tracking-[0.15em] text-[#A5EBCD] uppercase mb-5">
+        Your Local Specialist
+      </h4>
+      <div className="relative z-10 flex flex-col">
+        {specialists.map((specialist, index) => (
+          <div key={specialist.id || index}>
+            <div className="flex items-center gap-5 py-4">
+              <div className="relative w-[72px] h-[72px] flex-shrink-0">
+                <div className="w-full h-full rounded-full bg-white overflow-hidden">
+                  <Image
+                    src={
+                      specialist.specialistImage?.url ??
+                      "/assets/jt/profile.png"
+                    }
+                    alt={
+                      specialist.specialistImage?.alt ??
+                      specialist.specialistName
+                    }
+                    width={165}
+                    height={165}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                {specialist.badgeImage?.url && (
+                  <div className="absolute -top-1 -right-1 w-[28px] h-[28px] rounded-full ring-2 ring-[#4DA6FF] bg-black overflow-hidden">
+                    <Image
+                      src={specialist.badgeImage.url}
+                      alt={specialist.badgeImage.alt ?? ""}
+                      width={56}
+                      height={56}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
               </div>
-            )}
+              <div>
+                <h3 className="font-bold text-white text-[24px] sm:text-[32px] leading-tight">
+                  {specialist.specialistName}
+                </h3>
+                <p className="text-[20px] text-white/70 mt-1">
+                  {specialist.specialistTitle}
+                </p>
+              </div>
+            </div>
           </div>
-          <div>
-            <h3 className="font-bold text-white text-[24px] sm:text-[32px] leading-tight">
-              {specialist.specialistName}
-            </h3>
-            <p className="text-[20px] text-white/70 mt-1">
-              {specialist.specialistTitle}
-            </p>
-          </div>
-        </div>
+        ))}
       </div>
-    ))}
-  </div>
-</div>
+    </div>
   );
 };
 
-// ── Hero Card (270px height) ── 
+// ── Hero Card (270px height) ──
 const HeroCard = ({ heroCardLabel, heroCardHeading, heroCardText }: any) => {
   return (
     <div className="rounded-[16px] bg-[#0052C6] overflow-hidden relative p-6 flex flex-col justify-start h-[270px]">
@@ -186,7 +200,15 @@ const HeroCard = ({ heroCardLabel, heroCardHeading, heroCardText }: any) => {
 // LAYOUT 2: PROVO GLASS (2 SERVICES)
 // Grid: 3-column, Hero spans 2 rows, 2 services stacked
 // ──────────────────────────────────
-const Layout2 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCardHeading, heroCardText }: any) => {
+const Layout2 = ({
+  services,
+  Specialists,
+  imgUrl,
+  imgAlt,
+  heroCardLabel,
+  heroCardHeading,
+  heroCardText,
+}: any) => {
   return (
     <div className="flex flex-col lg:flex-row gap-6">
       {/* LEFT: Image + Specialist (50%) */}
@@ -198,8 +220,12 @@ const Layout2 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
         ) : (
           <div className="rounded-[16px] bg-[#DDEEFF] h-full" />
         )}
-        {Specialists?.length === 1 && <SingleSpecialist specialist={Specialists[0]} />}
-        {Specialists?.length > 1 && <MultipleSpecialists specialists={Specialists} />}
+        {Specialists?.length === 1 && (
+          <SingleSpecialist specialist={Specialists[0]} />
+        )}
+        {Specialists?.length > 1 && (
+          <MultipleSpecialists specialists={Specialists} />
+        )}
       </div>
 
       {/* RIGHT: Hero (spans 2 rows) + Services (55%) */}
@@ -207,7 +233,11 @@ const Layout2 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
         <div className="grid grid-cols-2 gap-6 auto-rows-max">
           {/* Hero: 1 col, spans 2 rows */}
           <div className="col-span-2 row-span-2">
-            <HeroCard heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />
+            <HeroCard
+              heroCardLabel={heroCardLabel}
+              heroCardHeading={heroCardHeading}
+              heroCardText={heroCardText}
+            />
           </div>
           {/* Services: 1 col, stacked vertically */}
           {services.map((service: Service, i: number) => (
@@ -225,7 +255,15 @@ const Layout2 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
 // LAYOUT 3: PROVO PAINT (3 SERVICES)
 // Grid: Image full width, then 2-col grid
 // ──────────────────────────────────
-const Layout3 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCardHeading, heroCardText }: any) => {
+const Layout3 = ({
+  services,
+  Specialists,
+  imgUrl,
+  imgAlt,
+  heroCardLabel,
+  heroCardHeading,
+  heroCardText,
+}: any) => {
   return (
     <div className="flex flex-col gap-6">
       {/* Image full width */}
@@ -241,8 +279,12 @@ const Layout3 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
       <div className="flex flex-col lg:flex-row gap-6">
         {/* LEFT: Specialist (40%) */}
         <div className="w-full lg:w-[50%]">
-          {Specialists?.length === 1 && <SingleSpecialist specialist={Specialists[0]} />}
-          {Specialists?.length > 1 && <MultipleSpecialists specialists={Specialists} />}
+          {Specialists?.length === 1 && (
+            <SingleSpecialist specialist={Specialists[0]} />
+          )}
+          {Specialists?.length > 1 && (
+            <MultipleSpecialists specialists={Specialists} />
+          )}
         </div>
 
         {/* RIGHT: Hero (spans 3 rows) + Services 2-col grid (60%) */}
@@ -250,7 +292,11 @@ const Layout3 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
           <div className="grid grid-cols-2 gap-6 auto-rows-max">
             {/* Hero: 1 col, spans 3 rows */}
             <div className="col-span-1 row-span-1">
-              <HeroCard heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />
+              <HeroCard
+                heroCardLabel={heroCardLabel}
+                heroCardHeading={heroCardHeading}
+                heroCardText={heroCardText}
+              />
             </div>
             {/* Services: 1 col, stacked */}
             {services.map((service: Service, i: number) => (
@@ -269,7 +315,15 @@ const Layout3 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
 // LAYOUT 4: PAYSON (4 SERVICES)
 // Grid: 2x2 services grid
 // ──────────────────────────────────
-const Layout4 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCardHeading, heroCardText }: any) => {
+const Layout4 = ({
+  services,
+  Specialists,
+  imgUrl,
+  imgAlt,
+  heroCardLabel,
+  heroCardHeading,
+  heroCardText,
+}: any) => {
   return (
     <div className="flex flex-col lg:flex-row gap-6">
       {/* LEFT: Image + Specialist (45%) */}
@@ -281,15 +335,23 @@ const Layout4 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
         ) : (
           <div className="rounded-[16px] bg-[#DDEEFF] h-full" />
         )}
-        {Specialists?.length === 1 && <SingleSpecialist specialist={Specialists[0]} />}
-        {Specialists?.length > 1 && <MultipleSpecialists specialists={Specialists} />}
+        {Specialists?.length === 1 && (
+          <SingleSpecialist specialist={Specialists[0]} />
+        )}
+        {Specialists?.length > 1 && (
+          <MultipleSpecialists specialists={Specialists} />
+        )}
       </div>
 
       {/* RIGHT: Hero + 2x2 Services Grid (55%) */}
       <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {/* Hero Card */}
-        <HeroCard heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />
-        
+        <HeroCard
+          heroCardLabel={heroCardLabel}
+          heroCardHeading={heroCardHeading}
+          heroCardText={heroCardText}
+        />
+
         {/* 2x2 Grid (4 services) */}
         <div className="grid grid-cols-2 gap-6">
           {services.map((service: Service, i: number) => (
@@ -305,7 +367,15 @@ const Layout4 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
 // LAYOUT 5: CEDAR CITY (5 SERVICES)
 // Grid: 2-column, wraps to 3 rows
 // ──────────────────────────────────
-const Layout5 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCardHeading, heroCardText }: any) => {
+const Layout5 = ({
+  services,
+  Specialists,
+  imgUrl,
+  imgAlt,
+  heroCardLabel,
+  heroCardHeading,
+  heroCardText,
+}: any) => {
   return (
     <div className="flex flex-col lg:flex-row gap-6">
       {/* LEFT: Image + Specialist (40%) */}
@@ -317,8 +387,12 @@ const Layout5 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
         ) : (
           <div className="rounded-[16px] bg-[#DDEEFF] h-full" />
         )}
-        {Specialists?.length === 1 && <SingleSpecialist specialist={Specialists[0]} />}
-        {Specialists?.length > 1 && <MultipleSpecialists specialists={Specialists} />}
+        {Specialists?.length === 1 && (
+          <SingleSpecialist specialist={Specialists[0]} />
+        )}
+        {Specialists?.length > 1 && (
+          <MultipleSpecialists specialists={Specialists} />
+        )}
       </div>
 
       {/* RIGHT: Hero + 2-Column Services Grid (60%) */}
@@ -326,7 +400,11 @@ const Layout5 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
         <div className="grid grid-cols-2 gap-6 auto-rows-max">
           {/* Hero: single card at top */}
           <div className="col-span-1">
-            <HeroCard heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />
+            <HeroCard
+              heroCardLabel={heroCardLabel}
+              heroCardHeading={heroCardHeading}
+              heroCardText={heroCardText}
+            />
           </div>
           {/* Services: 2-col grid (5 services wrap) */}
           {services.map((service: Service, i: number) => (
@@ -344,7 +422,15 @@ const Layout5 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
 // LAYOUT 6: VERNAL (6 SERVICES)
 // Grid: 2-column, 3 rows exactly
 // ──────────────────────────────────
-const Layout6 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCardHeading, heroCardText }: any) => {
+const Layout6 = ({
+  services,
+  Specialists,
+  imgUrl,
+  imgAlt,
+  heroCardLabel,
+  heroCardHeading,
+  heroCardText,
+}: any) => {
   return (
     <div className="flex flex-col lg:flex-row gap-6">
       {/* LEFT: Image + Specialist (35%) */}
@@ -356,15 +442,23 @@ const Layout6 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
         ) : (
           <div className="rounded-[16px] bg-[#DDEEFF] h-full" />
         )}
-        {Specialists?.length === 1 && <SingleSpecialist specialist={Specialists[0]} />}
-        {Specialists?.length > 1 && <MultipleSpecialists specialists={Specialists} />}
+        {Specialists?.length === 1 && (
+          <SingleSpecialist specialist={Specialists[0]} />
+        )}
+        {Specialists?.length > 1 && (
+          <MultipleSpecialists specialists={Specialists} />
+        )}
       </div>
 
       {/* RIGHT: Hero + 2-Column Services Grid (65%) */}
       <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {/* Hero Card */}
-        <HeroCard heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />
-        
+        <HeroCard
+          heroCardLabel={heroCardLabel}
+          heroCardHeading={heroCardHeading}
+          heroCardText={heroCardText}
+        />
+
         {/* 2-Column Grid (6 services = 3 rows) */}
         <div className="grid grid-cols-2 gap-6">
           {services.map((service: Service, i: number) => (
@@ -380,7 +474,15 @@ const Layout6 = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCar
 // LAYOUT 7+: ST GEORGE (7+ SERVICES)
 // Grid: 2-column with flexible wrapping
 // ──────────────────────────────────
-const Layout7Plus = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, heroCardHeading, heroCardText }: any) => {
+const Layout7Plus = ({
+  services,
+  Specialists,
+  imgUrl,
+  imgAlt,
+  heroCardLabel,
+  heroCardHeading,
+  heroCardText,
+}: any) => {
   return (
     <div className="flex flex-col lg:flex-row gap-6">
       {/* LEFT: Image + Specialist (30%) */}
@@ -392,17 +494,25 @@ const Layout7Plus = ({ services, Specialists, imgUrl, imgAlt, heroCardLabel, her
         ) : (
           <div className="rounded-[16px] bg-[#DDEEFF] h-full" />
         )}
-        {Specialists?.length === 1 && <SingleSpecialist specialist={Specialists[0]} />}
-        {Specialists?.length > 1 && <MultipleSpecialists specialists={Specialists} />}
+        {Specialists?.length === 1 && (
+          <SingleSpecialist specialist={Specialists[0]} />
+        )}
+        {Specialists?.length > 1 && (
+          <MultipleSpecialists specialists={Specialists} />
+        )}
       </div>
 
       {/* RIGHT: Hero + 2-Column Services Grid (70%) */}
       <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {/* Hero Card */}
         <div className="col-span-1 row-span-1">
-            <HeroCard heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />
-          </div>
-        
+          <HeroCard
+            heroCardLabel={heroCardLabel}
+            heroCardHeading={heroCardHeading}
+            heroCardText={heroCardText}
+          />
+        </div>
+
         {/* 2-Column Grid (7+ services, flexible wrapping) */}
         <div className="grid grid-cols-2 gap-6">
           {services.map((service: Service, i: number) => (
@@ -428,8 +538,14 @@ export default function StoreLocation({
   heroCardText = "Our team will make sure you not only have the products you need, but a solid plan to go with them.",
   services = [],
 }: StoreLocationBlockProps) {
-  const imgUrl = typeof storeImage === "string" ? storeImage || null : storeImage?.url ?? null;
-  const imgAlt = typeof storeImage === "object" && storeImage !== null ? storeImage.alt ?? heading : heading;
+  const imgUrl =
+    typeof storeImage === "string"
+      ? storeImage || null
+      : (storeImage?.url ?? null);
+  const imgAlt =
+    typeof storeImage === "object" && storeImage !== null
+      ? (storeImage.alt ?? heading)
+      : heading;
   const serviceCount = services?.length || 0;
 
   if (serviceCount === 0) return null;
@@ -445,18 +561,82 @@ export default function StoreLocation({
             {heading}
           </h1>
           <p className="flex items-center justify-center gap-3 font-normal text-[18px] md:text-[24px]">
-            <img src="/assets/jt/location-icon.png" className="w-5 h-6" alt="location" />
+            <img
+              src="/assets/jt/location-icon.png"
+              className="w-5 h-6"
+              alt="location"
+            />
             {address}
           </p>
         </div>
 
         {/* Dynamic Layouts */}
-        {serviceCount === 2 && <Layout2 services={services} Specialists={Specialists} imgUrl={imgUrl} imgAlt={imgAlt} heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />}
-        {serviceCount === 3 && <Layout3 services={services} Specialists={Specialists} imgUrl={imgUrl} imgAlt={imgAlt} heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />}
-        {serviceCount === 4 && <Layout4 services={services} Specialists={Specialists} imgUrl={imgUrl} imgAlt={imgAlt} heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />}
-        {serviceCount === 5 && <Layout5 services={services} Specialists={Specialists} imgUrl={imgUrl} imgAlt={imgAlt} heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />}
-        {serviceCount === 6 && <Layout6 services={services} Specialists={Specialists} imgUrl={imgUrl} imgAlt={imgAlt} heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />}
-        {serviceCount >= 7 && <Layout7Plus services={services} Specialists={Specialists} imgUrl={imgUrl} imgAlt={imgAlt} heroCardLabel={heroCardLabel} heroCardHeading={heroCardHeading} heroCardText={heroCardText} />}
+        {serviceCount === 2 && (
+          <Layout2
+            services={services}
+            Specialists={Specialists}
+            imgUrl={imgUrl}
+            imgAlt={imgAlt}
+            heroCardLabel={heroCardLabel}
+            heroCardHeading={heroCardHeading}
+            heroCardText={heroCardText}
+          />
+        )}
+        {serviceCount === 3 && (
+          <Layout3
+            services={services}
+            Specialists={Specialists}
+            imgUrl={imgUrl}
+            imgAlt={imgAlt}
+            heroCardLabel={heroCardLabel}
+            heroCardHeading={heroCardHeading}
+            heroCardText={heroCardText}
+          />
+        )}
+        {serviceCount === 4 && (
+          <Layout4
+            services={services}
+            Specialists={Specialists}
+            imgUrl={imgUrl}
+            imgAlt={imgAlt}
+            heroCardLabel={heroCardLabel}
+            heroCardHeading={heroCardHeading}
+            heroCardText={heroCardText}
+          />
+        )}
+        {serviceCount === 5 && (
+          <Layout5
+            services={services}
+            Specialists={Specialists}
+            imgUrl={imgUrl}
+            imgAlt={imgAlt}
+            heroCardLabel={heroCardLabel}
+            heroCardHeading={heroCardHeading}
+            heroCardText={heroCardText}
+          />
+        )}
+        {serviceCount === 6 && (
+          <Layout6
+            services={services}
+            Specialists={Specialists}
+            imgUrl={imgUrl}
+            imgAlt={imgAlt}
+            heroCardLabel={heroCardLabel}
+            heroCardHeading={heroCardHeading}
+            heroCardText={heroCardText}
+          />
+        )}
+        {serviceCount >= 7 && (
+          <Layout7Plus
+            services={services}
+            Specialists={Specialists}
+            imgUrl={imgUrl}
+            imgAlt={imgAlt}
+            heroCardLabel={heroCardLabel}
+            heroCardHeading={heroCardHeading}
+            heroCardText={heroCardText}
+          />
+        )}
       </div>
     </section>
   );
