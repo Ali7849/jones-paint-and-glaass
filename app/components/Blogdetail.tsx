@@ -1,289 +1,297 @@
 "use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
-type Blog = {
-  id?: string
-  title: string
-  slug?: string
-  content?: any
-  publishedDate?: string
+interface Blog {
+  id: string;
+  title: string;
+  slug: string;
   image?: {
-    url: string
-    alt?: string
-  }
+    url: string;
+    alt?: string;
+  };
+  publishedDate: string;
+  readTime?: number;
+  category?: string;
+  content?: any;
 }
 
-type BlogDetailProps = {
-  label?: string
-  heading?: string
-  subheading?: string
+interface BlogDetailBlockProps {
+  label?: string;
+  heading?: string;
+  subheading?: string;
 }
 
-const BLOGS_PER_PAGE = 3
-
-function extractSummary(content: any, maxLength = 200): string {
-  if (!content?.root?.children) return ''
+function extractSummary(content: any, maxLength = 150): string {
+  if (!content?.root?.children) return "";
   for (const node of content.root.children) {
-    if (node.type === 'paragraph') {
-      const text = node.children?.map((c: any) => c.text || '').join('') || ''
-      if (text.trim()) {
-        if (text.length <= maxLength) return text
-        // Find last space before maxLength so we never cut mid-word
-        const trimmed = text.slice(0, maxLength)
-        const lastSpace = trimmed.lastIndexOf(' ')
-        return (lastSpace > 0 ? trimmed.slice(0, lastSpace) : trimmed) + '...'
-      }
+    if (node.type === "paragraph") {
+      const text = node.children?.map((c: any) => c.text || "").join("") || "";
+      if (text.trim())
+        return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
     }
   }
-  return ''
+  return "";
 }
 
-function getPaginationItems(currentPage: number, totalPages: number): (number | 'dots')[] {
-  if (totalPages <= 7) {
-    return Array.from({ length: totalPages }, (_, i) => i + 1)
-  }
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
 
-  const items: (number | 'dots')[] = []
-
-  items.push(1, 2, 3, 4)
-
-  if (currentPage <= 4) {
-    items.push('dots')
-    items.push(totalPages - 1, totalPages)
-    return items
-  }
-
-  if (currentPage >= totalPages - 1) {
-    items.push('dots')
-    items.push(totalPages - 1, totalPages)
-    return items
-  }
-
-  items.push('dots')
-  items.push(currentPage - 1, currentPage, currentPage + 1)
-  items.push('dots')
-  items.push(totalPages - 1, totalPages)
-
-  return items.filter((item, index, arr) => {
-    if (item === 'dots') return true
-    return arr.indexOf(item) === index
-  })
+function isThisMonth(dateString: string): boolean {
+  const date = new Date(dateString);
+  const now = new Date();
+  return (
+    date.getMonth() === now.getMonth() &&
+    date.getFullYear() === now.getFullYear()
+  );
 }
 
 export default function BlogDetail({
   label = "OUR BLOG",
   heading = "The Crash Course",
   subheading = "Jones Paint & Glass Blog",
-}: BlogDetailProps) {
-  const [blogs, setBlogs] = useState<Blog[]>([])
-  const [totalPages, setTotalPages] = useState(1)
-  const [currentPage, setCurrentPage] = useState(1)
-  const [loading, setLoading] = useState(true)
+}: BlogDetailBlockProps) {
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const blogsPerPage = 9;
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      setLoading(true)
       try {
-        const res = await fetch(
-          `/api/blogs?limit=${BLOGS_PER_PAGE}&page=${currentPage}&sort=-publishedDate&depth=1`
-        )
-        const data = await res.json()
-        setBlogs(data.docs || [])
-        setTotalPages(data.totalPages || 1)
-      } catch (err) {
-        console.error('Failed to fetch blogs:', err)
-      } finally {
-        setLoading(false)
-      }
-    }
+        const response = await fetch("/api/blogs");
+        const data = await response.json();
 
-    fetchBlogs()
-  }, [currentPage])
+        // Sort by publishedDate (newest first)
+        const sortedBlogs = data.blogs.sort(
+          (a: Blog, b: Blog) =>
+            new Date(b.publishedDate).getTime() -
+            new Date(a.publishedDate).getTime()
+        );
+
+        setBlogs(sortedBlogs);
+      } catch (error) {
+        console.error("Failed to fetch blogs:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
+
+  // Pagination logic
+  const indexOfLastBlog = currentPage * blogsPerPage;
+  const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
+  const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
+  const totalPages = Math.ceil(blogs.length / blogsPerPage);
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  if (loading) {
+    return (
+      <section className="py-14 md:py-20 bg-white">
+        <div className="container mx-auto px-4 lg:px-6">
+          <div className="text-center">
+            <p className="text-[16px] font-bold tracking-[0.18em] text-[#0052C6] uppercase mb-2">
+              {label}
+            </p>
+            <h2 className="text-[36px] md:text-[48px] font-extrabold mb-3 font-['Avenir']">
+              {heading}
+            </h2>
+            <p className="text-[18px] text-gray-500">{subheading}</p>
+            <div className="mt-10 flex items-center justify-center">
+              <svg
+                className="animate-spin w-8 h-8 text-[#0052C6]"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
   }
 
-  const paginationItems = getPaginationItems(currentPage, totalPages)
-
   return (
-    <section className="relative mt-20 py-14 md:py-20 bg-white overflow-hidden">
-
-      {/* Background shape */}
-      <div
-        className="pointer-events-none absolute -top-10 sm:top-35 lg:-top-10 xl:-top-20 2xl:-top-40 right-0 w-56 h-56 lg:w-110 lg:h-150 xl:w-200 xl:h-180 2xl:w-180 2xl:h-250 z-0 md:z-3"
-        style={{
-          backgroundImage: "url(/assets/jt/elements/paint-19.png)",
-          backgroundSize: "contain",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "top right",
-        }}
-      />
-
-      <div className="container mx-auto px-4 lg:px-6 relative">
-
+    <section className="py-14 md:py-20 bg-white">
+      <div className="container mx-auto px-4 lg:px-6">
         {/* Header */}
-        <div className="text-center mb-14 relative z-10">
-          <p className="text-[16px] font-bold tracking-[0.18em] text-[#0052C6] uppercase mb-3">
+        <div className="text-center mb-16">
+          <p className="text-[16px] font-bold tracking-[0.18em] text-[#0052C6] uppercase mb-2">
             {label}
           </p>
-          <h1 className="text-[32px] md:text-[56px] font-extrabold mb-2 font-['Avenir']">
+          <h2 className="text-[36px] md:text-[48px] font-extrabold mb-3 font-['Avenir']">
             {heading}
-          </h1>
-          <p className="text-[18px] md:text-[40px] font-semibold text-[#0052C6]">
+          </h2>
+          <p className="text-[18px] text-gray-500 max-w-2xl mx-auto">
             {subheading}
           </p>
         </div>
 
-        {/* Loading state */}
-        {loading ? (
-          <div className="flex flex-col gap-12 md:gap-16 relative z-1">
-            {[1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="bg-[#F4F7FF] rounded-2xl flex flex-col lg:flex-row px-6 md:px-10 py-8 md:py-10 animate-pulse"
-              >
-                <div className="w-full lg:w-[50%] h-[280px] md:h-[404px] bg-gray-200 rounded-[16px]" />
-                <div className="flex w-full lg:w-[50%] flex-col justify-center px-2 lg:px-10 py-6 gap-4">
-                  <div className="h-8 bg-gray-200 rounded w-3/4" />
-                  <div className="h-4 bg-gray-200 rounded w-full" />
-                  <div className="h-4 bg-gray-200 rounded w-5/6" />
-                  <div className="h-4 bg-gray-200 rounded w-2/3" />
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : blogs.length > 0 ? (
-          <>
-            {/* Articles */}
-            <div className="flex flex-col gap-12 md:gap-16 relative z-1">
-              {blogs.map((blog, index) => {
-                const summary = extractSummary(blog.content)
-                const href = blog.slug ? `/blog/${blog.slug}` : '#'
-
-                return (
-                  <div
-                    key={blog.id || index}
-                    className={`bg-[#F4F7FF] rounded-2xl flex flex-col lg:flex-row px-6 md:px-10 py-8 md:py-10
-                      ${index % 2 !== 0 ? "lg:flex-row-reverse" : ""}
-                    `}
-                  >
-                    {/* Image */}
-                    <div className="relative w-full lg:w-[50%] h-[280px] md:h-[404px] min-h-[280px]">
-                      {blog.image?.url ? (
-                        <Image
-                          src={blog.image.url}
-                          alt={blog.image.alt || blog.title}
-                          fill
-                          className="object-cover rounded-[16px]"
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-gray-200 rounded-[16px] flex items-center justify-center">
-                          <span className="text-gray-400 text-sm">No image</span>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Content */}
-                    <div className="flex w-full lg:w-[50%] flex-col justify-center text-center md:text-left px-2 lg:px-10 py-6 gap-3">
-                      <h2 className="font-bold text-black text-[24px] md:text-[36px] leading-tight">
-                        {blog.title}
-                      </h2>
-                      {summary && (
-                        <p className="text-[16px] leading-relaxed">
-                          {summary}
-                        </p>
-                      )}
-                      <div>
-                        <Link
-                          href={href}
-                          className="group text-[16px] inline-flex items-center gap-2 text-[#0052C6] font-semibold transition mt-2"
-                        >
-                          Read More
-                          <svg
-                            className="w-4 h-4 transition-transform group-hover:translate-x-1"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                          >
-                            <path
-                              d="M5 12h14M13 6l6 6-6 6"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="flex items-center justify-center gap-2 mt-14 flex-wrap">
-
-                {/* Prev button */}
-                <button
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className="w-10 h-10 rounded-full bg-[#D9FDED] hover:bg-[#A5EBCD] flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
-                >
-                  <svg className="w-6 h-6 stroke-black fill-none" strokeWidth={1.5} viewBox="0 0 24 24">
-                    <polyline points="15 18 9 12 15 6" />
-                  </svg>
-                </button>
-
-                {/* Smart page numbers */}
-                {paginationItems.map((item, index) =>
-                  item === 'dots' ? (
-                    <span
-                      key={`dots-${index}`}
-                      className="w-10 h-10 flex items-center justify-center text-gray-400 text-[15px] font-semibold select-none"
-                    >
-                      ...
-                    </span>
-                  ) : (
-                    <button
-                      key={item}
-                      onClick={() => handlePageChange(item)}
-                      className={`w-10 h-10 rounded-full text-[15px] font-semibold transition-colors cursor-pointer ${
-                        currentPage === item
-                          ? 'bg-[#0052C6] text-white'
-                          : 'bg-[#F4F7FF] text-gray-700 hover:bg-[#D9FDED]'
-                      }`}
-                    >
-                      {item}
-                    </button>
-                  )
-                )}
-
-                {/* Next button */}
-                <button
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className="w-10 h-10 rounded-full bg-[#D9FDED] hover:bg-[#A5EBCD] flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
-                >
-                  <svg className="w-6 h-6 stroke-black fill-none" strokeWidth={1.5} viewBox="0 0 24 24">
-                    <polyline points="9 6 15 12 9 18" />
-                  </svg>
-                </button>
-
-              </div>
-            )}
-          </>
-        ) : (
-          <div className="flex items-center justify-center h-[200px]">
-            <p className="text-gray-400">No blogs published yet.</p>
+        {/* This Month Badge (if any blogs this month) */}
+        {blogs.some((b) => isThisMonth(b.publishedDate)) && (
+          <div className="mb-8 inline-flex items-center gap-2 bg-[#E6F1FB] text-[#0052C6] px-4 py-2 rounded-full">
+            <span className="w-2 h-2 bg-[#0052C6] rounded-full"></span>
+            <span className="text-sm font-semibold">Latest This Month</span>
           </div>
         )}
 
+        {/* Blogs Grid */}
+        {currentBlogs.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {currentBlogs.map((blog) => {
+              const imageUrl = blog.image?.url ?? "/assets/jt/blog-default.png";
+              const imageAlt = blog.image?.alt ?? blog.title;
+              const summary = extractSummary(blog.content);
+              const isNewThisMonth = isThisMonth(blog.publishedDate);
+
+              return (
+                <Link
+                  key={blog.id}
+                  href={`/blog/${blog.slug}`}
+                  className="flex flex-col h-full overflow-hidden rounded-[16px] border border-gray-100 hover:shadow-lg transition-shadow duration-300"
+                >
+                  {/* Image Container */}
+                  <div className="relative w-full h-[240px] overflow-hidden bg-gray-100">
+                    {isNewThisMonth && (
+                      <div className="absolute top-4 left-4 z-10 bg-[#0052C6] text-white px-3 py-1 rounded-full text-xs font-bold">
+                        NEW
+                      </div>
+                    )}
+                    <Image
+                      src={imageUrl}
+                      alt={imageAlt}
+                      fill
+                      className="object-cover hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-1 p-6 flex flex-col gap-4">
+                    {/* Meta Info */}
+                    <div className="flex items-center gap-3 text-sm text-gray-500">
+                      {blog.category && (
+                        <>
+                          <span className="px-3 py-1 bg-[#F4F7FF] text-[#0052C6] rounded-full text-xs font-semibold">
+                            {blog.category}
+                          </span>
+                          <span>•</span>
+                        </>
+                      )}
+                      <span>{formatDate(blog.publishedDate)}</span>
+                      {blog.readTime && (
+                        <>
+                          <span>•</span>
+                          <span>{blog.readTime} min read</span>
+                        </>
+                      )}
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-[22px] font-bold text-gray-900 line-clamp-2 hover:text-[#0052C6] transition-colors">
+                      {blog.title}
+                    </h3>
+
+                    {/* Summary */}
+                    <p className="text-gray-600 line-clamp-3 flex-1">{summary}</p>
+
+                    {/* Read More Link */}
+                    <div className="flex items-center gap-2 text-[#0052C6] font-semibold group">
+                      <span>Read More</span>
+                      <svg
+                        className="w-4 h-4 group-hover:translate-x-1 transition-transform"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path
+                          d="M5 12h14M13 6l6 6-6 6"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-lg">No blogs found yet.</p>
+          </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-2 mb-8">
+            {/* Previous Button */}
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              Previous
+            </button>
+
+            {/* Page Numbers */}
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => handlePageChange(page)}
+                className={`px-4 py-2 rounded-lg transition-colors ${
+                  currentPage === page
+                    ? "bg-[#0052C6] text-white font-semibold"
+                    : "border border-gray-300 text-gray-700 hover:bg-gray-50"
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+
+            {/* Next Button */}
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              Next
+            </button>
+          </div>
+        )}
+
+        {/* Results Info */}
+        <div className="text-center text-gray-500 text-sm">
+          Showing {indexOfFirstBlog + 1} to {Math.min(indexOfLastBlog, blogs.length)}{" "}
+          of {blogs.length} blogs
+        </div>
       </div>
     </section>
-  )
+  );
 }
