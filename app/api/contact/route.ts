@@ -4,11 +4,15 @@ import nodemailer from 'nodemailer'
 export async function POST(req: Request) {
   try {
     const body = await req.json()
-    const { firstName, lastName, email, phone, store, message } = body
+    const { firstName, lastName, email, phone, store, message, storeEmails } = body
     const formTypeLabel = body.formType === 'quote-request' ? 'Quote Request' : 'General Inquiry'
 
     if (!firstName || !lastName || !email || !message || !store) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+    }
+
+    if (!storeEmails) {
+      return NextResponse.json({ error: 'No store email found' }, { status: 400 })
     }
 
     const transporter = nodemailer.createTransport({
@@ -23,9 +27,10 @@ export async function POST(req: Request) {
 
     await transporter.sendMail({
       from: `"Jones Paint & Glass" <${process.env.SMTP_FROM}>`,
-      to: process.env.SMTP_TO,
+      // ✅ storeEmails is a comma-separated string — nodemailer handles it natively
+      to: storeEmails,
       replyTo: email,
-        subject: `New ${formTypeLabel} from ${firstName} ${lastName}`,
+      subject: `New ${formTypeLabel} from ${firstName} ${lastName} — ${store}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #0052C6; border-bottom: 2px solid #0052C6; padding-bottom: 10px;">

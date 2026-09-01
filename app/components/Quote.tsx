@@ -1,17 +1,22 @@
 "use client";
 import { useState } from "react";
 
+type Store = {
+  name: string
+  emails: string
+}
+
 type QuoteProps = {
   title?: string
   submitButtonText?: string
   privacyPolicyLink?: string
-  privacyPolicyText?: string
   labelFirstName?: string
   labelLastName?: string
   labelEmail?: string
   labelPhone?: string
   labelLocation?: string
   labelMessage?: string
+  stores?: Store[]
 }
 
 export default function Quote({
@@ -23,6 +28,7 @@ export default function Quote({
   labelPhone = 'Phone number (optional)',
   labelLocation = 'Where are you located?',
   labelMessage = 'Message',
+  stores = [],
 }: QuoteProps) {
   const [agreed, setAgreed] = useState(false)
   const [country, setCountry] = useState('US')
@@ -46,6 +52,13 @@ export default function Quote({
     e.preventDefault()
     if (!agreed) return
 
+    // Find selected store's emails
+    const selectedStore = stores.find(s => s.name === formData.store)
+    if (!selectedStore) {
+      setError('Please select a valid store location.')
+      return
+    }
+
     setLoading(true)
     setError(null)
 
@@ -53,7 +66,12 @@ export default function Quote({
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, formType: 'quote-request' }),
+        body: JSON.stringify({
+          ...formData,
+          formType: 'quote-request',
+          // ✅ Pass store emails to API
+          storeEmails: selectedStore.emails,
+        }),
       })
 
       const data = await res.json()
@@ -196,7 +214,7 @@ export default function Quote({
               </div>
             </div>
 
-            {/* Store Location */}
+            {/* Store Location — dynamic from dashboard */}
             <div className="mb-4">
               <label className="block text-white text-[16px] tracking-wide font-medium mb-2">
                 {labelLocation}
@@ -209,14 +227,11 @@ export default function Quote({
                 className="w-full bg-white rounded-[8px] px-3 py-3 text-sm text-gray-800 outline-none appearance-none"
               >
                 <option value="">Select a store</option>
-                <option value="american-fork">American Fork</option>
-                <option value="cedar-city">Cedar City</option>
-                <option value="payson">Payson</option>
-                <option value="provo-glass">Provo — Glass</option>
-                <option value="provo-paint">Provo — Paint</option>
-                <option value="roosevelt">Roosevelt</option>
-                <option value="st-george">St. George</option>
-                <option value="vernal">Vernal</option>
+                {stores.map((store, i) => (
+                  <option key={i} value={store.name}>
+                    {store.name}
+                  </option>
+                ))}
               </select>
             </div>
 
