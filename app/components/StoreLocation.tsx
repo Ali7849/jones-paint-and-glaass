@@ -100,46 +100,58 @@ const SingleSpecialist = ({ specialist }: { specialist: Specialist }) => {
 // ── Multiple Specialists ──
 const MultipleSpecialists = ({ specialists }: { specialists: Specialist[] }) => {
   return (
-    <div className="rounded-[16px] bg-black h-[584px] p-6 sm:p-8 flex flex-col relative  overflow-hidden flex-shrink-0">
-      <div
-        className="absolute right-0 bottom-0 w-full h-full pointer-events-none z-0"
-        style={{
-          backgroundImage: "url(/assets/jt/elements/paint-23.png)",
-          backgroundSize: "contain",
-          backgroundPosition: "right bottom",
-          backgroundRepeat: "no-repeat",
-        }}
-      />
-      <h4 className="relative z-10 text-[16px] font-bold tracking-[0.15em] text-[#A5EBCD] uppercase mb-5">
-        Your Local Specialist
-      </h4>
-      <div className="relative z-10 flex flex-col">
-        {specialists.map((specialist, index) => (
-          <div key={specialist.id || index}>
-            <div className="flex items-center gap-5 py-4">
-              <div className="w-[72px] h-[72px] rounded-full bg-white flex-shrink-0 overflow-hidden">
+    <div className="rounded-[16px] bg-black h-[584px] p-6 sm:p-8 flex flex-col relative overflow-hidden flex-shrink-0">
+  <div
+    className="absolute right-0 bottom-0 w-full h-full pointer-events-none z-0"
+    style={{
+      backgroundImage: "url(/assets/jt/elements/paint-23.png)",
+      backgroundSize: "contain",
+      backgroundPosition: "right bottom",
+      backgroundRepeat: "no-repeat",
+    }}
+  />
+  <h4 className="relative z-10 text-[16px] font-bold tracking-[0.15em] text-[#A5EBCD] uppercase mb-5">
+    Your Local Specialist
+  </h4>
+  <div className="relative z-10 flex flex-col">
+    {specialists.map((specialist, index) => (
+      <div key={specialist.id || index}>
+        <div className="flex items-center gap-5 py-4">
+          <div className="relative w-[72px] h-[72px] flex-shrink-0">
+            <div className="w-full h-full rounded-full bg-white overflow-hidden">
+              <Image
+                src={specialist.specialistImage?.url ?? "/assets/jt/profile.png"}
+                alt={specialist.specialistImage?.alt ?? specialist.specialistName}
+                width={165}
+                height={165}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            {specialist.badgeImage?.url && (
+              <div className="absolute -top-1 -right-1 w-[28px] h-[28px] rounded-full ring-2 ring-[#4DA6FF] bg-black overflow-hidden">
                 <Image
-                  src={specialist.specialistImage?.url ?? "/assets/jt/profile.png"}
-                  alt={specialist.specialistImage?.alt ?? specialist.specialistName}
-                  width={165}
-                  height={165}
+                  src={specialist.badgeImage.url}
+                  alt={specialist.badgeImage.alt ?? ""}
+                  width={56}
+                  height={56}
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div>
-                <h3 className="font-bold text-white text-[400px] sm:text-[32px] leading-tight">
-                  {specialist.specialistName}
-                </h3>
-                <p className="text-[20px] text-white/70 mt-1">
-                  {specialist.specialistTitle}
-                </p>
-              </div>
-            </div>
-            
+            )}
           </div>
-        ))}
+          <div>
+            <h3 className="font-bold text-white text-[24px] sm:text-[32px] leading-tight">
+              {specialist.specialistName}
+            </h3>
+            <p className="text-[20px] text-white/70 mt-1">
+              {specialist.specialistTitle}
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
+    ))}
+  </div>
+</div>
   );
 };
 
@@ -158,7 +170,7 @@ const HeroCard = ({ heroCardLabel, heroCardHeading, heroCardText }: any) => {
         }}
       />
       <div className="relative z-10">
-        <p className="text-[12px] font-bold tracking-[0.15em] text-[#A5EBCD] uppercase mb-3">
+        <p className="text-[12px] font-bold tracking-[0.15em] text-[#A5EBCD] uppercase mb-3 ">
           {heroCardLabel}
         </p>
         <h3 className="text-white text-[28px] font-bold leading-tight mb-3">
