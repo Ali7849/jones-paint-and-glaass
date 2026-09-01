@@ -425,8 +425,9 @@ export default function StoreLocation({
           <h1 className="text-[48px] font-extrabold mb-4 font-['Avenir']">
             {heading}
           </h1>
-          <p className="text-[18px] flex items-center justify-center gap-2">
-            📍 {address}
+          <p className="flex items-center justify-center gap-3 font-normal text-[18px] md:text-[24px]">
+            <img src="/assets/jt/location-icon.png" className="w-5 h-6" alt="location" />
+            {address}
           </p>
         </div>
 
