@@ -2,6 +2,11 @@
 
 import { useState } from 'react'
 
+type Store = {
+  name: string
+  emails: string
+}
+
 type InquireFormProps = {
   heading?: string
   description?: string
@@ -19,6 +24,7 @@ type InquireFormProps = {
   labelPhone?: string
   labelLocation?: string
   labelMessage?: string
+  stores?: Store[]
 }
 
 export default function Inquireform({
@@ -37,6 +43,7 @@ export default function Inquireform({
   labelPhone = 'Phone number (optional)',
   labelLocation = 'Where are you located?',
   labelMessage = 'Message',
+  stores = [],
 }: InquireFormProps) {
   const [agreed, setAgreed] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -62,6 +69,13 @@ export default function Inquireform({
     e.preventDefault()
     if (!agreed) return
 
+    // Find selected store's emails
+    const selectedStore = stores.find(s => s.name === formData.store)
+    if (!selectedStore) {
+      setError('Please select a valid store location.')
+      return
+    }
+
     setLoading(true)
     setError(null)
 
@@ -69,7 +83,12 @@ export default function Inquireform({
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, formType: 'general-inquiry' }),
+        body: JSON.stringify({
+          ...formData,
+          formType: 'general-inquiry',
+          // ✅ Pass store emails to API
+          storeEmails: selectedStore.emails,
+        }),
       })
 
       const data = await res.json()
@@ -218,7 +237,7 @@ export default function Inquireform({
                     </div>
                   </div>
 
-                  {/* Store Location */}
+                  {/* Store Location — dynamic from dashboard */}
                   <div className="mb-5">
                     <label className={labelClass}>{labelLocation}</label>
                     <div className="relative">
@@ -230,14 +249,11 @@ export default function Inquireform({
                         className={`${inputClass} appearance-none pr-8`}
                       >
                         <option value="">Select a store</option>
-                        <option value="american-fork">American Fork</option>
-                        <option value="cedar-city">Cedar City</option>
-                        <option value="payson">Payson</option>
-                        <option value="provo-glass">Provo — Glass</option>
-                        <option value="provo-paint">Provo — Paint</option>
-                        <option value="roosevelt">Roosevelt</option>
-                        <option value="st-george">St. George</option>
-                        <option value="vernal">Vernal</option>
+                        {stores.map((store, i) => (
+                          <option key={i} value={store.name}>
+                            {store.name}
+                          </option>
+                        ))}
                       </select>
                       <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
                         <svg className="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none">
