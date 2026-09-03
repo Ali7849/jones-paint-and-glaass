@@ -27,6 +27,7 @@
 }
 
 
+
 h1, h2,h3,h4,h5,h6{
   font-family: 'Avenir' !important;
 }
@@ -37,6 +38,12 @@ p,li,a,span{
 
 .custom-border{
 border: 1px solid rgba(0, 0, 0, 0.1)
+}
+
+
+.menu-list li:nth-child(5) #drop a:nth-child(2){
+
+display:none !important;
 }
 
 button{
