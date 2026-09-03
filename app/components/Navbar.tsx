@@ -84,12 +84,13 @@ function DropdownMenu({ label, items, href }: {
       className="relative"
       onMouseEnter={openMenu}
       onMouseLeave={close}
+      id="drop"
     >
       <div className="flex items-center">
         {href ? (
           <Link
             href={href}
-            className="py-2 pl-3 font-bold text-heading xl:text-[16px] lg:text-[14px] hover:text-fg-brand transition-colors duration-150"
+            className="py-2 pl-3 anchor font-bold text-heading xl:text-[16px] lg:text-[14px] hover:text-fg-brand transition-colors duration-150"
           >
             {label}
           </Link>
@@ -305,7 +306,7 @@ export default function Navbar({ navData }: { navData: NavData }) {
       <div className="width-92 flex items-center justify-between mx-auto px-4 py-3">
 
         {/* Desktop Menu */}
-        <ul className="hidden lg:flex items-center gap-3 font-medium" role="menubar">
+        <ul className="hidden menu-list lg:flex items-center gap-3 font-medium" role="menubar">
           <Link href="/" aria-label="Go to homepage">
             <img src={logoUrl} className="h-24 -mb-12 mr-0 xl:mr-10 lg:mr-3" alt={logoAlt} />
           </Link>
