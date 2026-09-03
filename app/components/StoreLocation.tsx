@@ -178,6 +178,7 @@ const HeroCard = ({ heroCardLabel, heroCardHeading, heroCardText }: any) => {
           backgroundSize: "contain",
           backgroundPosition: "right bottom",
           backgroundRepeat: "no-repeat",
+          height:"100%",
           mixBlendMode: "multiply" , 
         }}
       />
