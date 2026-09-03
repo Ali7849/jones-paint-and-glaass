@@ -51,7 +51,7 @@ const ServiceCard = ({ service }: { service: Service }) => {
 
         <a
           href={service.href || "#"}
-          className="text-[14px] font-semibold text-[#0052C6] hover:underline"
+          className="text-[14px] font-bold hover:underline"
         >
           Learn More →
         </a>

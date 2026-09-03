@@ -30,12 +30,12 @@ function BrandCard({ brand, index }: { brand: Brand; index: number }) {
       className="flex flex-col gap-4 group rounded-[16px] bg-[#F8F9FC] overflow-hidden hover:shadow-lg transition-shadow w-full h-full"
     >
       {/* Image Container */}
-      <div className="w-full h-[220px] rounded-[12px] overflow-hidden m-4 flex-shrink-0">
+      <div className="w-full h-[327px] rounded-[12px] overflow-hidden m-4 flex-shrink-0">
         <Image
           src={imageUrl}
           alt={brand.image?.alt || brand.name}
           width={240}
-          height={220}
+          height={327}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
       </div>
@@ -77,7 +77,7 @@ export default function Brands({
         {/* Grid based on count */}
         {count === 2 ? (
           /* 2 brands — 2 columns */
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-5xl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 ">
             {brands.map((brand, index) => (
               <BrandCard key={brand.id || index} brand={brand} index={index} />
             ))}
