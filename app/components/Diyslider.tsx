@@ -88,7 +88,6 @@ export default function Diyslider({
       });
   }, [showInstagram]);
 
-  // ✅ Key forces Swiper remount on tab switch so nav refs reconnect
   const handleBeforeInit = (swiper: SwiperType) => {
     if (
       typeof swiper.params.navigation === "object" &&
@@ -110,9 +109,11 @@ export default function Diyslider({
   const buttonActiveBg = darkBackground
     ? "bg-white text-[#0052C6] border-white"
     : "bg-[#0052C6] text-white border-[#0052C6]";
+  
+  // ✅ Updated hover state to use active color
   const buttonInactiveBg = darkBackground
-    ? "bg-transparent text-white border-white/40 hover:border-white/80"
-    : "bg-transparent text-[#0052C6] border-[#0052C6]/40 hover:border-[#0052C6]";
+    ? "bg-transparent text-white border-white/40 hover:bg-white/20 hover:text-[#0052C6] hover:border-white transition-all"
+    : "bg-transparent text-[#0052C6] border-[#0052C6]/40 hover:bg-[#0052C6]/10 hover:text-[#0052C6] hover:border-[#0052C6]/80 transition-all";
 
   // Shared Swiper props
   const swiperProps = {
@@ -153,7 +154,6 @@ export default function Diyslider({
       }
 
       return (
-        // ✅ key="instagram" forces remount when switching back to this tab
         <Swiper key="instagram" {...swiperProps}>
           {instagramPosts.map((post) => {
             const imageUrl =
@@ -201,34 +201,16 @@ export default function Diyslider({
       );
     }
 
-    // TikTok tab
-    if (slides.length === 0) {
+    // ✅ TikTok tab - show "No TikTok posts" message
+    if (activeTab === "tiktok") {
       return (
         <div className="flex items-center justify-center h-[300px]">
-          <p className="text-gray-400">No slides added.</p>
+          <p className="text-gray-400">TikTok integration is coming soon. Follow us on Instagram for now!</p>
         </div>
       );
     }
 
-    return (
-      <Swiper key="tiktok" {...swiperProps}>
-        {slides.map((slide, index) => (
-          <SwiperSlide key={slide.id || index}>
-            <div className="relative rounded-2xl overflow-hidden border border-gray-100 bg-white">
-              <div className="relative w-full h-[260px] sm:h-[320px] md:h-[380px] lg:h-[450px]">
-                <Image
-                  src={slide.image?.url ?? "/assets/jt/diy-1.png"}
-                  alt={slide.image?.alt ?? slide.name}
-                  fill
-                  className="object-cover object-center"
-                  priority={index === 0}
-                />
-              </div>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    );
+    return null;
   };
 
   return (
@@ -237,7 +219,6 @@ export default function Diyslider({
       {darkBackground && (
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-blue-600/30 blur-3xl" />
-          {/* <div className="absolute -bottom-24 -left-16 w-80 h-80 rounded-full bg-blue-500/20 blur-3xl" /> */}
         </div>
       )}
 
@@ -245,7 +226,7 @@ export default function Diyslider({
 
         {/* Header row */}
         <div className="container mx-auto flex flex-col md:flex-row md:items-end justify-between text-center md:text-start gap-6 mb-15 px-4 sm:px-6 md:px-12">
-          <div className="w-full xl:w-1/2 lg:w-2/3 md:w-2/3">
+          <div className="w-full xl:w-3/4 lg:w-3/4 md:w-3/4">
             <h2 className={`text-[28px] md:text-[34px] lg:text-[48px] font-bold ${headingColor} mb-3 leading-tight font-['Avenir']`}>
               {heading}
             </h2>

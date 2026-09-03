@@ -182,7 +182,7 @@ export default function Faqs() {
 
       {/*BUTTON */}
       <a
-        href="#"
+        href="/contact"
         className="group inline-flex items-center gap-2 rounded-[8px] bg-[#A5EBCD] px-5 py-3 text-[16px] font-bold text-black transition-colors relative z-3"
       >
         Ask Us Directly

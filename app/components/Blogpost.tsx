@@ -19,16 +19,9 @@ export default function Blogpost() {
                     {/* Author row */}
                     <div className="flex flex-col sm:flex-row items-center justify-between mb-8 space-y-8">
                         <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                                <svg className="w-8 h-8 text-black" viewBox="0 0 24 24" fill="none">
-                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                                    <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="1.5" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p className="text-[18px] font-semibold mb-1">Sarah Johnson</p>
-                                <p className="text-[16px]">Date • 5 min read</p>
-                            </div>
+                        
+                            <p className="text-[16px]">Date • 5 min read</p>
+                           
                         </div>
 
                         {/* Social icons */}
@@ -130,16 +123,9 @@ export default function Blogpost() {
 
                     {/* Bottom author */}
                     <div className="flex items-center gap-3 pt-8 border-t-2 border-[#000000]">
-                        <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                            <svg className="w-8 h-8 text-black" viewBox="0 0 24 24" fill="none">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                                <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="1.5" />
-                            </svg>
-                        </div>
-                        <div>
-                            <p className="text-[18px] font-semibold mb-1">Sarah Johnson</p>
-                            <p className="text-[16px]">Date • 5 min read</p>
-                        </div>
+
+                        <p className="text-[16px]">Date • 5 min read</p>
+                        
                     </div>
                 </div>
             </div>

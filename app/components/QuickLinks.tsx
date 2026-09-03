@@ -4,6 +4,7 @@ type QuickLink = {
   id?: string
   label: string
   href: string
+  opensInNewTab?: boolean
 }
 
 type QuickLinksBlockProps = {
@@ -11,6 +12,7 @@ type QuickLinksBlockProps = {
   subtext?: string
   buttonLabel?: string
   buttonHref?: string
+  buttonOpensInNewTab?: boolean
   links?: QuickLink[]
 }
 
@@ -19,6 +21,7 @@ export default function QuickLinks({
   subtext = "If you're ready to start talking project details, click the button below to get a quote or stop into your nearest JP&G location.",
   buttonLabel = 'Get a Quote',
   buttonHref = '#',
+  buttonOpensInNewTab = false,
   links = [],
 }: QuickLinksBlockProps) {
   return (
@@ -36,7 +39,9 @@ export default function QuickLinks({
         </div>
 
         
-        <a href={buttonHref}
+        <a  href={buttonHref}
+          target={buttonOpensInNewTab ? '_blank' : undefined}
+          rel={buttonOpensInNewTab ? 'noopener noreferrer' : undefined}
           className="mx-auto lg:mx-0 group inline-flex items-center gap-2 rounded-[8px] bg-[#A5EBCD] px-5 py-3 text-[16px] font-bold text-black transition-colors w-fit"
         >
           {buttonLabel}
@@ -53,6 +58,8 @@ export default function QuickLinks({
             
             <a  key={link.id || i}
               href={link.href}
+              target={link.opensInNewTab ? '_blank' : undefined}
+              rel={link.opensInNewTab ? 'noopener noreferrer' : undefined}
               className={`flex items-center justify-between py-5 group transition-all duration-300 ${
                 i === 1 ? 'border-y-2 border-[#16B6E9]' : ''
               }`}
