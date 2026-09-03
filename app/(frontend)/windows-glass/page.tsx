@@ -33,13 +33,12 @@ export default async function GlassPage() {
                 All the windows, mirrors, auto, shower and custom you need, with tips from JP&G pros.
               </p>
 
-              <div className="rounded-[16px] overflow-hidden w-full">
+              <div className="rounded-[16px] overflow-hidden w-full h-[365px]">
                 
                   <Image
                     src="/assets/jt/windows-glass.png"
                     alt="Glass Products"
-                    width={600}
-                    height={450}
+                    
                     className="w-full h-full object-cover"
                   />
                 

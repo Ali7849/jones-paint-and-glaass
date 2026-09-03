@@ -211,7 +211,6 @@ export default function Diyslider({
     }
 
     return (
-      // ✅ key="tiktok" forces remount when switching to this tab
       <Swiper key="tiktok" {...swiperProps}>
         {slides.map((slide, index) => (
           <SwiperSlide key={slide.id || index}>
@@ -238,7 +237,7 @@ export default function Diyslider({
       {darkBackground && (
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-blue-600/30 blur-3xl" />
-          <div className="absolute -bottom-24 -left-16 w-80 h-80 rounded-full bg-blue-500/20 blur-3xl" />
+          {/* <div className="absolute -bottom-24 -left-16 w-80 h-80 rounded-full bg-blue-500/20 blur-3xl" /> */}
         </div>
       )}
 
