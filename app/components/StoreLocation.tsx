@@ -39,12 +39,10 @@ const ServiceCard = ({ service }: { service: Service }) => {
 
   return (
     <div className="rounded-[16px] p-4 overflow-hidden bg-[#F4F7FF] flex flex-col h-[270px]">
-      <div className="w-full overflow-hidden rounded-[8px] h-[150px]">
+      <div className="w-full overflow-hidden rounded-[8px] h-full">
         <Image
           src={imageUrl}
           alt={imageAlt}
-          width={200}
-          height={150}
           className="w-full h-full object-cover"
         />
       </div>
@@ -53,7 +51,7 @@ const ServiceCard = ({ service }: { service: Service }) => {
 
         <a
           href={service.href || "#"}
-          className="text-[14px] font-semibold text-[#0052C6] hover:underline mt-auto"
+          className="text-[14px] font-semibold text-[#0052C6] hover:underline"
         >
           Learn More →
         </a>
@@ -110,9 +108,9 @@ const MultipleSpecialists = ({
   return (
     <div className="rounded-[16px] bg-black h-[584px] p-6 sm:p-8 flex flex-col relative overflow-hidden flex-shrink-0">
       <div
-        className="absolute right-0 bottom-0 w-full h-full pointer-events-none z-0"
+        className="absolute right-0 bottom-0 w-full h-[250px] pointer-events-none z-0"
         style={{
-          backgroundImage: "url(/assets/jt/elements/paint-23.png)",
+          backgroundImage: "url(/assets/jt/elements/specialist-asset.png)",
           backgroundSize: "contain",
           backgroundPosition: "right bottom",
           backgroundRepeat: "no-repeat",
@@ -125,7 +123,7 @@ const MultipleSpecialists = ({
         {specialists.map((specialist, index) => (
           <div key={specialist.id || index}>
             <div className="flex items-center gap-5 py-4">
-              <div className="relative w-[72px] h-[72px] flex-shrink-0">
+              <div className="relative w-[165px] h-[165px] flex-shrink-0">
                 <div className="w-full h-full rounded-full bg-white overflow-hidden">
                   <Image
                     src={
@@ -505,16 +503,17 @@ const Layout7Plus = ({
       {/* RIGHT: Hero + 2-Column Services Grid (70%) */}
       <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {/* Hero Card */}
-        <div className="col-span-1 row-span-1">
+        
+
+        {/* 2-Column Grid (7+ services, flexible wrapping) */}
+        <div className="grid grid-cols-2 gap-6">
+          <div className="col-span-1 row-span-1">
           <HeroCard
             heroCardLabel={heroCardLabel}
             heroCardHeading={heroCardHeading}
             heroCardText={heroCardText}
           />
         </div>
-
-        {/* 2-Column Grid (7+ services, flexible wrapping) */}
-        <div className="grid grid-cols-2 gap-6">
           {services.map((service: Service, i: number) => (
             <ServiceCard key={service.id || i} service={service} />
           ))}

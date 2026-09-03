@@ -27,26 +27,31 @@ function BrandCard({ brand, index }: { brand: Brand; index: number }) {
   return (
     
     <a  href={brandLink}
-      className="flex flex-col gap-3 group rounded-[16px] bg-[#F8F9FC] p-5 hover:shadow-md transition-shadow w-full"
+      className="flex flex-col gap-4 group rounded-[16px] bg-[#F8F9FC] overflow-hidden hover:shadow-lg transition-shadow w-full h-full"
     >
-      <div className="w-full rounded-[16px] overflow-hidden">
+      {/* Image Container */}
+      <div className="w-full h-[220px] rounded-[12px] overflow-hidden m-4 flex-shrink-0">
         <Image
           src={imageUrl}
           alt={brand.image?.alt || brand.name}
-          width={262}
-          height={348}
-          className="w-full h-full md:h-[348px] object-cover group-hover:scale-105 transition-transform duration-300"
+          width={240}
+          height={220}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
       </div>
-      <p className="font-semibold text-[18px] text-center group-hover:text-[#0052C6] transition-colors font-['Avenir']">
-        {brand.name}
-      </p>
+
+      {/* Brand Name */}
+      <div className="px-4 pb-4 flex-1 flex items-end">
+        <p className="font-semibold text-[18px] text-center w-full group-hover:text-[#0052C6] transition-colors font-['Avenir']">
+          {brand.name}
+        </p>
+      </div>
     </a>
   );
 }
 
 export default function Brands({
-  label = 'Exterior Paint',
+  label = 'Featured Brands',
   heading = 'Brands We Sell',
   footnote,
   brands = [],
@@ -54,10 +59,6 @@ export default function Brands({
   if (!brands || brands.length === 0) return null;
 
   const count = brands.length;
-  const isThree = count === 3;
-  const isSeven = count === 7;
-  const topFour = isSeven ? brands.slice(0, 4) : [];
-  const bottomThree = isSeven ? brands.slice(4) : [];
 
   return (
     <section className="py-14 md:py-20 bg-white">
@@ -65,47 +66,76 @@ export default function Brands({
 
         {/* Header */}
         {label && (
-          <p className="text-[16px] font-bold tracking-[0.18em] text-[#0052C6] uppercase mb-3 font-['Avenir']">
+          <p className="text-[14px] font-bold tracking-[0.18em] text-[#0052C6] uppercase mb-2 font-['Avenir']">
             {label}
           </p>
         )}
-        <h2 className="text-[32px] md:text-[48px] font-extrabold mb-10 font-['Avenir']">
+        <h2 className="text-[36px] md:text-[48px] font-extrabold mb-12 font-['Avenir']">
           {heading}
         </h2>
 
-        {isThree ? (
-          /* 3 brands — equal width single row */
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        {/* Grid based on count */}
+        {count === 2 ? (
+          /* 2 brands — 2 columns */
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-5xl">
             {brands.map((brand, index) => (
               <BrandCard key={brand.id || index} brand={brand} index={index} />
             ))}
           </div>
-        ) : isSeven ? (
-          /* 7 brands — 2x2 top, 3-col bottom */
-          <div className="flex flex-col gap-5">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              {topFour.map((brand, index) => (
+        ) : count === 3 ? (
+          /* 3 brands — 3 columns */
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {brands.map((brand, index) => (
+              <BrandCard key={brand.id || index} brand={brand} index={index} />
+            ))}
+          </div>
+        ) : count <= 4 ? (
+          /* 4 brands — 2x2 grid */
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-4xl">
+            {brands.map((brand, index) => (
+              <BrandCard key={brand.id || index} brand={brand} index={index} />
+            ))}
+          </div>
+        ) : count === 5 ? (
+          /* 5 brands — 3 top, 2 bottom centered */
+          <div className="flex flex-col gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              {brands.slice(0, 3).map((brand, index) => (
                 <BrandCard key={brand.id || index} brand={brand} index={index} />
               ))}
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-              {bottomThree.map((brand, index) => (
-                <BrandCard key={brand.id || (index + 4)} brand={brand} index={index + 4} />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
+              {brands.slice(3, 5).map((brand, index) => (
+                <BrandCard key={brand.id || (index + 3)} brand={brand} index={index + 3} />
               ))}
             </div>
           </div>
-        ) : (
-          /* Generic — any other count */
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 justify-items-center">
+        ) : count === 6 ? (
+          /* 6 brands — 2x3 grid */
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {brands.map((brand, index) => (
               <BrandCard key={brand.id || index} brand={brand} index={index} />
             ))}
+          </div>
+        ) : (
+          /* 7+ brands — 2x2 top, 3+ bottom */
+          <div className="flex flex-col gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {brands.slice(0, 4).map((brand, index) => (
+                <BrandCard key={brand.id || index} brand={brand} index={index} />
+              ))}
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+              {brands.slice(4).map((brand, index) => (
+                <BrandCard key={brand.id || (index + 4)} brand={brand} index={index + 4} />
+              ))}
+            </div>
           </div>
         )}
 
         {/* Footnote */}
         {footnote && (
-          <p className="text-center text-[16px] mt-15 text-gray-600 font-['Avenir']">
+          <p className="text-center text-[16px] mt-12 text-gray-600 font-['Avenir']">
             {footnote}
           </p>
         )}

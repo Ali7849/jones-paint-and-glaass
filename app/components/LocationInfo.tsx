@@ -84,7 +84,7 @@ export default function LocationInfo({
                 </svg>
               </a>
               
-              <a  href={directionsLink}
+              <a  href={directionsLink} target="_blank"
                 className="group inline-flex items-center gap-2 rounded-[8px] border border-white px-5 py-3 text-[16px] font-bold text-white transition"
               >
                 {directionsButtonText}
