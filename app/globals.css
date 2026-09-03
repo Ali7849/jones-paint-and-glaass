@@ -135,6 +135,10 @@ body {
 
 }
 
+.swatch-width{
+  width:350px !important;
+}
+
 /* Component Product Service */
 
 #service-element-2 {

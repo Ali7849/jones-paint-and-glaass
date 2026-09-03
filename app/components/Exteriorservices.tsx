@@ -279,7 +279,7 @@ export default function ExteriorServices({
 
       {paintswatch?.url && (
         <div
-          className="pointer-events-none absolute -top-10 right-0 w-full h-56 lg:h-150 z-0"
+          className="pointer-events-none absolute -top-10 right-0 w-87.5 h-56 lg:h-150 z-0"
           style={{
             backgroundImage: `url(${paintswatch.url})`,
             backgroundSize: "contain",
