@@ -145,9 +145,11 @@ export default function Inquireform({
             <h3 className="text-[24px] md:text-[28px] lg:text-[32px] font-bold text-black mb-4 leading-tight font-['Avenir']">
               {corporateHeading}
             </h3>
-            <a href={`tel:${phone?.replace(/-/g, '')}`} className="block text-[18px] font-medium text-[#0052C6] hover:underline mb-1">
+            <h5>
+              <a href={`tel:${phone?.replace(/-/g, '')}`} className="block text-[18px] font-medium text-[#0052C6] hover:underline mb-1">
               {phone}
             </a>
+            </h5>
           </div>
 
           {/* Right: Form */}

@@ -31,6 +31,12 @@ const Footer: GlobalConfig = {
       defaultValue: '/contact',
     },
     {
+      name: 'ctaOpensInNewTab',
+      type: 'checkbox',
+      label: 'CTA Opens in new tab',
+      defaultValue: false,
+    },
+    {
       name: 'copyrightText',
       type: 'text',
       defaultValue: '© 2026 Jones Paint & Glass. All rights reserved.',
@@ -50,6 +56,12 @@ const Footer: GlobalConfig = {
           type: 'text',
           required: true,
         },
+        {
+          name: 'opensInNewTab',
+          type: 'checkbox',
+          label: 'Opens in new tab',
+          defaultValue: false,
+        },
       ],
     },
     {
@@ -66,6 +78,12 @@ const Footer: GlobalConfig = {
           name: 'href',
           type: 'text',
           required: true,
+        },
+        {
+          name: 'opensInNewTab',
+          type: 'checkbox',
+          label: 'Opens in new tab',
+          defaultValue: true,
         },
         {
           name: 'icon',
