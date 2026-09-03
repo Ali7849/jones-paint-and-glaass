@@ -1,18 +1,22 @@
 import type { GlobalConfig } from 'payload'
 
-const Navigation: GlobalConfig = {
-  slug: 'navigation',
+const Footer: GlobalConfig = {
+  slug: 'footer',
   admin: {
     group: 'Settings',
-
   },
   access: {
     read: () => true,
-    update: ({ req }) => !!req.user, // ✅ any logged in user can update
+    update: ({ req }) => !!req.user,
   },
   fields: [
     {
       name: 'logo',
+      type: 'upload',
+      relationTo: 'media' as any,
+    },
+    {
+      name: 'backgroundImage',
       type: 'upload',
       relationTo: 'media' as any,
     },
@@ -27,62 +31,68 @@ const Navigation: GlobalConfig = {
       defaultValue: '/contact',
     },
     {
-      name: 'navItems',
+      name: 'ctaOpensInNewTab',
+      type: 'checkbox',
+      label: 'CTA Opens in new tab',
+      defaultValue: false,
+    },
+    {
+      name: 'copyrightText',
+      type: 'text',
+      defaultValue: '© 2026 Jones Paint & Glass. All rights reserved.',
+    },
+    {
+      name: 'homeLinks',
       type: 'array',
-      label: 'Nav Items',
+      label: 'Home Links',
       fields: [
-        {
-          name: 'type',
-          type: 'select',
-          options: ['link', 'dropdown'],
-          required: true,
-        },
         {
           name: 'label',
           type: 'text',
-          label: 'Label / Title',
           required: true,
         },
         {
-          // ✅ shown for BOTH link and dropdown
           name: 'href',
           type: 'text',
-          label: 'Page Link (Slug)',
-          admin: {
-            description: 'e.g. /media — this makes the label itself clickable',
-          },
+          required: true,
         },
         {
-          name: 'items',
-          type: 'array',
-          label: 'Dropdown Items',
-          admin: {
-            description: 'Add sub-links that appear in the dropdown menu',
-            condition: (_, siblingData) => siblingData?.type === 'dropdown',
-          },
-          fields: [
-            {
-              name: 'label',
-              type: 'text',
-              label: 'Label',
-              required: true,
-            },
-            {
-              name: 'href',
-              type: 'text',
-              label: 'Link (Slug)',
-              required: true,
-            },
-            {
-              name: 'description',
-              type: 'text',
-              label: 'Description (optional)',
-            },
-          ],
+          name: 'opensInNewTab',
+          type: 'checkbox',
+          label: 'Opens in new tab',
+          defaultValue: false,
+        },
+      ],
+    },
+    {
+      name: 'socialLinks',
+      type: 'array',
+      label: 'Social Links',
+      fields: [
+        {
+          name: 'label',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'href',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'opensInNewTab',
+          type: 'checkbox',
+          label: 'Opens in new tab',
+          defaultValue: true, // Social links usually open in new tab
+        },
+        {
+          name: 'icon',
+          type: 'upload',
+          relationTo: 'media' as any,
         },
       ],
     },
   ],
 }
 
-export default Navigation
+export default Footer

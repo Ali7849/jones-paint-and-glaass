@@ -171,7 +171,6 @@ const MultipleSpecialists = ({
 const HeroCard = ({ heroCardLabel, heroCardHeading, heroCardText }: any) => {
   return (
     <div className="rounded-[16px] bg-[#0052C6] overflow-hidden relative p-6 flex flex-col justify-start h-[270px]">
-      {/* Paint Swatch with "Plus Darker" Blend Mode */}
       <div
         className="absolute right-0 bottom-0 w-full h-full pointer-events-none"
         style={{
@@ -179,8 +178,7 @@ const HeroCard = ({ heroCardLabel, heroCardHeading, heroCardText }: any) => {
           backgroundSize: "contain",
           backgroundPosition: "right bottom",
           backgroundRepeat: "no-repeat",
-          height: "60%",
-          mixBlendMode: "darken", // ✅ Figma "Plus Darker" = CSS "darken"
+          mixBlendMode: "multiply" , 
         }}
       />
       
@@ -192,7 +190,7 @@ const HeroCard = ({ heroCardLabel, heroCardHeading, heroCardText }: any) => {
         <h3 className="text-white text-[28px] font-bold leading-tight mb-3">
           {heroCardHeading}
         </h3>
-        <p className="text-white text-[14px] leading-relaxed">{heroCardText}</p>
+        <p className="text-white text-[14px] leading-relaxed w-5/6">{heroCardText}</p>
       </div>
     </div>
   );

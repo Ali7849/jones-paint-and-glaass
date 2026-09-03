@@ -6,14 +6,13 @@ export default function Footer({ footerData }: { footerData: any }) {
   const bgUrl = footerData?.backgroundImage?.url || '/assets/images/footer.png'
 
   const homeLinks = footerData?.homeLinks ?? [
-    { label: 'Locations', href: '/locations' },
-    { label: 'About', href: '/about' },
-    { label: 'FAQs', href: '/faqs' },
-    { label: 'Contact', href: '/contact' },
-    { label: 'Careers', href: '/careers' },
+    { label: 'Locations', href: '/locations', opensInNewTab: false },
+    { label: 'About', href: '/about', opensInNewTab: false },
+    { label: 'FAQs', href: '/faqs', opensInNewTab: false },
+    { label: 'Contact', href: '/contact', opensInNewTab: false },
+    { label: 'Careers', href: '/careers', opensInNewTab: false },
   ]
 
-  // const locations = footerData?.locations ?? []
   const paintItems = footerData?.paintItems ?? []
   const glassItems = footerData?.glassItems ?? []
   const doorsItems = footerData?.doorsItems ?? []
@@ -32,19 +31,12 @@ export default function Footer({ footerData }: { footerData: any }) {
           
           <FooterColumn title="HOME" items={homeLinks} />
 
-          {/* <FooterColumn
-            title="LOCATIONS"
-            items={locations.map((item: any) => ({
-              label: item.name,
-              href: `/${item.slug}`,
-            }))}
-          /> */}
-
           <FooterColumn
             title="GLASS"
             items={glassItems.map((item: any) => ({
               label: item.name,
               href: `/${item.slug}`,
+              opensInNewTab: false,
             }))}
           />
 
@@ -53,6 +45,7 @@ export default function Footer({ footerData }: { footerData: any }) {
             items={paintItems.map((item: any) => ({
               label: item.name,
               href: `/${item.slug}`,
+              opensInNewTab: false,
             }))}
           />
 
@@ -61,6 +54,7 @@ export default function Footer({ footerData }: { footerData: any }) {
             items={doorsItems.map((item: any) => ({
               label: item.name,
               href: `/${item.slug}`,
+              opensInNewTab: false,
             }))}
           />
         </div>
@@ -76,6 +70,8 @@ export default function Footer({ footerData }: { footerData: any }) {
 
           <Link
             href={footerData?.ctaLink || '/contact'}
+            target={footerData?.ctaOpensInNewTab ? '_blank' : undefined}
+            rel={footerData?.ctaOpensInNewTab ? 'noopener noreferrer' : undefined}
             className="bg-[#A5EBCD] flex items-center mt-4 py-2 px-4 rounded font-medium"
           >
             {footerData?.ctaText || 'Get a Quote'}
@@ -93,7 +89,12 @@ export default function Footer({ footerData }: { footerData: any }) {
 
         <div className="social flex space-x-4">
           {footerData?.socialLinks?.map((social: any, i: number) => (
-            <Link key={i} href={social.href || '#'} target="_blank">
+            <Link
+              key={i}
+              href={social.href || '#'}
+              target={social.opensInNewTab ? '_blank' : undefined}
+              rel={social.opensInNewTab ? 'noopener noreferrer' : undefined}
+            >
               <img
                 src={social?.icon?.url}
                 alt={social.label}
@@ -112,7 +113,7 @@ function FooterColumn({
   items,
 }: {
   title: string
-  items: { label: string; href: string }[]
+  items: { label: string; href: string; opensInNewTab?: boolean }[]
 }) {
   return (
     <div>
@@ -120,7 +121,13 @@ function FooterColumn({
       <ul className="space-y-2 text-[12px]">
         {items?.map((item, i) => (
           <li key={i}>
-            <Link href={item.href}>{item.label}</Link>
+            <Link
+              href={item.href}
+              target={item.opensInNewTab ? '_blank' : undefined}
+              rel={item.opensInNewTab ? 'noopener noreferrer' : undefined}
+            >
+              {item.label}
+            </Link>
           </li>
         ))}
       </ul>
