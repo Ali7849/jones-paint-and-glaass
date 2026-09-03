@@ -47,7 +47,7 @@ export default function Features({
 
         {/* Subtitle */}
         {subtext && (
-          <p className="text-white/80 text-[18px] lg:text-[24px] leading-relaxed pb-10 md:pb-16">
+          <p className="text-white/80 text-[18px] lg:text-[20px] leading-relaxed pb-10 md:pb-16 mt-6">
             {subtext}
           </p>
         )}

@@ -107,26 +107,7 @@ export default function ShareIconsClient({ title }: ShareIconsClientProps) {
       </button>
 
       {/* TikTok */}
-      
-      <a  href="https://www.tiktok.com/@jonespaintandglass"
-        target="_blank"
-        rel="noopener noreferrer"
-        title="Follow on TikTok"
-        className="rounded flex items-center justify-center hover:opacity-70 transition-opacity"
-      >
-        <img src="/assets/jt/elements/tiktok.png" alt="TikTok" className="w-6 h-6" />
-      </a>
-
-      {/* YouTube */}
-      
-      <a  href="https://www.youtube.com/@JonesPaintGlassInc"
-        target="_blank"
-        rel="noopener noreferrer"
-        title="Subscribe on YouTube"
-        className="rounded flex items-center justify-center hover:opacity-70 transition-opacity"
-      >
-        <img src="/assets/jt/elements/youtube.png" alt="YouTube" className="w-6 h-6" />
-      </a>
+     
 
       {/* Tooltip for copy feedback */}
       {copied && (

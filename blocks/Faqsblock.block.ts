@@ -38,7 +38,7 @@ export const FaqsBlock: Block = {
     {
       name: 'buttonLink',
       type: 'text',
-      defaultValue: '#',
+      defaultValue: '/contact',
       admin: {
         description: 'Link for the call-to-action button',
       },

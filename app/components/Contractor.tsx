@@ -1,14 +1,11 @@
 'use client'
-
 import { useState } from 'react'
-
 type FAQ = {
   id?: string
   question: string
   answer: string
   highlight?: string
 }
-
 type GalleryImage = {
   id?: string
   image: {
@@ -18,7 +15,6 @@ type GalleryImage = {
   description: string
   title: string
 }
-
 type ContractorBlockProps = {
   heading?: string
   description?: string
@@ -48,7 +44,6 @@ type ContractorBlockProps = {
   bottomRightImageDescription?: string
   bottomRightImageTitle?: string
 }
-
 function AccordionItem({
   index,
   question,
@@ -80,7 +75,6 @@ function AccordionItem({
           {isOpen ? '−' : '+'}
         </span>
       </button>
-
       <div
         className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
           }`}
@@ -97,7 +91,6 @@ function AccordionItem({
     </div>
   )
 }
-
 export default function Contractor({
   heading = 'Contractor Services',
   description = "We're DIY pros, but we also provide products and services to contractors throughout Utah.",
@@ -118,37 +111,21 @@ export default function Contractor({
   bottomRightImageDescription = 'Open Floor Plan with Mountain View',
   bottomRightImageTitle,
 }: ContractorBlockProps) {
-  // ✅ Don't render if no required data provided
-//   if (!faqs || faqs.length === 0) {
-//     return null
-//   }
-
-//   if (!largeImage || !topRowImages || topRowImages.length === 0 || !bottomLeftImage || !bottomRightImage) {
-//     return null
-//   }
-
   const [openId, setOpenId] = useState<string | null>(
     faqs && faqs.length > 0 ? faqs[0].id || '0' : null
   )
-
   const toggle = (id: string | undefined) => {
     if (id) {
       setOpenId((prev) => (prev === id ? null : id))
     }
   }
-
- const getImageUrl = (image: any): string => {
-  const fallback = '/assets/jt/default.jpg'
-
-  if (!image) return fallback
-
-  const url = typeof image === 'string' ? image : image?.url
-
-  if (!url || url.trim() === '') return fallback
-
-  return url
-}
-
+  const getImageUrl = (image: any): string => {
+    const fallback = '/assets/jt/default.jpg'
+    if (!image) return fallback
+    const url = typeof image === 'string' ? image : image?.url
+    if (!url || url.trim() === '') return fallback
+    return url
+  }
   return (
     <section className="relative z-1 bg-white py-16 md:py-24 overflow-hidden">
       <div
@@ -175,8 +152,8 @@ export default function Contractor({
               {description}
             </p>
             <div className="flex flex-wrap justify-center lg:justify-start gap-3">
-              <a
-                href={primaryButtonLink}
+              
+              <a  href={primaryButtonLink}
                 className="group inline-flex items-center gap-2 rounded-[8px] bg-[#0052C6] px-5 py-3 text-[16px] font-semibold text-white hover:bg-black transition-colors"
               >
                 {primaryButtonText}
@@ -194,8 +171,8 @@ export default function Contractor({
                   />
                 </svg>
               </a>
-              <a
-                href={secondaryButtonLink}
+              
+              <a  href={secondaryButtonLink}
                 className="group inline-flex items-center gap-2 rounded-[8px] border border-2 border-[#0052C6] px-5 py-3 text-[16px] font-semibold text-[#0052C6] hover:text-black hover:border-black hover:bg-transparent transition-colors"
               >
                 {secondaryButtonText}
@@ -215,7 +192,6 @@ export default function Contractor({
               </a>
             </div>
           </div>
-
           {/* Right: Accordion */}
           <div className="lg:w-[60%] w-full">
             {faqs.map((faq, i) => (
@@ -232,7 +208,6 @@ export default function Contractor({
           </div>
         </div>
       </div>
-
       {/* Gallery Section */}
       <div className="bg-white pt-12 px-4 md:px-6">
         <div className="container mx-auto">
@@ -241,25 +216,23 @@ export default function Contractor({
               {galleryTitle}
             </h2>
           </div>
-
           {/* Grid */}
           <div className="grid grid-cols-2 lg:grid-cols-4 grid-rows-2 gap-4 sm:gap-7 h-fit lg:h-[600px]">
             {/* Left large image — spans 2 rows */}
-            <div className="relative col-span-1 row-span-2 rounded-2xl overflow-hidden">
+            <div className="relative col-span-1 row-span-2 rounded-2xl overflow-hidden group cursor-pointer">
               <img
                 src={getImageUrl(largeImage)}
                 alt={largeImageTitle}
                 className="w-full h-full object-cover"
               />
-              {/* Caption overlay */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-white/80 to-transparent px-2 sm:px-4 pb-5 pt-30 rounded-b-2xl">
-                <div className="mx-auto w-full sm:w-[80%] flex flex-col font-['Avenir']">
+              {/* Caption overlay with hover state */}
+              <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl flex flex-col justify-end px-2 sm:px-4 pb-5">
+                <div className="w-full sm:w-[80%] flex flex-col font-['Avenir']">
                   <p className="text-black text-[14px] font-bold leading-tight">{largeImageTitle}</p>
                   <p className="text-black/80 text-[14px] mt-0.5">{largeImageSubtitle}</p>
                 </div>
               </div>
             </div>
-
             {/* Top row — 3 images */}
             {topRowImages.slice(0, 3).map((item, i) => (
               <div key={i} className="relative rounded-2xl overflow-hidden group cursor-pointer">
@@ -269,17 +242,15 @@ export default function Contractor({
                   alt={item.description}
                   className="w-full h-full object-cover"
                 />
-
-                {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl  items-end p-4">
-                  <p className="text-black text-[14px] font-bold leading-tight">{item.title}</p> <br/>
+                {/* Hover Overlay with text at bottom */}
+                <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl flex flex-col justify-end p-4">
+                  <p className="text-black text-[14px] font-bold leading-tight">{item.title}</p> 
                   <p className="text-black/80 text-[14px] leading-tight w-full sm:w-[80%]">
                     {item.description}
                   </p>
                 </div>
               </div>
             ))}
-
             {/* Bottom left small image */}
             <div className="relative rounded-2xl overflow-hidden group cursor-pointer">
               <img
@@ -287,14 +258,14 @@ export default function Contractor({
                 alt={bottomLeftImageDescription}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl items-end p-4">
-                  <p className="text-black text-[14px] font-bold leading-tight">{bottomLeftImageTitle}</p>
-                <p className="text-black/80 text-sm  w-full sm:w-[80%]">
+              {/* Hover Overlay with text at bottom */}
+              <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl flex flex-col justify-end p-4">
+                <p className="text-black text-[14px] font-bold leading-tight">{bottomLeftImageTitle}</p>
+                <p className="text-black/80 text-[14px] leading-tight w-full sm:w-[80%]">
                   {bottomLeftImageDescription}
                 </p>
               </div>
             </div>
-
             {/* Bottom right large image — spans 2 columns */}
             <div className="relative col-span-2 rounded-2xl overflow-hidden group cursor-pointer">
               <img
@@ -302,10 +273,10 @@ export default function Contractor({
                 alt={bottomRightImageDescription}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl  items-end p-4">
-                  <p className="text-black text-[14px] font-bold leading-tight">{bottomRightImageTitle}</p>
-                
-                <p className="text-black/80 text-sm w-full sm:w-[80%]">
+              {/* Hover Overlay with text at bottom */}
+              <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl flex flex-col justify-end p-4">
+                <p className="text-black text-[14px] font-bold leading-tight">{bottomRightImageTitle}</p>
+                <p className="text-black/80 text-[14px] leading-tight w-full sm:w-[80%]">
                   {bottomRightImageDescription}
                 </p>
               </div>

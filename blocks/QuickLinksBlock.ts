@@ -37,6 +37,12 @@ export const QuickLinksBlock: Block = {
       label: 'Button Link',
     },
     {
+      name: 'buttonOpensInNewTab',
+      type: 'checkbox',
+      label: 'Button opens in new tab',
+      defaultValue: false,
+    },
+    {
       name: 'links',
       type: 'array',
       label: 'Quick Links',
@@ -55,6 +61,12 @@ export const QuickLinksBlock: Block = {
           required: true,
           defaultValue: '#',
           label: 'Link URL',
+        },
+        {
+          name: 'opensInNewTab',
+          type: 'checkbox',
+          label: 'Opens in new tab',
+          defaultValue: false,
         },
       ],
     },
