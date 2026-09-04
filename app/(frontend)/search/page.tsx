@@ -63,7 +63,7 @@ export default async function SearchPage({
 
             {/* Back to blog */}
             <Link
-              href="/blog"
+              href="/blogs"
               className="inline-flex items-center gap-2 text-[#0052C6] font-semibold text-[16px] hover:underline"
             >
               ← Back to Blog
