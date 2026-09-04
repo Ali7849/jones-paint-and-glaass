@@ -90,7 +90,7 @@ export default async function BlogPage({
 
             {/* Breadcrumb */}
             <p className="text-[16px] text-center sm:text-start font-bold tracking-[0.12em] text-[#0052C6] uppercase mb-3">
-              <Link href="/blog">Blog</Link>
+              <Link href="/blogs">Blog</Link>
               {blog.category && <> &gt; {blog.category}</>}
             </p>
 
@@ -111,7 +111,7 @@ export default async function BlogPage({
                   </p>
                   <p className="text-[16px]">
                     {formattedDate}
-                    {blog.readTime && ` • ${blog.readTime}`}
+                   
                   </p>
                 </div>
               </div>
@@ -181,7 +181,7 @@ export default async function BlogPage({
                   </p>
                   <p className="text-[16px]">
                     {formattedDate}
-                    {blog.readTime && ` • ${blog.readTime}`}
+                    
                   </p>
                 </div>
               </div>

@@ -7,7 +7,6 @@ type Blog = {
   title: string
   slug?: string
   category?: string
-  readTime?: string
   content?: any
   image?: {
     url: string
@@ -84,18 +83,14 @@ export default function RecommendBlog({
                     )}
                   </div>
 
-                  {/* Keyword + read time */}
+                  {/* Keyword */}
                   <div className="flex items-center gap-4 mb-3">
                     {blog.category && (
                       <span className="text-[16px] font-semibold bg-gray-100 px-2.5 py-1">
                         {blog.category}
                       </span>
                     )}
-                    {blog.readTime && (
-                      <span className="text-[16px] font-semibold text-black">
-                        {blog.readTime}
-                      </span>
-                    )}
+                    
                   </div>
 
                   {/* Title */}
@@ -133,7 +128,7 @@ export default function RecommendBlog({
 
       </div>
 
-      {/* Background shape */}
+      {/* Background shape
       <div
         className="pointer-events-none absolute -bottom-30 md:-bottom-50 left-0 w-45 h-45 md:w-75 md:h-75 z-0 md:z-3"
         style={{
@@ -142,7 +137,7 @@ export default function RecommendBlog({
           backgroundRepeat: "no-repeat",
           backgroundPosition: "bottom left",
         }}
-      />
+      /> */}
     </section>
   )
 }
