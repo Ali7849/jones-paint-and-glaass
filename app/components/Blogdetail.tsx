@@ -87,7 +87,7 @@ export default function BlogDetail({
       setLoading(true)
       try {
        const res = await fetch(
-          `/api/blogs?limit=${BLOGS_PER_PAGE}&page=${currentPage}&sort=-publishedDate&depth=1&where[_status][equals]=published`
+          `/api/blog-list?limit=${BLOGS_PER_PAGE}&page=${currentPage}&sort=-publishedDate&depth=1`
         )
         const data = await res.json()
         setBlogs(data.docs || [])

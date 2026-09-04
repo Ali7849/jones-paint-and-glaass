@@ -144,18 +144,12 @@ export default async function BlogPage({
             {/* Author row */}
             <div className="flex flex-col sm:flex-row items-center justify-between mb-8 space-y-8">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                  <img src="/assets/images/logo.png" alt="Jones paint and glass" className="w-8 h-8 rounded-full" />
-                </div>
-                <div>
-                  <p className="text-[18px] font-semibold mb-1">
-                    {blog.author || 'Jones Paint & Glass'}
-                  </p>
+                
                   <p className="text-[16px]">
                     {formattedDate}
                    
                   </p>
-                </div>
+                
               </div>
 
               {/* Top social icons */}
@@ -214,18 +208,12 @@ export default async function BlogPage({
 
               {/* Bottom author */}
               <div className="flex items-center gap-3 pt-8 border-t-2 border-black">
-                <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                  <img src="/assets/images/logo.png" alt="Jones paint and glass" className="w-8 h-8 rounded-full" />
-                </div>
-                <div>
-                  <p className="text-[18px] font-semibold mb-1">
-                    {blog.author || 'Jones Paint & Glass'}
-                  </p>
-                  <p className="text-[16px]">
-                    {formattedDate}
-                    
-                  </p>
-                </div>
+
+                <p className="text-[16px]">
+                  {formattedDate}
+                  
+                </p>
+               
               </div>
             </div>
 
