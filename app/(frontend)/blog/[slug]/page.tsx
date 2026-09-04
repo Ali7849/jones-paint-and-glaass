@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { notFound } from 'next/navigation'
@@ -11,6 +12,54 @@ import ShareIconsClient from '@/app/components/ShareIconsClient'
 
 export const dynamic = 'force-dynamic'
 
+async function getBlog(slug: string) {
+  const payload = await getPayload({ config })
+  const { docs } = await (payload as any).find({
+    collection: 'blogs',
+    where: {
+      slug: { equals: slug },
+      published: { equals: true },
+    },
+    depth: 2,
+    limit: 1,
+  })
+  return docs[0] ?? null
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const blog = await getBlog(slug)
+
+  if (!blog) return { title: 'Post not found' }
+
+  const ogImage = blog.ogImage?.url || blog.image?.url
+
+  return {
+    title: blog.metaTitle || blog.title,
+    description: blog.metaDescription || undefined,
+    alternates: blog.canonicalUrl ? { canonical: blog.canonicalUrl } : undefined,
+    robots: blog.noindex ? { index: false, follow: true } : undefined,
+    openGraph: {
+      title: blog.metaTitle || blog.title,
+      description: blog.metaDescription || undefined,
+      type: 'article',
+      publishedTime: blog.publishedDate || undefined,
+      authors: blog.author ? [blog.author] : undefined,
+      images: ogImage ? [{ url: ogImage, width: 1200, height: 630 }] : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: blog.metaTitle || blog.title,
+      description: blog.metaDescription || undefined,
+      images: ogImage ? [ogImage] : undefined,
+    },
+  }
+}
+
 export default async function BlogPage({
   params,
 }: {
@@ -19,15 +68,8 @@ export default async function BlogPage({
   const { slug } = await params
   const navData = await getNavigation()
   const footerData = await getFooter()
-  const payload = await getPayload({ config })
-  const { docs } = await (payload as any).find({
-    collection: 'blogs',
-    where: { slug: { equals: slug } },
-    depth: 2,
-    limit: 1,
-  })
+  const blog = await getBlog(slug)
 
-  const blog = docs[0]
   if (!blog) return notFound()
 
   const formattedDate = blog.publishedDate
@@ -90,7 +132,7 @@ export default async function BlogPage({
 
             {/* Breadcrumb */}
             <p className="text-[16px] text-center sm:text-start font-bold tracking-[0.12em] text-[#0052C6] uppercase mb-3">
-              <Link href="/blogs">Blog</Link>
+              <Link href="/blogs">Blogs</Link>
               {blog.category && <> &gt; {blog.category}</>}
             </p>
 

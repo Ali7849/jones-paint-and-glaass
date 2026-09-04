@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { GoogleTagManager } from "@next/third-parties/google";
+import { getAnalytics } from "@/lib/getAnalytics";
 import "../globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -41,9 +43,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function FrontendLayout({ children }: { children: React.ReactNode }) {
+export default async function FrontendLayout({ children }: { children: React.ReactNode }) {
+  const analytics = await getAnalytics();
+  const gtmId = analytics?.gtmEnabled ? analytics.gtmId : null;
+
   return (
     <html lang="en" suppressHydrationWarning>
+      {gtmId && <GoogleTagManager gtmId={gtmId} />}
       <body className={`${geistSans.variable} ${geistMono.variable} min-h-full flex flex-col`}>
         {children}
       </body>

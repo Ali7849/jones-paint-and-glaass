@@ -16,6 +16,7 @@ import Doors from './collections/Doors'
 import Blogs from './collections/Blogs'
 import Footer from './collections/Footer'
 import Redirects from './collections/Redirects'
+import Analytics from './collections/Analytics'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -62,6 +63,7 @@ export default buildConfig({
   globals: [
     Navigation,
     Footer,
+    Analytics,
   ],
 
   plugins: [
