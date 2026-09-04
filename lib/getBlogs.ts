@@ -1,17 +1,39 @@
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 
-export async function getBlogs() {
+export async function getBlogs(limit = 100) {
   try {
     const payload = await getPayload({ config: configPromise })
     const result = await payload.find({
       collection: 'blogs' as any,
       where: { published: { equals: true } },
-      limit: 100,
+      sort: '-publishedDate',
+      limit,
       depth: 2,
     })
     return result.docs ?? []
-  } catch {
+  } catch (err) {
+    console.error('getBlogs error:', err)
+    return []
+  }
+}
+
+export async function getBlogsByCategory(category: string, limit = 100) {
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const result = await payload.find({
+      collection: 'blogs' as any,
+      where: {
+        published: { equals: true },
+        category: { equals: category },
+      },
+      sort: '-publishedDate',
+      limit,
+      depth: 2,
+    })
+    return result.docs ?? []
+  } catch (err) {
+    console.error('getBlogsByCategory error:', err)
     return []
   }
 }
@@ -21,12 +43,16 @@ export async function getBlogBySlug(slug: string) {
     const payload = await getPayload({ config: configPromise })
     const result = await payload.find({
       collection: 'blogs' as any,
-      where: { slug: { equals: slug } },
+      where: {
+        slug: { equals: slug },
+        published: { equals: true },
+      },
       depth: 2,
       limit: 1,
     })
     return result.docs[0] ?? null
-  } catch {
+  } catch (err) {
+    console.error('getBlogBySlug error:', err)
     return null
   }
 }
@@ -40,7 +66,8 @@ export async function getBlogById(id: string) {
       depth: 2,
     })
     return result ?? null
-  } catch {
+  } catch (err) {
+    console.error('getBlogById error:', err)
     return null
   }
 }
