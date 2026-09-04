@@ -18,7 +18,7 @@ const Locations: CollectionConfig = {
     delete: ({ req }) => !!req.user,
   },
   fields: [
-   {
+    {
       name: 'name',
       type: 'text',
       label: 'Location Name',
@@ -45,7 +45,7 @@ const Locations: CollectionConfig = {
       type: 'textarea',
       label: 'Meta Description',
     },
-   
+
     {
       name: 'services',
       type: 'text',
@@ -57,6 +57,15 @@ const Locations: CollectionConfig = {
       type: 'upload',
       relationTo: 'media' as any,
       required: true,
+    },
+    {
+      name: 'reviewUrl',
+      type: 'text',
+      label: 'Google Review URL',
+      admin: {
+        description:
+          'Link to this location\'s Google Business Profile review page. Used on the Feedback page.',
+      },
     },
     {
       name: 'blocks',
