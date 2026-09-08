@@ -1,20 +1,51 @@
 import { NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
+import { getPayload } from 'payload'
+import config from '@/payload.config'
 
 export async function POST(req: Request) {
+  const body = await req.json()
+  const { firstName, lastName, email, phone, store, message, storeEmails } = body
+  const isQuote = body.formType === 'quote-request'
+  const formTypeLabel = isQuote ? 'Quote Request' : 'General Inquiry'
+  const collection = isQuote ? 'quote-submissions' : 'contact-submissions'
+
+  if (!firstName || !lastName || !email || !message || !store) {
+    return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+  }
+
+  if (!storeEmails) {
+    return NextResponse.json({ error: 'No store email found' }, { status: 400 })
+  }
+
+  // ── 1. Save to Payload first, so nothing is lost if email fails ──
+  let submissionId: string | null = null
   try {
-    const body = await req.json()
-    const { firstName, lastName, email, phone, store, message, storeEmails } = body
-    const formTypeLabel = body.formType === 'quote-request' ? 'Quote Request' : 'General Inquiry'
+    const payload = await getPayload({ config })
+    const doc = await (payload as any).create({
+      collection,
+      data: {
+        fullName: `${firstName} ${lastName}`,
+        firstName,
+        lastName,
+        email,
+        phone: phone || '',
+        store,
+        message,
+        sentTo: storeEmails,
+        emailStatus: 'sent',
+        handled: false,
+      },
+      overrideAccess: true,
+    })
+    submissionId = doc.id
+  } catch (err) {
+    console.error('Failed to save submission:', err)
+    // Keep going — sending the email still matters
+  }
 
-    if (!firstName || !lastName || !email || !message || !store) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
-    }
-
-    if (!storeEmails) {
-      return NextResponse.json({ error: 'No store email found' }, { status: 400 })
-    }
-
+  // ── 2. Send the notification email ──
+  try {
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT) || 587,
@@ -27,7 +58,6 @@ export async function POST(req: Request) {
 
     await transporter.sendMail({
       from: `"Jones Paint & Glass" <${process.env.SMTP_FROM}>`,
-      // ✅ storeEmails is a comma-separated string — nodemailer handles it natively
       to: storeEmails,
       replyTo: email,
       subject: `New ${formTypeLabel} from ${firstName} ${lastName} — ${store}`,
@@ -63,7 +93,7 @@ export async function POST(req: Request) {
           </table>
 
           <p style="color: #6b7280; font-size: 12px; margin-top: 30px;">
-            This email was sent from the Jones Paint & Glass contact form.
+            This email was sent from the Jones Paint &amp; Glass contact form.
             Reply directly to this email to respond to ${firstName}.
           </p>
         </div>
@@ -73,6 +103,22 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true })
   } catch (err) {
     console.error('Email send error:', err)
+
+    // Mark the saved record so someone can follow up manually
+    if (submissionId) {
+      try {
+        const payload = await getPayload({ config })
+        await (payload as any).update({
+          collection,
+          id: submissionId,
+          data: { emailStatus: 'failed' },
+          overrideAccess: true,
+        })
+      } catch (updateErr) {
+        console.error('Failed to flag email status:', updateErr)
+      }
+    }
+
     return NextResponse.json({ error: 'Failed to send email' }, { status: 500 })
   }
 }

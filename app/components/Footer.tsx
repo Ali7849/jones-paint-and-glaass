@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { FaArrowRight, FaSearch } from 'react-icons/fa'
+import FooterSearch from './FooterSearch'
 
 export default function Footer({ footerData }: { footerData: any }) {
   const logoUrl = footerData?.logo?.url || '/assets/images/logo.png'
@@ -60,13 +61,7 @@ export default function Footer({ footerData }: { footerData: any }) {
         </div>
 
         <div className="search flex flex-col justify-end items-end">
-          <div className="searchbar flex relative">
-            <FaSearch className="w-4 h-4 mr-2 text-white absolute bottom-3" />
-            <input
-              type="text"
-              className="bg-transparent border pl-8 border-white border-b-2 border-t-0 border-l-0 border-r-0 focus:shadow-none text-white"
-            />
-          </div>
+          <FooterSearch/>
 
           <Link
             href={footerData?.ctaLink || '/contact'}
