@@ -16,8 +16,7 @@ export default function BlogSearch({
 
   const handleSearch = () => {
     if (!query.trim()) return;
-    // ✅ Navigate to /search?q=query
-    router.push(`/search?q=${encodeURIComponent(query.trim())}`)
+    router.push(`/search?q=${encodeURIComponent(query.trim())}&type=blogs`)
   };
 
   return (

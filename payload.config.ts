@@ -17,6 +17,8 @@ import Blogs from './collections/Blogs'
 import Footer from './collections/Footer'
 import Redirects from './collections/Redirects'
 import Analytics from './collections/Analytics'
+import QuoteSubmissions from './collections/QuoteSubmissions'
+import ContactSubmissions from './collections/ContactSubmissions'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -58,6 +60,8 @@ export default buildConfig({
     Doors,
     Blogs,
     Redirects,
+    QuoteSubmissions,
+    ContactSubmissions,
   ],
 
   globals: [
