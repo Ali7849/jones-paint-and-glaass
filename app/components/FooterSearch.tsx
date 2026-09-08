@@ -16,7 +16,14 @@ export default function FooterSearch() {
 
   return (
     <div className="searchbar flex relative">
-      <FaSearch className="w-4 h-4 mr-2 text-white absolute bottom-3" />
+      <button
+        type="button"
+        onClick={handleSearch}
+        aria-label="Search"
+        className="absolute bottom-3 left-0 p-0 text-white hover:text-[#A5EBCD] transition-colors cursor-pointer"
+      >
+        <FaSearch className="w-4 h-4" />
+      </button>
       <input
         type="text"
         value={query}
