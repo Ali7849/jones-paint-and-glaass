@@ -28,7 +28,7 @@ export default function Footer({ footerData }: { footerData: any }) {
       </div>
 
       <div className="f-contant container mx-auto flex flex-wrap flex-col md:flex-row justify-between py-12 px-4">
-        <div className="f-menu flex flex-wrap justify-between text-white text-center md:text-start space-x-16 space-y-10">
+        <div className="f-menu flex flex-wrap justify-between text-white text-center md:text-start space-x-0 sm:space-x-0 lg:space-x-16 md:space-x-16 space-y-10">
           
           <FooterColumn title="HOME" items={homeLinks} />
 
@@ -60,7 +60,7 @@ export default function Footer({ footerData }: { footerData: any }) {
           />
         </div>
 
-        <div className="search flex flex-col justify-end items-end">
+        <div className="search flex flex-col justify-end items-end mt-6 sm:mt-6 md:mt-0 lg:mt-0">
           <FooterSearch/>
 
           <Link
@@ -111,7 +111,7 @@ function FooterColumn({
   items: { label: string; href: string; opensInNewTab?: boolean }[]
 }) {
   return (
-    <div>
+    <div className="sm:w-full md:w-auto lg:w-auto w-full">
       <h3 className="font-bold tracking-widest mb-8">{title}</h3>
       <ul className="space-y-2 text-[12px]">
         {items?.map((item, i) => (

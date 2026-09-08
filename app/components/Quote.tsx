@@ -127,15 +127,9 @@ export default function Quote({
         className="relative z-10 w-full max-w-2xl rounded-2xl p-6 md:p-12"
         style={{ background: "linear-gradient(180deg, #0052C6 28.46%, #002559 100%)" }}
       >
-        {submitted ? (
-          <div className="text-center py-12">
-            <svg className="w-16 h-16 text-green-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-            <h3 className="text-white text-2xl font-bold mb-2">Thank you!</h3>
-            <p className="text-blue-200">We've received your request and will be in touch shortly.</p>
-          </div>
-        ) : (
+        
+          
+        
           <form onSubmit={handleSubmit}>
 
             {/* First + Last name */}
@@ -265,6 +259,14 @@ export default function Quote({
               </span>
             </label>
 
+            {submitted ? (
+              <p className="text-blue-200">We've received your request and will be in touch shortly.</p>
+            ):(
+              <>
+
+              </>
+            )}
+
             {/* Error message */}
             {error && (
               <div className="mb-4 p-3 rounded-[8px] bg-red-400/20 border border-red-300/40">
@@ -297,7 +299,7 @@ export default function Quote({
             </button>
 
           </form>
-        )}
+        
       </div>
     </section>
   )
