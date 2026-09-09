@@ -4,11 +4,10 @@ const Navigation: GlobalConfig = {
   slug: 'navigation',
   admin: {
     group: 'Settings',
-
   },
   access: {
     read: () => true,
-    update: ({ req }) => !!req.user, // ✅ any logged in user can update
+    update: ({ req }) => !!req.user,
   },
   fields: [
     {
@@ -44,7 +43,6 @@ const Navigation: GlobalConfig = {
           required: true,
         },
         {
-          // ✅ shown for BOTH link and dropdown
           name: 'href',
           type: 'text',
           label: 'Page Link (Slug)',
@@ -53,25 +51,59 @@ const Navigation: GlobalConfig = {
           },
         },
         {
+          name: 'autoSource',
+          type: 'select',
+          label: 'Auto-fill From',
+          admin: {
+            description:
+              'If you leave Dropdown Items empty below, every entry from this collection is listed automatically.',
+            condition: (_, siblingData) => siblingData?.type === 'dropdown',
+          },
+          options: [
+            { label: 'None — add items manually', value: 'none' },
+            { label: 'All Doors', value: 'doors' },
+            { label: 'All Paint', value: 'paint' },
+            { label: 'All Glass', value: 'glass' },
+            { label: 'All Locations', value: 'locations' },
+          ],
+          defaultValue: 'none',
+        },
+        {
           name: 'items',
           type: 'array',
           label: 'Dropdown Items',
           admin: {
-            description: 'Add sub-links that appear in the dropdown menu',
+            description:
+              'Pick a page, or type a link manually. Leave this list empty to use Auto-fill above.',
             condition: (_, siblingData) => siblingData?.type === 'dropdown',
           },
           fields: [
             {
+              name: 'reference',
+              type: 'relationship',
+              label: 'Pick a Page',
+              relationTo: ['doors', 'paint', 'glass', 'locations', 'pages'] as any,
+              admin: {
+                description:
+                  'Search and select. Label and link are taken from the page unless you override them below.',
+              },
+            },
+            {
               name: 'label',
               type: 'text',
               label: 'Label',
-              required: true,
+              admin: {
+                description: 'Leave empty to use the selected page name.',
+              },
             },
             {
               name: 'href',
               type: 'text',
               label: 'Link (Slug)',
-              required: true,
+              admin: {
+                description:
+                  'Leave empty to use the selected page slug. Fill this in for external or custom links.',
+              },
             },
             {
               name: 'description',

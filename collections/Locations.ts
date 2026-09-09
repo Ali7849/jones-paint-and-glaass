@@ -36,6 +36,16 @@ const Locations: CollectionConfig = {
     },
 
     {
+    name: 'googlePlaceId',
+    type: 'text',
+    label: 'Google Place ID',
+    admin: {
+      description:
+        'Please Enter Google Place ID Used to pull this location\'s Google reviews.',
+    },
+  },
+
+    {
       name: 'metaTitle',
       type: 'text',
       label: 'Meta Title',

@@ -164,17 +164,29 @@ export async function generateMetadata({
   };
 }
 
-function renderBlocks(blocks: any[], allLocations: any[]) {
+function renderBlocks(
+  blocks: any[],
+  allLocations: any[],
+  currentLocation?: any
+) {
   return blocks.map((block: any, i: number) => {
     if (!block || !block.blockType) return null;
 
     const Component = blockMap[block.blockType];
     if (!Component) return null;
 
-    const extraProps =
-      block.blockType === "imageSlider"
-        ? { fetchedLocations: allLocations }
-        : {};
+    let extraProps: Record<string, any> = {};
+
+    if (block.blockType === "imageSlider") {
+      extraProps = { fetchedLocations: allLocations };
+    }
+
+    // Reviews on a location page default to that location's Place ID.
+    // A Place ID set on the block itself still wins.
+    if (block.blockType === "reviews") {
+      const placeId = block.placeId || currentLocation?.googlePlaceId;
+      if (placeId) extraProps = { placeId };
+    }
 
     return <Component key={i} {...block} {...extraProps} />;
   });
@@ -224,7 +236,7 @@ export default async function DynamicPage({
     return (
       <>
         <Navbar navData={navData} />
-        {renderBlocks(location.blocks ?? [], allLocations)}
+        {renderBlocks(location.blocks ?? [], allLocations, location)}
         <Footer footerData={footerData} />
       </>
     );
