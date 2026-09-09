@@ -5,6 +5,33 @@ import { getPaint } from './getPaint'
 import { getGlass } from './getGlass'
 import { getDoors } from './getDoors'
 
+type NavSubItem = {
+  label: string
+  href: string
+  description?: string
+}
+
+function resolveSubItem(sub: any): NavSubItem | null {
+  const doc = sub.reference?.value
+
+  // Manual entry — no page selected
+  if (!doc || typeof doc === 'string') {
+    if (!sub.label || !sub.href) return null
+    return {
+      label: sub.label,
+      href: sub.href,
+      description: sub.description || undefined,
+    }
+  }
+
+  // Page selected — label/href act as optional overrides
+  const label = sub.label || doc.name || doc.title
+  const href = sub.href || `/${doc.slug}`
+  if (!label || !href) return null
+
+  return { label, href, description: sub.description || undefined }
+}
+
 export async function getNavigation() {
   try {
     const payload = await getPayload({ config: configPromise })
@@ -13,7 +40,7 @@ export async function getNavigation() {
       depth: 2,
     })
 
-    // ── Fetch all collections in parallel for performance
+    // ── Fetch all collections in parallel
     const [locations, paintItems, glassItems, doorsItems] = await Promise.all([
       getLocations(),
       getPaint(),
@@ -21,69 +48,45 @@ export async function getNavigation() {
       getDoors(),
     ])
 
-    // ── Build dynamic dropdown nav items
-    const locationsNavItem = {
-      type: 'dropdown',
-      label: 'Locations',
-      href: '/locations',
-      items: locations.map((loc: any) => ({
-        label: loc.name,
-        href: `/${loc.slug}`,
-      })),
+    const sources: Record<string, any[]> = {
+      locations,
+      paint: paintItems,
+      glass: glassItems,
+      doors: doorsItems,
     }
 
-    const paintNavItem = {
-      type: 'dropdown',
-      label: 'Paint',
-      href: '/paint',
-      items: paintItems.map((item: any) => ({
-        label: item.name,
-        href: `/${item.slug}`,
-      })),
-    }
+    const toSubItems = (docs: any[]): NavSubItem[] =>
+      docs
+        .filter((doc: any) => doc.slug)
+        .map((doc: any) => ({
+          label: doc.name ?? doc.title ?? 'Untitled',
+          href: `/${doc.slug}`,
+        }))
 
-    const glassNavItem = {
-      type: 'dropdown',
-      label: 'Windows & Glass',
-      href: '/windows-glass',
-      items: glassItems.map((item: any) => ({
-        label: item.name,
-        href: `/${item.slug}`,
-      })),
-    }
+    const navItems = (result?.navItems ?? []).map((item: any) => {
+      if (item.type !== 'dropdown') return item
 
-    const doorsNavItem = {
-      type: 'dropdown',
-      label: 'Doors',
-      href: '/doors',
-      items: doorsItems.map((item: any) => ({
-        label: item.name,
-        href: `/${item.slug}`,
-      })),
-    }
+      // Manually chosen items always win
+      const manual = (item.items ?? [])
+        .map(resolveSubItem)
+        .filter(Boolean) as NavSubItem[]
 
-    // ── Map of label → dynamic nav item
-    const dynamicItems: Record<string, any> = {
-      locations: locationsNavItem,
-      paint: paintNavItem,
-      glass: glassNavItem,
-      doors: doorsNavItem,
-    }
+      if (manual.length > 0) {
+        return { ...item, items: manual }
+      }
 
-    const navItems = result?.navItems ?? []
+      // Otherwise fall back to auto-fill, if a source is set
+      const source = item.autoSource
+      if (source && source !== 'none' && sources[source]) {
+        return { ...item, items: toSubItems(sources[source]) }
+      }
 
-    // ── Replace any matching nav item label with the dynamic version
-    const updatedNavItems = navItems.map((item: any) => {
-      const key = item.label?.toLowerCase()
-      return dynamicItems[key] ?? item
+      return { ...item, items: [] }
     })
 
-    return {
-      ...result,
-      navItems: updatedNavItems,
-    }
-
-  } catch {
+    return { ...result, navItems }
+  } catch (err) {
+    console.error('getNavigation error:', err)
     return null
   }
 }

@@ -1,19 +1,19 @@
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: Request) {
   const apiKey = process.env.GOOGLE_PLACES_API_KEY;
-  const placeId = process.env.GOOGLE_PLACE_ID;
+  const { searchParams } = new URL(req.url);
 
-  console.log("API KEY EXISTS:", !!apiKey);
-  console.log("PLACE ID:", placeId);
+  // Per-location Place ID if given, otherwise the site-wide default
+  const placeId = searchParams.get("placeId") || process.env.GOOGLE_PLACE_ID;
 
   if (!apiKey || !placeId) {
+    console.error("Google reviews: missing credentials", {
+      hasApiKey: !!apiKey,
+      hasPlaceId: !!placeId,
+    });
     return NextResponse.json(
-      {
-        error: "Missing Google credentials",
-        hasApiKey: !!apiKey,
-        placeId: placeId || null,
-      },
+      { error: "Missing Google credentials" },
       { status: 500 }
     );
   }
@@ -29,26 +29,26 @@ export async function GET() {
           "X-Goog-FieldMask":
             "id,displayName,rating,userRatingCount,reviews,googleMapsUri",
         },
+        // Places API is billed per call — cache for an hour
+        next: { revalidate: 3600 },
       }
     );
 
     const data = await response.json();
 
-    console.log("GOOGLE STATUS:", response.status);
-    console.log("GOOGLE RESPONSE:", data);
-
     if (!response.ok) {
+      console.error(
+        "Google Places API error:",
+        response.status,
+        data?.error?.message ?? data
+      );
       return NextResponse.json(
-        {
-          error: "Google API Error",
-          status: response.status,
-          details: data,
-        },
+        { error: "Google API Error", status: response.status },
         { status: response.status }
       );
     }
 
-    // ✅ Extract googleMapsUri once
+    // The business listing — NOT the reviewer's personal profile
     const googleMapsUri = data.googleMapsUri || "";
 
     const reviews =
@@ -58,7 +58,7 @@ export async function GET() {
         name: review.authorAttribution?.displayName || "Google User",
         rating: review.rating || 0,
         relativeTime: review.relativePublishTimeDescription || "",
-        link: review.authorAttribution?.uri || googleMapsUri, // ✅ reviewer profile or business maps page
+        link: googleMapsUri,
       })) || [];
 
     return NextResponse.json({
@@ -69,14 +69,7 @@ export async function GET() {
       reviews,
     });
   } catch (error) {
-    console.error("SERVER ERROR:", error);
-
-    return NextResponse.json(
-      {
-        error: "Server error",
-        details: String(error),
-      },
-      { status: 500 }
-    );
+    console.error("Google reviews server error:", error);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

@@ -43,6 +43,8 @@ const ServiceCard = ({ service }: { service: Service }) => {
         <Image
           src={imageUrl}
           alt={imageAlt}
+          height={270}
+          width={270}
           className="w-full h-full object-cover"
         />
       </div>

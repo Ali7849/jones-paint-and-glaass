@@ -45,7 +45,7 @@ export default function Blogpost() {
                     />
                 </div>
 
-                <div className="mx-auto max-w-7xl">
+                <div className="mx-auto max-w-7xl sm:max-w-full md:max-w-6xl lg:max-w-7xl">
 
 
 

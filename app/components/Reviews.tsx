@@ -8,22 +8,24 @@ type Review = {
   name: string;
   rating?: number;
   relativeTime?: string;
-  link?: string; // ✅ added
+  link?: string;
 };
 
 type ReviewsBlockProps = {
   heading?: string;
   subtext?: string;
+  placeId?: string;
 };
 
 export default function Reviews({
   heading = "Hear What Others Have to Say",
   subtext = "We are proud to serve our neighbors and help bring their DIY and contractor projects to life!",
+  placeId,
 }: ReviewsBlockProps) {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [rating, setRating] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
-  const [googleMapsUri, setGoogleMapsUri] = useState(""); // ✅ added
+  const [googleMapsUri, setGoogleMapsUri] = useState("");
   const [loading, setLoading] = useState(true);
 
   const [visible, setVisible] = useState(3);
@@ -32,12 +34,17 @@ export default function Reviews({
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   /*
-   * Fetch Google Reviews
+   * Fetch Google Reviews — uses this location's Place ID when provided
    */
   useEffect(() => {
     const fetchReviews = async () => {
+      setLoading(true);
       try {
-        const response = await fetch("/api/google-reviews");
+        const url = placeId
+          ? `/api/google-reviews?placeId=${encodeURIComponent(placeId)}`
+          : "/api/google-reviews";
+
+        const response = await fetch(url);
 
         if (!response.ok) {
           throw new Error("Failed to fetch Google reviews");
@@ -48,7 +55,7 @@ export default function Reviews({
         setReviews(data.reviews || []);
         setRating(data.rating || 0);
         setTotalReviews(data.totalReviews || 0);
-        setGoogleMapsUri(data.googleMapsUri || ""); // ✅ added
+        setGoogleMapsUri(data.googleMapsUri || "");
       } catch (error) {
         console.error("Google Reviews Error:", error);
       } finally {
@@ -57,7 +64,7 @@ export default function Reviews({
     };
 
     fetchReviews();
-  }, []);
+  }, [placeId]);
 
   /*
    * Responsive visible count
@@ -253,10 +260,10 @@ export default function Reviews({
             }}
           >
             {reviews.map((review, index) => (
-              // ✅ wrapped in anchor tag
+              // Links to the business profile so visitors see all reviews
               
               <a  key={review.id || index}
-                href={review.link || googleMapsUri || "#"}
+                href={googleMapsUri || "#"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-shrink-0 flex flex-col justify-between p-6 rounded-2xl cursor-pointer hover:shadow-md transition-shadow duration-300"

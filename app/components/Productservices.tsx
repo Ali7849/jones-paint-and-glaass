@@ -116,9 +116,9 @@ export default function ProductServicesBlock({
 
                   {/* Caption */}
                   <div className="py-4">
-                    <p className="text-[20px] font-bold text-gray-900 mb-1">
+                    <h6 className="text-[20px] font-bold text-gray-900 mb-1">
                       {service.title}
-                    </p>
+                    </h6>
                     <span className="inline-flex items-center gap-1.5 text-[16px] font-bold text-black">
                       See Options
                       <svg
