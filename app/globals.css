@@ -66,10 +66,10 @@ button{
     z-index: 1;
 }
 
-/* .search-bar{
-  width:60%;
-  margin-left:auto;
-} */
+.search-bar{
+  width:33%;
+  margin-left:auto !important;
+}
 
 /* @font-face {
     font-family: 'Avenir';
