@@ -51,18 +51,7 @@ export const DiyHeroBlock: Block = {
       relationTo: 'media' as any,
       required: true,
     },
-    {
-      name: 'bannerTagline',
-      type: 'text',
-      label: 'Banner — Top Line (e.g. "BEFORE YOU")',
-      defaultValue: 'BEFORE YOU',
-    },
-    {
-      name: 'bannerHighlight',
-      type: 'text',
-      label: 'Banner — Large Word (e.g. "DIY")',
-      defaultValue: 'DIY',
-    },
+  
     {
       name: 'bannerVectorImage',
       type: 'upload',
