@@ -287,7 +287,7 @@ export default function Inquireform({
                     />
                     <span className="text-gray-600 text-[14px]">
                       You agree to our friendly{' '}
-                      <a href={privacyPolicyLink} className="text-gray-800 underline hover:text-[#0052C6] transition-colors">
+                      <a href="/privacy-policy" className="text-gray-800 underline hover:text-[#0052C6] transition-colors">
                         privacy policy
                       </a>.
                     </span>

@@ -236,7 +236,7 @@ function SearchBar({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div className="container search w-full border-t border-default bg-neutral-primary px-4 py-4">
+    <div className="w-1/3 ml-auto search w-full border-t border-default bg-neutral-primary px-4 py-4">
       <div className=" search-bar flex items-center gap-4">
 
         {/* Search input */}
