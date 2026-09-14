@@ -80,8 +80,12 @@ button{
 }
 @media (max-width: 500px) {
   .mob{
-    top: 10% !important;
+    top: 250px !important;
     height: 200px !important;
+    width: 200px !important;
+  }
+  .resp{
+    top: 4% !important;
     width: 200px !important;
   }
 }

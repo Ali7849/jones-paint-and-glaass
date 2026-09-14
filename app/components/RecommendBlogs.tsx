@@ -84,14 +84,14 @@ export default function RecommendBlog({
                   </div>
 
                   {/* Keyword */}
-                  <div className="flex items-center gap-4 mb-3">
+                  {/* <div className="flex items-center gap-4 mb-3">
                     {blog.category && (
                       <span className="text-[16px] font-semibold bg-gray-100 px-2.5 py-1">
                         {blog.category}
                       </span>
                     )}
                     
-                  </div>
+                  </div> */}
 
                   {/* Title */}
                   <h3 className="text-[24px] font-extrabold font-['Avenir']">
