@@ -65,9 +65,9 @@ const ServiceCard = ({ service }: { service: Service }) => {
 // ── Single Specialist ──
 const SingleSpecialist = ({ specialist }: { specialist: Specialist }) => {
   return (
-    <div className="rounded-[16px] bg-black p-6 flex items-center gap-6 relative overflow-hidden h-[260px]">
+    <div className="rounded-[16px] bg-black p-6 flex items-center gap-6 relative overflow-hidden h-[260px] sp-res">
       <div
-        className="absolute right-0 top-0 w-full h-full pointer-events-none z-0"
+        className="absolute right-0 top-0 w-full h-full pointer-events-none z-0 sp-res-img"
         style={{
           backgroundImage: "url(/assets/jt/elements/paint-15.png)",
           backgroundSize: "contain",
@@ -233,7 +233,7 @@ const Layout2 = ({
 
       {/* RIGHT: Hero (spans 2 rows) + Services (55%) */}
       <div className="w-full lg:w-[50%]">
-        <div className="grid grid-cols-2 gap-6 auto-rows-max">
+        <div className="grid md:grid-cols-2 sm:grid-cols-3 gap-6 auto-rows-max">
           {/* Hero: 1 col, spans 2 rows */}
           <div className="col-span-2 row-span-2">
             <HeroCard
@@ -292,7 +292,7 @@ const Layout3 = ({
 
         {/* RIGHT: Hero (spans 3 rows) + Services 2-col grid (60%) */}
         <div className="w-full lg:w-[50%]">
-          <div className="grid grid-cols-2 gap-6 auto-rows-max">
+          <div className="grid md:grid-cols-2 sm:grid-cols-3 gap-6 auto-rows-max">
             {/* Hero: 1 col, spans 3 rows */}
             <div className="col-span-1 row-span-1">
               <HeroCard
@@ -332,8 +332,8 @@ const Layout4 = ({
       {/* LEFT: Image + Specialist (45%) */}
       <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {imgUrl ? (
-          <div className="relative rounded-[16px] overflow-hidden h-full">
-            <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
+          <div className="relative rounded-[16px] overflow-hidden md:h-full sm:h-[400px]">
+            <Image src={imgUrl} alt={imgAlt} fill className="md:object-cover sm:object-bottom" />
           </div>
         ) : (
           <div className="rounded-[16px] bg-[#DDEEFF] h-full" />
@@ -356,7 +356,7 @@ const Layout4 = ({
         />
 
         {/* 2x2 Grid (4 services) */}
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 sm:grid-cols-3 gap-6">
           {services.map((service: Service, i: number) => (
             <ServiceCard key={service.id || i} service={service} />
           ))}
@@ -400,7 +400,7 @@ const Layout5 = ({
 
       {/* RIGHT: Hero + 2-Column Services Grid (60%) */}
       <div className="w-full lg:w-[50%]">
-        <div className="grid grid-cols-2 gap-6 auto-rows-max">
+        <div className="grid md:grid-cols-2 sm:grid-cols-3 gap-6 auto-rows-max">
           {/* Hero: single card at top */}
           <div className="col-span-1">
             <HeroCard
@@ -463,7 +463,7 @@ const Layout6 = ({
         />
 
         {/* 2-Column Grid (6 services = 3 rows) */}
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 sm:grid-cols-3 gap-6">
           {services.map((service: Service, i: number) => (
             <ServiceCard key={service.id || i} service={service} />
           ))}
@@ -511,7 +511,7 @@ const Layout7Plus = ({
         
 
         {/* 2-Column Grid (7+ services, flexible wrapping) */}
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 sm:grid-cols-3 gap-6">
           <div className="col-span-1 row-span-1">
           <HeroCard
             heroCardLabel={heroCardLabel}
@@ -564,7 +564,7 @@ export default function StoreLocation({
           <h1 className="text-[48px] font-extrabold mb-4 font-['Avenir']">
             {heading}
           </h1>
-          <p className="flex items-center justify-center gap-3 font-normal text-[18px] md:text-[24px]">
+          <p className="flex md:items-center sm:items-start justify-center gap-3 font-normal text-[18px] md:text-[24px]">
             <img
               src="/assets/jt/location-icon.png"
               className="w-5 h-6"
