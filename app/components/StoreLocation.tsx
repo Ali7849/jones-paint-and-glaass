@@ -217,7 +217,7 @@ const Layout2 = ({
       {/* LEFT: Image + Specialist (50%) */}
       <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {imgUrl ? (
-          <div className="relative rounded-[16px] overflow-hidden h-full">
+          <div className="relative rounded-[16px] overflow-hidden h-full sm-height">
             <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
           </div>
         ) : (
@@ -271,7 +271,7 @@ const Layout3 = ({
     <div className="flex flex-col gap-6">
       {/* Image full width */}
       {imgUrl ? (
-        <div className="relative rounded-[16px] overflow-hidden h-[345px]">
+        <div className="relative rounded-[16px] overflow-hidden h-[345px] sm-height">
           <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
         </div>
       ) : (
@@ -332,7 +332,7 @@ const Layout4 = ({
       {/* LEFT: Image + Specialist (45%) */}
       <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {imgUrl ? (
-          <div className="relative rounded-[16px] overflow-hidden md:h-full sm:h-[400px]">
+          <div className="relative rounded-[16px] overflow-hidden h-full sm-height">
             <Image src={imgUrl} alt={imgAlt} fill className="md:object-cover sm:object-bottom" />
           </div>
         ) : (
@@ -384,7 +384,7 @@ const Layout5 = ({
       {/* LEFT: Image + Specialist (40%) */}
       <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {imgUrl ? (
-          <div className="relative rounded-[16px] overflow-hidden h-full">
+          <div className="relative rounded-[16px] overflow-hidden h-full sm-height">
             <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
           </div>
         ) : (
@@ -439,7 +439,7 @@ const Layout6 = ({
       {/* LEFT: Image + Specialist (35%) */}
       <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {imgUrl ? (
-          <div className="relative rounded-[16px] overflow-hidden h-full">
+          <div className="relative rounded-[16px] overflow-hidden h-full sm-height">
             <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
           </div>
         ) : (
@@ -491,7 +491,7 @@ const Layout7Plus = ({
       {/* LEFT: Image + Specialist (30%) */}
       <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {imgUrl ? (
-          <div className="relative rounded-[16px] overflow-hidden h-full">
+          <div className="relative rounded-[16px] overflow-hidden h-full sm-height">
             <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
           </div>
         ) : (

@@ -104,6 +104,10 @@ button{
     right: -20px;
   }
 
+ .sm-height{
+  height: 350px !important;
+ }
+
 }
 
 /* @font-face {

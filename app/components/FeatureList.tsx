@@ -1,10 +1,16 @@
 "use client";
 import Image from "next/image";
 
+type Bullet = {
+  id?: string
+  text: string
+}
+
 type Feature = {
   id?: string
   title: string
   description: string
+  bullets?: Bullet[] | null
   boldText?: string | null
   highlight?: boolean
 }
@@ -52,6 +58,20 @@ export default function FeatureList({
                       <p className="ml-6 text-[18px] font-light leading-relaxed mb-2">
                         {f.description}
                       </p>
+
+                      {f.bullets && f.bullets.length > 0 && (
+                        <ul className="ml-6 mb-2 pl-5 list-disc marker:text-black">
+                          {f.bullets.map((b, i) => (
+                            <li
+                              key={b.id || i}
+                              className="text-[18px] font-light leading-relaxed"
+                            >
+                              {b.text}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+
                       {f.boldText && (
                         <p className="ml-6 text-[18px] font-bold leading-relaxed">
                           {f.boldText}

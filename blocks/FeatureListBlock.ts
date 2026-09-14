@@ -44,11 +44,26 @@ export const FeatureListBlock: Block = {
           label: 'Feature Description',
         },
         {
+          name: 'bullets',
+          type: 'array',
+          label: 'Bullet Points (optional)',
+          admin: {
+            description: 'Shown as a bulleted list under the description.',
+          },
+          fields: [
+            {
+              name: 'text',
+              type: 'text',
+              required: true,
+              label: 'Bullet',
+            },
+          ],
+        },
+        {
           name: 'boldText',
           type: 'text',
           label: 'Bold Text (optional, shown below description)',
         },
-        
       ],
     },
   ],
