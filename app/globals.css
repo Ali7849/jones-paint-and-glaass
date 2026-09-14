@@ -80,7 +80,7 @@ button{
 }
 @media (max-width: 500px) {
   .mob{
-    top: 250px !important;
+    top: 270px !important;
     height: 200px !important;
     width: 200px !important;
   }
@@ -88,6 +88,22 @@ button{
     top: 4% !important;
     width: 200px !important;
   }
+  .resp-button{
+    flex-direction: column !important;
+    align-items: start !important;
+    margin-bottom: 2rem !important;
+  }
+
+  .sp-res{
+  height: 180px !important;
+  }
+  .sp-res-img{
+      width: 140px;
+    height: 140px;
+    top: 90px !important;
+    right: -20px;
+  }
+
 }
 
 /* @font-face {
