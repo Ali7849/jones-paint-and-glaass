@@ -46,7 +46,7 @@ export default async function LocationsPage() {
 
         {/* Paint splash */}
         <div
-          className="absolute top-0  left-0 w-full pointer-events-none z-2"
+          className="absolute resp top-0  left-0 w-full pointer-events-none z-2"
           style={{
             backgroundImage: 'url(/assets/jt/elements/paint-21.png)',
             backgroundSize: '340px',
@@ -56,7 +56,7 @@ export default async function LocationsPage() {
           }}
         />
         <div
-          className="absolute bottom-0 right-0 w-full pointer-events-none z-2"
+          className="absolute  bottom-0 right-0 w-full pointer-events-none z-2"
           style={{
             backgroundImage: 'url(/assets/jt/elements/paint-22.png)',
             backgroundSize: '300px',
