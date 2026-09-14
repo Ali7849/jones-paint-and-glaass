@@ -4,8 +4,10 @@ import config from '@/payload.config'
 import { notFound } from 'next/navigation'
 import { getNavigation } from '@/lib/getNavigation'
 import { getFooter } from '@/lib/getFooter'
+import { getRelatedBlogs } from '@/lib/getBlogs'
 import Navbar from '@/app/components/Navbar'
 import Footer from '@/app/components/Footer'
+import RecommendBlog from '@/app/components/RecommendBlogs'
 import Image from 'next/image'
 import Link from 'next/link'
 import ShareIconsClient from '@/app/components/ShareIconsClient'
@@ -71,6 +73,9 @@ export default async function BlogPage({
   const blog = await getBlog(slug)
 
   if (!blog) return notFound()
+
+  // Posts from the same category, excluding this one
+  const relatedPosts = await getRelatedBlogs(blog.category, blog.id)
 
   const formattedDate = blog.publishedDate
     ? new Date(blog.publishedDate).toLocaleDateString('en-US', {
@@ -220,6 +225,17 @@ export default async function BlogPage({
           </div>
         </div>
       </article>
+
+      {/* Related posts — same category where possible */}
+      {relatedPosts.length > 0 && (
+        <RecommendBlog
+          label="Read More"
+          heading={
+            blog.category ? `More on ${blog.category}` : 'Recommended for You'
+          }
+          posts={relatedPosts}
+        />
+      )}
 
       <Footer footerData={footerData} />
     </>

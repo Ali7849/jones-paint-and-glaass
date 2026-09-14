@@ -71,3 +71,58 @@ export async function getBlogById(id: string) {
     return null
   }
 }
+
+export async function getRelatedBlogs(
+  category: string | undefined,
+  excludeId: string,
+  limit = 3
+) {
+  try {
+    const payload = await getPayload({ config: configPromise })
+
+    const base: any = {
+      published: { equals: true },
+      id: { not_equals: excludeId },
+    }
+
+    if (category) {
+      const sameCategory = await payload.find({
+        collection: 'blogs' as any,
+        where: { ...base, category: { equals: category } },
+        sort: '-publishedDate',
+        limit,
+        depth: 1,
+      })
+
+      if (sameCategory.docs.length >= limit) return sameCategory.docs
+
+      const existingIds = sameCategory.docs.map((d: any) => d.id)
+      const filler = await payload.find({
+        collection: 'blogs' as any,
+        where: {
+          ...base,
+          id: { not_in: [excludeId, ...existingIds] },
+        },
+        sort: '-publishedDate',
+        limit: limit - sameCategory.docs.length,
+        depth: 1,
+      })
+
+      return [...sameCategory.docs, ...filler.docs]
+    }
+
+    // No category set on this post — show recent instead
+    const recent = await payload.find({
+      collection: 'blogs' as any,
+      where: base,
+      sort: '-publishedDate',
+      limit,
+      depth: 1,
+    })
+
+    return recent.docs
+  } catch (err) {
+    console.error('getRelatedBlogs error:', err)
+    return []
+  }
+}

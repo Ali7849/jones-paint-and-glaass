@@ -4,7 +4,6 @@ export async function GET(req: Request) {
   const apiKey = process.env.GOOGLE_PLACES_API_KEY;
   const { searchParams } = new URL(req.url);
 
-  // Per-location Place ID if given, otherwise the site-wide default
   const placeId = searchParams.get("placeId") || process.env.GOOGLE_PLACE_ID;
 
   if (!apiKey || !placeId) {
@@ -29,7 +28,7 @@ export async function GET(req: Request) {
           "X-Goog-FieldMask":
             "id,displayName,rating,userRatingCount,reviews,googleMapsUri",
         },
-        // Places API is billed per call — cache for an hour
+
         next: { revalidate: 3600 },
       }
     );
@@ -48,18 +47,19 @@ export async function GET(req: Request) {
       );
     }
 
-    // The business listing — NOT the reviewer's personal profile
-    const googleMapsUri = data.googleMapsUri || "";
+    const googleMapsUri = `https://search.google.com/local/reviews?placeid=${placeId}`;
 
-    const reviews =
-      data.reviews?.map((review: any) => ({
+
+    const reviews = (data.reviews ?? [])
+      .filter((review: any) => review.rating === 5)
+      .map((review: any) => ({
         id: review.name,
         quote: review.originalText?.text || review.text?.text || "",
         name: review.authorAttribution?.displayName || "Google User",
         rating: review.rating || 0,
         relativeTime: review.relativePublishTimeDescription || "",
         link: googleMapsUri,
-      })) || [];
+      }));
 
     return NextResponse.json({
       businessName: data.displayName?.text || "",
