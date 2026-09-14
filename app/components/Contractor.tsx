@@ -216,10 +216,10 @@ export default function Contractor({
               {galleryTitle}
             </h2>
           </div>
-          {/* Grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 grid-rows-2 gap-4 sm:gap-7 h-fit lg:h-[600px]">
+          {/* Grid — stacks to one full-width block per item on mobile */}
+          <div className="grid grid-cols-1 lg:grid-cols-4 lg:grid-rows-2 gap-4 sm:gap-7 h-fit lg:h-[600px]">
             {/* Left large image — spans 2 rows */}
-            <div className="relative col-span-1 row-span-2 rounded-2xl overflow-hidden group cursor-pointer">
+            <div className="relative h-[280px] lg:h-auto lg:col-span-1 lg:row-span-2 rounded-2xl overflow-hidden group cursor-pointer">
               <img
                 src={getImageUrl(largeImage)}
                 alt={largeImageTitle}
@@ -235,7 +235,7 @@ export default function Contractor({
             </div>
             {/* Top row — 3 images */}
             {topRowImages.slice(0, 3).map((item, i) => (
-              <div key={i} className="relative rounded-2xl overflow-hidden group cursor-pointer">
+              <div key={i} className="relative h-[280px] lg:h-auto rounded-2xl overflow-hidden group cursor-pointer">
                 {/* Image */}
                 <img
                   src={getImageUrl(item.image)}
@@ -252,7 +252,7 @@ export default function Contractor({
               </div>
             ))}
             {/* Bottom left small image */}
-            <div className="relative rounded-2xl overflow-hidden group cursor-pointer">
+            <div className="relative h-[280px] lg:h-auto rounded-2xl overflow-hidden group cursor-pointer">
               <img
                 src={getImageUrl(bottomLeftImage)}
                 alt={bottomLeftImageDescription}
@@ -267,7 +267,7 @@ export default function Contractor({
               </div>
             </div>
             {/* Bottom right large image — spans 2 columns */}
-            <div className="relative col-span-2 rounded-2xl overflow-hidden group cursor-pointer">
+            <div className="relative h-[280px] lg:h-auto lg:col-span-2 rounded-2xl overflow-hidden group cursor-pointer">
               <img
                 src={getImageUrl(bottomRightImage)}
                 alt={bottomRightImageDescription}

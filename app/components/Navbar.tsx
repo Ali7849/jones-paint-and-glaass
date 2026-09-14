@@ -264,7 +264,7 @@ function SearchBar({ onClose }: { onClose: () => void }) {
           onClick={handleSearch}
           className="group inline-flex border-2 border-[#0052C6] cursor-pointer text-[#0052C6] font-semibold text-[16px] gap-1 px-4 py-2 rounded-[8px] items-center transition-colors whitespace-nowrap hover:bg-[#0052C6] hover:text-white"
         >
-          Go
+          Search
           <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none">
             <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
