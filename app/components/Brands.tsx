@@ -125,7 +125,7 @@ export default function Brands({
                 <BrandCard key={brand.id || index} brand={brand} index={index} />
               ))}
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-6">
               {brands.slice(4).map((brand, index) => (
                 <BrandCard key={brand.id || (index + 4)} brand={brand} index={index + 4} />
               ))}

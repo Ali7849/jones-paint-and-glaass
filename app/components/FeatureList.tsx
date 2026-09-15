@@ -55,7 +55,7 @@ export default function FeatureList({
                       <h3 className="ml-6 text-[24px] sm:text-[28px] lg:text-[32px] font-extrabold mb-2 font-['Avenir']">
                         {f.title}
                       </h3>
-                      <p className="ml-6 text-[18px] font-light leading-relaxed mb-2">
+                      <p className="ml-6 text-[18px] font-light leading-relaxed mb-2 pr-8">
                         {f.description}
                       </p>
 
