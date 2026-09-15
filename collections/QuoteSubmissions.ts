@@ -11,6 +11,9 @@ const QuoteSubmissions: CollectionConfig = {
     group: 'Form Submissions',
     defaultColumns: ['fullName', 'email', 'store', 'emailStatus', 'createdAt'],
     description: 'Quote requests submitted through the site.',
+    components: {
+      beforeListTable: ['@/app/components/admin/ExportSubmissions#default'],
+    },
   },
   access: {
     // Only the API route creates these — no public reads or writes

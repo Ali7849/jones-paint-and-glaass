@@ -230,7 +230,7 @@ export default function Diyslider({
             <h2 className={`text-[28px] md:text-[34px] lg:text-[48px] font-bold ${headingColor} mb-3 leading-tight font-['Avenir']`}>
               {heading}
             </h2>
-            <p className={`text-[16px] ${subtextColor} leading-relaxed mb-6 pr-0 md:pr-[15%] font-['Avenir']`}>
+            <p className={`text-[16px] ${subtextColor} leading-relaxed mb-6 pr-0 font-['Avenir']`}>
               {subtext}
             </p>
 

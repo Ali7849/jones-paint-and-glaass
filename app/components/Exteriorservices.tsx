@@ -212,7 +212,7 @@ function ProductCard({ p, index }: { p: Product; index: number }) {
             {p.title}
           </h3>
           {p.subtitle && (
-            <p className="text-[24px] text-[#0052C6] leading-relaxed mb-4 w-[80%]">
+            <p className="text-[24px] text-[#0052C6] leading-relaxed mb-4 w-[90%]">
               {p.subtitle}
             </p>
           )}

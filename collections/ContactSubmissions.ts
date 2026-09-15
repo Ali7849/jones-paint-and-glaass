@@ -6,11 +6,14 @@ const ContactSubmissions: CollectionConfig = {
     singular: 'General Inquiry',
     plural: 'General Inquiries',
   },
-  admin: {
+   admin: {
     useAsTitle: 'fullName',
     group: 'Form Submissions',
     defaultColumns: ['fullName', 'email', 'store', 'emailStatus', 'createdAt'],
     description: 'General inquiries submitted through the contact form.',
+    components: {
+      beforeListTable: ['@/app/components/admin/ExportSubmissions#default'],
+    },
   },
   access: {
     // Only the API route creates these — no public reads or writes
