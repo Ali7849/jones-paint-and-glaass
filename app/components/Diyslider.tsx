@@ -33,6 +33,7 @@ type DiySliderBlockProps = {
   showInstagram?: boolean;
   showTiktok?: boolean;
   darkBackground?: boolean;
+  backgroundVectorImage?: { url: string; alt?: string } | null;
   slides?: DiyItem[];
 };
 
@@ -52,6 +53,7 @@ export default function Diyslider({
   showInstagram = true,
   showTiktok = true,
   darkBackground = true,
+  backgroundVectorImage = null,
   slides = [],
 }: DiySliderBlockProps) {
   const [activeTab, setActiveTab] = useState<"instagram" | "tiktok">(
@@ -214,7 +216,17 @@ export default function Diyslider({
   };
 
   return (
-    <section className={`relative w-full ${sectionBg} py-6 sm:py-12 md:py-14`}>
+    <section className={`relative w-full ${sectionBg} py-6 sm:py-12 md:py-14 overflow-hidden`}>
+
+      {/* Decorative vector — top right */}
+      {backgroundVectorImage?.url && (
+        <img
+          src={backgroundVectorImage.url}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none select-none absolute top-0 right-0 w-[300px] sm:w-[300px]  h-auto z-0"
+        />
+      )}
 
       {darkBackground && (
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
