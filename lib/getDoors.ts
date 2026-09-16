@@ -6,6 +6,7 @@ export async function getDoors() {
     const payload = await getPayload({ config })
     const result = await payload.find({
       collection: 'doors' as any,
+      where: { published: { equals: true } },
       limit: 100,
       sort: 'name',
       depth: 2,
@@ -26,22 +27,23 @@ export async function getDoorsBySlug(slug: string) {
     const result = await payload.find({
       collection: 'doors' as any,
       where: {
-        or: [
-          { slug: { equals: normalizedSlug } },
-          { slug: { equals: `/${normalizedSlug}` } },
+        and: [
+          { published: { equals: true } },
+          {
+            or: [
+              { slug: { equals: normalizedSlug } },
+              { slug: { equals: `/${normalizedSlug}` } },
+            ],
+          },
         ],
       },
       depth: 2,
       limit: 1,
     })
 
-    console.log('getDoorsBySlug input:', slug)
-    console.log('getDoorsBySlug normalized:', normalizedSlug)
-    console.log('getDoorsBySlug result:', JSON.stringify(result.docs[0]?.slug))
-
     return result.docs[0] ?? null
   } catch (err) {
     console.error('getDoorsBySlug error:', err)
     return null
   }
-}
+} 

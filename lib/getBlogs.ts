@@ -1,6 +1,13 @@
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 
+// Category may arrive as a populated relationship object, an ID string,
+// or an old plain string from before categories became a collection.
+function categoryId(category: any) {
+  if (!category) return undefined
+  return typeof category === 'object' ? category.id : category
+}
+
 export async function getBlogs(limit = 100) {
   try {
     const payload = await getPayload({ config: configPromise })
@@ -18,14 +25,14 @@ export async function getBlogs(limit = 100) {
   }
 }
 
-export async function getBlogsByCategory(category: string, limit = 100) {
+export async function getBlogsByCategory(category: any, limit = 100) {
   try {
     const payload = await getPayload({ config: configPromise })
     const result = await payload.find({
       collection: 'blogs' as any,
       where: {
         published: { equals: true },
-        category: { equals: category },
+        category: { equals: categoryId(category) },
       },
       sort: '-publishedDate',
       limit,
@@ -73,22 +80,24 @@ export async function getBlogById(id: string) {
 }
 
 export async function getRelatedBlogs(
-  category: string | undefined,
+  category: any,
   excludeId: string,
   limit = 3
 ) {
   try {
     const payload = await getPayload({ config: configPromise })
 
+    const catValue = categoryId(category)
+
     const base: any = {
       published: { equals: true },
       id: { not_equals: excludeId },
     }
 
-    if (category) {
+    if (catValue) {
       const sameCategory = await payload.find({
         collection: 'blogs' as any,
-        where: { ...base, category: { equals: category } },
+        where: { ...base, category: { equals: catValue } },
         sort: '-publishedDate',
         limit,
         depth: 1,

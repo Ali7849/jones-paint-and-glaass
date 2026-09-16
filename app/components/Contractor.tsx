@@ -129,7 +129,7 @@ export default function Contractor({
   return (
     <section className="relative z-1 bg-white py-16 md:py-24 overflow-hidden">
       <div
-        className="absolute bottom-0 right-0 w-full pointer-events-none"
+        className="absolute bott right-0 w-full pointer-events-none"
         id="contract-element"
         style={{
           backgroundImage: 'url(/assets/jt/elements/paint-2.png)',

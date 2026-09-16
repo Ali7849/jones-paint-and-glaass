@@ -59,15 +59,12 @@ const Blogs: CollectionConfig = {
             },
             {
               name: 'category',
-              type: 'select',
+              type: 'relationship',
+              relationTo: 'blog-categories' as any,
               label: 'Category',
-              options: [
-                { label: 'Paint', value: 'Paint' },
-                { label: 'Glass', value: 'Glass' },
-                { label: 'Doors', value: 'Doors' },
-                { label: 'Garage Doors', value: 'Garage Doors' },
-                { label: 'DIY Tips', value: 'DIY Tips' },
-              ],
+              admin: {
+                description: 'Manage the list under Blog Categories.',
+              },
             },
             {
               name: 'keywords',

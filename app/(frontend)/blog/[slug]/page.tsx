@@ -28,6 +28,12 @@ async function getBlog(slug: string) {
   return docs[0] ?? null
 }
 
+// Category may be a relationship object or, on older posts, a plain string
+function categoryName(category: any): string {
+  if (!category) return ''
+  return typeof category === 'object' ? (category.name ?? '') : category
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -76,6 +82,8 @@ export default async function BlogPage({
 
   // Posts from the same category, excluding this one
   const relatedPosts = await getRelatedBlogs(blog.category, blog.id)
+
+  const catName = categoryName(blog.category)
 
   const formattedDate = blog.publishedDate
     ? new Date(blog.publishedDate).toLocaleDateString('en-US', {
@@ -138,7 +146,7 @@ export default async function BlogPage({
             {/* Breadcrumb */}
             <p className="text-[16px] text-center sm:text-start font-bold tracking-[0.12em] text-[#0052C6] uppercase mb-3">
               <Link href="/blogs">Blogs</Link>
-              {blog.category && <> &gt; {blog.category}</>}
+              {catName && <> &gt; {catName}</>}
             </p>
 
             {/* Title */}
@@ -230,9 +238,7 @@ export default async function BlogPage({
       {relatedPosts.length > 0 && (
         <RecommendBlog
           label="Read More"
-          heading={
-            blog.category ? `More on ${blog.category}` : 'Recommended for You'
-          }
+          heading={catName ? `More on ${catName}` : 'Recommended for You'}
           posts={relatedPosts}
         />
       )}

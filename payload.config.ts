@@ -19,6 +19,7 @@ import Redirects from './collections/Redirects'
 import Analytics from './collections/Analytics'
 import QuoteSubmissions from './collections/QuoteSubmissions'
 import ContactSubmissions from './collections/ContactSubmissions'
+import BlogCategories from './collections/BlogCategories'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -62,6 +63,7 @@ export default buildConfig({
     Redirects,
     QuoteSubmissions,
     ContactSubmissions,
+    BlogCategories,
   ],
 
   globals: [

@@ -6,6 +6,7 @@ export async function getPaint() {
     const payload = await getPayload({ config })
     const result = await payload.find({
       collection: 'paint' as any,
+      where: { published: { equals: true } },
       limit: 100,
       sort: 'name',
       depth: 2,
@@ -26,18 +27,19 @@ export async function getPaintBySlug(slug: string) {
     const result = await payload.find({
       collection: 'paint' as any,
       where: {
-        or: [
-          { slug: { equals: normalizedSlug } },
-          { slug: { equals: `/${normalizedSlug}` } },
+        and: [
+          { published: { equals: true } },
+          {
+            or: [
+              { slug: { equals: normalizedSlug } },
+              { slug: { equals: `/${normalizedSlug}` } },
+            ],
+          },
         ],
       },
       depth: 2,
       limit: 1,
     })
-
-    console.log('getPaintBySlug input:', slug)
-    console.log('getPaintBySlug normalized:', normalizedSlug)
-    console.log('getPaintBySlug result:', JSON.stringify(result.docs[0]?.slug))
 
     return result.docs[0] ?? null
   } catch (err) {

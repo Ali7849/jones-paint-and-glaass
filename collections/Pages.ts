@@ -42,6 +42,16 @@ const Pages: CollectionConfig = {
   },
   fields: [
     {
+      name: 'published',
+      type: 'checkbox',
+      label: 'Published',
+      defaultValue: true,
+      admin: {
+        position: 'sidebar',
+        description: 'Uncheck to save as a draft. Drafts return a 404 on the site.',
+      },
+    },
+    {
       name: 'title',
       type: 'text',
       required: true,
