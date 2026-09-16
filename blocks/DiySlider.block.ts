@@ -45,7 +45,7 @@ export const DiySliderBlock: Block = {
       label: 'Show TikTok Tab',
     },
     {
-      name: 'Background Vector Image',
+      name: 'backgroundVectorImage',
       type: 'upload',
       relationTo: 'media' as any,
     },

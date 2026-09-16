@@ -23,6 +23,22 @@ export const ImageSliderBlock: Block = {
       defaultValue: 'We have stores scattered throughout Utah. Check out the products and information for the store nearest you!',
     },
     {
+    name: 'showVector',
+    type: 'checkbox',
+    label: 'Show background vector',
+    defaultValue: false,
+  },
+  {
+    name: 'vectorImage',
+    type: 'upload',
+    relationTo: 'media' as any,
+    label: 'Vector Image',
+    admin: {
+      description: 'Decorative shape shown behind the section.',
+      condition: (_, siblingData) => siblingData?.showVector,
+    },
+  },
+    {
       name: 'adddescription',
       type: 'textarea',
       defaultValue: '',

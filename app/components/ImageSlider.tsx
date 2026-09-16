@@ -24,6 +24,8 @@ type ImageSliderBlockProps = {
   heading?: string;
   description?: string;
   adddescription?: string;
+  showVector?: boolean;
+  vectorImage?: { url?: string | null; alt?: string | null } | null;
   // IDs of selected locations from Payload block field — empty = show all
   locations?: { id: string; value?: any }[] | string[] | null;
 };
@@ -32,6 +34,8 @@ export default function ImageSlider({
   heading = "JP&G Locations",
   description = "We have stores scattered throughout Utah. Check out the products and information for the store nearest you!",
   adddescription = "",
+  showVector = false,
+  vectorImage = null,
   locations: selectedLocations,
 }: ImageSliderBlockProps) {
   const prevRef = useRef<HTMLButtonElement>(null);
@@ -113,6 +117,15 @@ export default function ImageSlider({
       className="mt-[-100px] pr-[10%] pt-40 pb-20 overflow-hidden bg-gradient-to-b from-[#0052C6] to-[#002559]"
       id="jp-slider"
     >
+
+      {showVector && vectorImage?.url && (
+        <img
+          src={vectorImage.url}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none select-none absolute -top-2 -left-8 w-[30%] max-w-[300px] h-auto z-0"
+        />
+      )}
       <div className=" bg-white py-10 rounded-r-3xl  white-grad">
         <div className="container mx-auto grid grid-cols-12 items-end gap-6">
           {/* LEFT SIDE */}
