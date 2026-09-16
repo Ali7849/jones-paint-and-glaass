@@ -71,6 +71,11 @@ button{
     z-index: 1;
 }
 
+.mult{
+  z-index: 1;
+    mix-blend-mode: multiply;
+}
+
 
 .bott{
   bottom: -125px !important;
@@ -93,6 +98,15 @@ button{
     top: 270px !important;
     height: 200px !important;
     width: 200px !important;
+  }
+  .mult{
+  z-index: 1;
+    mix-blend-mode: multiply;
+    width: 190px !important;
+}
+  .diy-vect {
+        top: 200px;
+        width: 210px !important;
   }
   .resp{
     top: 4% !important;
