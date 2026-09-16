@@ -32,6 +32,11 @@ h1, h2,h3,h4,h5,h6{
   font-family: 'Avenir' !important;
 }
 
+ .font-bold{
+    font-family: 'Avenir' !important;
+  }
+
+
 p,li,a,span{
   font-family: 'Avenir-normal' !important;
 }
@@ -108,6 +113,8 @@ button{
         top: 200px;
         width: 210px !important;
   }
+
+ 
   .resp{
     top: 4% !important;
     width: 200px !important;
@@ -164,9 +171,7 @@ button{
   }
 } */
 
- *{
-  font-family: 'Avenir' !important;
- }
+
 
 
 /* p,li{
