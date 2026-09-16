@@ -40,47 +40,31 @@ export default function DiyHero({
 }: DiyHeroProps) {
   return (
     <section className="container mx-auto w-full px-4 sm:px-6 md:px-10 lg:px-16 py-10 sm:py-12 md:py-16 mt-16 mb-24">
-
       {/* Top Two Cards */}
       <div className="flex flex-wrap justify-between gap-4 lg:gap-0 mb-4 sm:mb-5 md:mb-6">
-
         {/* Card 1 — Blue */}
         <div className="bg-[#0052C6] rounded-2xl px-6 sm:px-8 md:px-10 py-8 sm:py-10 md:py-12 w-full lg:w-[58%]">
-          <h2
-            className="text-white font-extrabold leading-tight mb-3 sm:mb-4 font-[Avenir] text-[32px] sm:text-[42px] lg:text-[54px]"
-            
-          >
+          <h2 className="text-white font-extrabold leading-tight mb-3 sm:mb-4 font-[Avenir] text-[32px] sm:text-[42px] lg:text-[54px]">
             {card1Heading}
           </h2>
-          <p
-            className="w-full lg:w-2/3 text-white/80 leading-relaxed font-[Avenir]"
-           
-          >
+          <p className="w-full lg:w-2/3 text-white/80 leading-relaxed font-[Avenir]">
             {card1Description}
           </p>
         </div>
 
         {/* Card 2 — Black */}
         <div className="bg-[#111111] rounded-2xl px-6 sm:px-8 md:px-10 py-8 sm:py-10 md:py-12 w-full lg:w-[40%]">
-          <h2
-            className="text-white font-extrabold leading-tight mb-3 sm:mb-4 font-[Avenir] text-[28px] sm:text-[32px] lg:text-[36px] w-full lg:w-[250px]"
-            
-          >
+          <h2 className="text-white font-extrabold leading-tight mb-3 sm:mb-4 font-[Avenir] text-[28px] sm:text-[32px] lg:text-[36px] w-full lg:w-[250px]">
             {card2Heading}
           </h2>
-          <p
-            className=" text-white/80 leading-relaxed font-[Avenir] w-full lg:w-[330px]"
-      
-          >
+          <p className=" text-white/80 leading-relaxed font-[Avenir] w-full lg:w-[330px]">
             {card2Description}
           </p>
         </div>
-
       </div>
 
       {/* Bottom Banner */}
       <div className="relative w-full rounded-2xl overflow-hidden min-h-[220px] sm:min-h-[280px] md:min-h-[320px] lg:min-h-[360px]">
-
         {/* Background Image */}
         {bannerImage?.url && (
           <img
@@ -102,50 +86,52 @@ export default function DiyHero({
         <div className="absolute inset-0 bg-black/10" />
 
         {/* Content */}
-        <div className="relative z-10 h-full flex flex-col items-center lg:items-end justify-center sm:justify-end gap-6 sm:gap-8 px-6 sm:px-10 md:px-16 lg:px-20 py-8 sm:py-10 md:py-12">
+        <div className="relative z-10 h-full flex flex-col items-center lg:items-end justify-center sm:justify-end gap-6 sm:gap-8 px-6 sm:px-10 md:px-16 lg:px-20 py-8 sm:py-10 md:py-12 mt-[40px]">
+          <div className="max-w-[320px] sm:max-w-[420px] lg:w-[500px] lg:max-w-none ml-auto flex-col items-start justify-center gap-6">
+            {/* Tagline + Highlight */}
+            <div className="flex items-center gap-3 sm:gap-4 ">
+              {bannerVectorImage?.url && (
+                <div className="w-full max-w-[320px] sm:max-w-[420px] lg:w-[500px] lg:max-w-none">
+                  <img
+                    src={bannerVectorImage.url}
+                    alt={bannerVectorImage.alt ?? ""}
+                    className="w-full h-auto"
+                  />
+                </div>
+              )}
+            </div>
 
-          {/* Tagline + Highlight */}
-          <div className="flex items-center gap-3 sm:gap-4 ">
-            
-            {bannerVectorImage?.url && (
-              <div className="w-full max-w-[320px] sm:max-w-[420px] lg:w-[540px] lg:max-w-none">
-                <img  src={bannerVectorImage.url} alt={bannerVectorImage.alt ?? ""} className="w-full h-auto" />
+            {/* CTA Buttons */}
+            {buttons.length > 0 && (
+              <div className="flex flex-wrap justify-center lg:justify-start items-center gap-3 sm:gap-4 mt-6">
+                {buttons.map((btn, i) => (
+                  <a
+                    key={i}
+                    href={btn.link ?? "#"}
+                    className="group cursor-pointer flex items-center gap-2 bg-[#0052C6] text-white font-bold px-5 py-2.5 rounded-md transition-colors"
+                    style={{ fontSize: "clamp(12px, 1.1vw, 15px)" }}
+                  >
+                    {btn.label}
+                    <svg
+                      className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <path
+                        d="M5 12h14M13 6l6 6-6 6"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </a>
+                ))}
               </div>
             )}
           </div>
-
-          {/* CTA Buttons */}
-          {buttons.length > 0 && (
-            <div className="flex flex-wrap justify-center lg:justify-start items-center gap-3 sm:gap-4">
-              {buttons.map((btn, i) => (
-                
-                <a  key={i}
-                  href={btn.link ?? "#"}
-                  className="group cursor-pointer flex items-center gap-2 bg-[#0052C6] text-white font-bold px-5 py-2.5 rounded-md transition-colors"
-                  style={{ fontSize: "clamp(12px, 1.1vw, 15px)" }}
-                >
-                  {btn.label}
-                  <svg
-                    className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
-                    <path
-                      d="M5 12h14M13 6l6 6-6 6"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </a>
-              ))}
-            </div>
-          )}
-
         </div>
       </div>
-
     </section>
   );
 }
