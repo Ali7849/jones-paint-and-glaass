@@ -44,13 +44,13 @@ async function searchCollection(
   ]
 
   if (col.slug === 'blogs') {
-    or.push({ category: { like: q } }, { 'keywords.keyword': { like: q } })
+    or.push({ excerpt: { like: q } }, { 'keywords.keyword': { like: q } })
   }
 
-  const where: any =
-    col.slug === 'blogs'
-      ? { and: [{ published: { equals: true } }, { or }] }
-      : { or }
+  // Every searchable collection has a published flag
+  const where: any = {
+    and: [{ published: { equals: true } }, { or }],
+  }
 
   try {
     const { docs } = await payload.find({
@@ -66,7 +66,8 @@ async function searchCollection(
       href: `${col.prefix}${doc.slug}`,
       type: col.label,
       image: doc.image?.url ?? doc.locationImage?.url ?? null,
-      description: doc.metaDescription ?? doc.services ?? undefined,
+      description:
+        doc.excerpt ?? doc.metaDescription ?? doc.services ?? undefined,
       date: doc.publishedDate ?? undefined,
       readTime: doc.readTime ?? undefined,
     }))

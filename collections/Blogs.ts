@@ -5,7 +5,7 @@ const Blogs: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     group: 'Pages',
-    defaultColumns: ['title', 'category', 'published', 'publishedDate', 'updatedAt'],
+    defaultColumns: ['title', 'blogCategory', 'published', 'publishedDate', 'updatedAt'],
   },
   access: {
     read: () => true,
@@ -58,12 +58,22 @@ const Blogs: CollectionConfig = {
               defaultValue: '5 min read',
             },
             {
-              name: 'category',
+              name: 'excerpt',
+              type: 'textarea',
+              label: 'Excerpt',
+              maxLength: 300,
+              admin: {
+                description:
+                  'Short summary shown on listing and recommended cards.',
+              },
+            },
+            {
+              name: 'blogCategory',
               type: 'relationship',
               relationTo: 'blog-categories' as any,
-              label: 'Category',
+              label: 'Blog Category',
               admin: {
-                description: 'Manage the list under Blog Categories.',
+                description: 'Manage the list under Blog Categories in the sidebar.',
               },
             },
             {

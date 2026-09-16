@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
     const category = searchParams.get('category')
 
     const where: any = { published: { equals: true } }
-    if (category) where.category = { equals: category }
+    if (category) where.blogCategory = { equals: category }
 
     const payload = await getPayload({ config: configPromise })
 

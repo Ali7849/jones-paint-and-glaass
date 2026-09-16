@@ -6,7 +6,8 @@ type Blog = {
   id?: string
   title: string
   slug?: string
-  category?: string
+  excerpt?: string
+  blogCategory?: { name?: string } | string
   content?: any
   image?: {
     url: string
@@ -60,7 +61,8 @@ export default function RecommendBlog({
               const blog = typeof post === 'object' && post !== null ? post : null
               if (!blog) return null
 
-              const summary = extractSummary(blog.content)
+              // Use the excerpt if one was written, otherwise fall back to the first paragraph
+              const summary = blog.excerpt?.trim() || extractSummary(blog.content)
               const href = blog.slug ? `/blog/${blog.slug}` : '#'
 
               return (
@@ -85,9 +87,9 @@ export default function RecommendBlog({
 
                   {/* Keyword */}
                   {/* <div className="flex items-center gap-4 mb-3">
-                    {blog.category && (
+                    {blog.blogCategory?.name && (
                       <span className="text-[16px] font-semibold bg-gray-100 px-2.5 py-1">
-                        {blog.category}
+                        {blog.blogCategory.name}
                       </span>
                     )}
                     
@@ -98,7 +100,7 @@ export default function RecommendBlog({
                     {blog.title}
                   </h3>
 
-                  {/* Summary from rich text */}
+                  {/* Summary — excerpt or first paragraph */}
                   {summary && (
                     <p className="text-[16px] leading-relaxed mb-2">
                       {summary}

@@ -7,6 +7,7 @@ type Blog = {
   id?: string
   title: string
   slug?: string
+  excerpt?: string
   content?: any
   publishedDate?: string
   image?: {
@@ -161,7 +162,8 @@ export default function BlogDetail({
             {/* Articles */}
             <div className="flex flex-col gap-12 md:gap-16 relative z-1">
               {blogs.map((blog, index) => {
-                const summary = extractSummary(blog.content)
+                // Use the excerpt if one was written, otherwise fall back to the first paragraph
+                const summary = blog.excerpt?.trim() || extractSummary(blog.content)
                 const href = blog.slug ? `/blog/${blog.slug}` : '#'
 
                 return (
