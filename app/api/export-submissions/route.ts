@@ -49,21 +49,25 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Mirror the list view's filters where present
     let where: any = undefined
-    const rawWhere = searchParams.get('where')
-    if (rawWhere) {
-      try {
-        where = JSON.parse(rawWhere)
-      } catch {
-        // Ignore a malformed filter rather than failing the export
-      }
-    }
 
     const search = searchParams.get('search')
     if (search) {
-      const searchWhere = { fullName: { like: search } }
-      where = where ? { and: [where, searchWhere] } : searchWhere
+      where = { fullName: { like: search } }
+    }
+
+    // Date range on createdAt — mirrors the dates picked in the list view
+    const from = searchParams.get('from')
+    const to = searchParams.get('to')
+
+    if (from || to) {
+      const range: any = {}
+      if (from) range.greater_than_equal = new Date(`${from}T00:00:00.000Z`)
+      // Include the whole of the "to" day, not just midnight
+      if (to) range.less_than_equal = new Date(`${to}T23:59:59.999Z`)
+
+      const dateWhere = { createdAt: range }
+      where = where ? { and: [where, dateWhere] } : dateWhere
     }
 
     const { docs } = await (payload as any).find({
@@ -89,11 +93,12 @@ export async function GET(req: Request) {
     const csv = '\uFEFF' + [header, ...rows].join('\r\n')
 
     const date = new Date().toISOString().slice(0, 10)
+    const rangeLabel = from || to ? `-${from || 'start'}_${to || date}` : ''
 
     return new NextResponse(csv, {
       headers: {
         'Content-Type': 'text/csv; charset=utf-8',
-        'Content-Disposition': `attachment; filename="${collection}-${date}.csv"`,
+        'Content-Disposition': `attachment; filename="${collection}${rangeLabel}-${date}.csv"`,
         'Cache-Control': 'no-store',
       },
     })

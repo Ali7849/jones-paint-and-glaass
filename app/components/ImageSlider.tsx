@@ -123,7 +123,7 @@ export default function ImageSlider({
           src={vectorImage.url}
           alt=""
           aria-hidden="true"
-          className="pointer-events-none select-none absolute -top-2 -left-8 w-[30%] max-w-[300px] h-auto z-0"
+          className="pointer-events-none select-none absolute top-4 left-0 w-[300px] h-auto z-1 mult"
         />
       )}
       <div className=" bg-white py-10 rounded-r-3xl  white-grad">
