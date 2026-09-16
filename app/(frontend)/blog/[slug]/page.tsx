@@ -81,9 +81,9 @@ export default async function BlogPage({
   if (!blog) return notFound()
 
   // Posts from the same category, excluding this one
-  const relatedPosts = await getRelatedBlogs(blog.category, blog.id)
+  const relatedPosts = await getRelatedBlogs(blog.blogCategory, blog.id)
 
-  const catName = categoryName(blog.category)
+  const catName = categoryName(blog.blogCategory)
 
   const formattedDate = blog.publishedDate
     ? new Date(blog.publishedDate).toLocaleDateString('en-US', {

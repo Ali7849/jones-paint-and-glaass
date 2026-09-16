@@ -1,8 +1,7 @@
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 
-// Category may arrive as a populated relationship object, an ID string,
-// or an old plain string from before categories became a collection.
+
 function categoryId(category: any) {
   if (!category) return undefined
   return typeof category === 'object' ? category.id : category
@@ -32,7 +31,7 @@ export async function getBlogsByCategory(category: any, limit = 100) {
       collection: 'blogs' as any,
       where: {
         published: { equals: true },
-        category: { equals: categoryId(category) },
+        blogCategory: { equals: categoryId(category) },
       },
       sort: '-publishedDate',
       limit,
@@ -97,7 +96,7 @@ export async function getRelatedBlogs(
     if (catValue) {
       const sameCategory = await payload.find({
         collection: 'blogs' as any,
-        where: { ...base, category: { equals: catValue } },
+        where: { ...base, blogCategory: { equals: catValue } },
         sort: '-publishedDate',
         limit,
         depth: 1,
