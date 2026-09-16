@@ -103,6 +103,9 @@ async function getContentBySlug(slug: string) {
         slug: {
           equals: slug,
         },
+        published: {
+          equals: true,
+        },
       },
       depth: 1,
       limit: 1,
@@ -212,6 +215,9 @@ export default async function DynamicPage({
     where: {
       slug: {
         equals: slug,
+      },
+      published: {
+        equals: true,
       },
     },
     depth: 3,

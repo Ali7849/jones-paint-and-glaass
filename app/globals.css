@@ -71,6 +71,11 @@ button{
     z-index: 1;
 }
 
+
+.bott{
+  bottom: -125px !important;
+}
+
 .search-bar{
   width:33%;
   margin-left:auto !important;
