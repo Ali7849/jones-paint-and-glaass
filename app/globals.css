@@ -27,6 +27,43 @@
 }
 
 
+:root {
+  --container-max: 100%;
+  --container-gutter: 1rem;      /* matches px-4 */
+}
+
+@media (width >= 40rem) {
+  :root {
+    --container-max: 46rem;
+    --container-gutter: 1.5rem;  /* matches sm:px-6 */
+  }
+}
+@media (width >= 48rem) {
+  :root {
+    --container-max: 54rem;
+    --container-gutter: 3rem;    /* matches md:px-12 */
+  }
+}
+@media (width >= 64rem) {
+  :root { --container-max: 70rem; }
+}
+@media (width >= 80rem) {
+  :root { --container-max: 86rem; }
+}
+@media (width >= 96rem) {
+  :root { --container-max: 102rem; }
+}
+
+/* Starts at the container's content edge, runs to the right edge of the screen */
+.bleed-right {
+  margin-left: calc((100% - var(--container-max)) / 2 + var(--container-gutter));
+}
+
+/* Mirror: starts at the left edge of the screen, stops at the container's content edge */
+.bleed-left {
+  margin-right: calc((100% - var(--container-max)) / 2 + var(--container-gutter));
+}
+
 
 h1, h2,h3,h4,h5,h6{
   font-family: 'Avenir' !important;
@@ -90,6 +127,8 @@ button{
   width:33%;
   margin-left:auto !important;
 }
+
+
 
 @media (max-width: 980px) {
   .search-bar{

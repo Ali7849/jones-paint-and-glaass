@@ -11,6 +11,18 @@ const getHostname = (url?: string): string => {
   }
 };
 
+// Hostname of the S3 bucket, taken from S3_PUBLIC_URL so it follows
+// whichever bucket the environment points at (yours on staging, the client's on production)
+const getS3Hostname = (): string => {
+  const url = process.env.S3_PUBLIC_URL;
+  if (!url) return 'jones-pg-bucket.s3.eu-north-1.amazonaws.com';
+  try {
+    return new URL(url).hostname;
+  } catch {
+    return 'jones-pg-bucket.s3.eu-north-1.amazonaws.com';
+  }
+};
+
 // Redirects are now handled in middleware.ts at request time, querying
 // /api/redirects live — this avoids importing payload.config.ts (a raw
 // .ts file) via dynamic import() during Next's config transpilation,
@@ -59,7 +71,13 @@ const nextConfig: NextConfig = {
         hostname: getHostname(process.env.NEXT_PUBLIC_SERVER_URL),
         pathname: '/api/media/file/**',
       },
-      // Cloudinary
+      // S3 bucket
+      {
+        protocol: 'https',
+        hostname: getS3Hostname(),
+        pathname: '/**',
+      },
+      // Cloudinary — keep until the migration has run, then remove
       {
         protocol: 'https',
         hostname: 'res.cloudinary.com',

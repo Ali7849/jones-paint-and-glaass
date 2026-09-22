@@ -1,13 +1,12 @@
 import { buildConfig } from 'payload'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { s3Storage } from '@payloadcms/storage-s3'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import Media from './collections/Media'
 import Navigation from './collections/Navigation'
 import Pages from './collections/Pages'
-import { cloudStoragePlugin } from '@payloadcms/plugin-cloud-storage'
-import { cloudinaryAdapter } from './lib/cloudinaryAdapter'
 import Users from './collections/Users'
 import Locations from './collections/Locations'
 import Paint from './collections/Paint'
@@ -73,22 +72,25 @@ export default buildConfig({
   ],
 
   plugins: [
-  cloudStoragePlugin({
-    collections: {
-      media: {
-        adapter: cloudinaryAdapter({
-          folder: 'paint-media',
-          config: {
-            cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
-            api_key: process.env.CLOUDINARY_API_KEY!,
-            api_secret: process.env.CLOUDINARY_API_SECRET!,
-          },
-        }),
-        disableLocalStorage: true,
+    s3Storage({
+      collections: {
+        media: {
+          // Same folder the migrated files live in
+          prefix: 'paint-media/media',
+          // Serve straight from S3 rather than proxying through /api/media/file
+          disablePayloadAccessControl: true,
+          generateFileURL: ({ filename, prefix }) =>
+            `${process.env.S3_PUBLIC_URL}${prefix ? `${prefix}/` : ''}${filename}`,
+        },
       },
-    },
-  }),
-],
-
-
+      bucket: process.env.S3_BUCKET!,
+      config: {
+        region: process.env.S3_REGION!,
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID!,
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!,
+        },
+      },
+    }),
+  ],
 })
