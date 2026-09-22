@@ -66,24 +66,38 @@
 
 
 
+
+
 .container {
  width: 100%;
  @media (width >= 40rem /* 640px */) {
  max-width: 95% /* 640px */ !important;
  }
  @media (width >= 48rem /* 768px */) {
- max-width: 88% /* 768px */ !important;
+ max-width: 85% /* 768px */ !important;
  }
  @media (width >= 64rem /* 1024px */) {
- max-width: 88% /* 1024px */ !important;
+ max-width: 85% /* 1024px */ !important;
  }
  @media (width >= 80rem /* 1280px */) {
- max-width: 88% /* 1280px */ !important;
+ max-width: 85% /* 1280px */ !important;
  }
  @media (width >= 96rem /* 1536px */) {
- max-width: 96rem /* 1536px */ !important;
+ max-width: 80% /* 1536px */ !important;
  }
 }
+
+.right-bleed{
+  width:92.5% !important;
+  margin-left: 7.5% !important;
+
+  @media (width >= 96rem /* 1536px */) {
+  width:90% !important;
+  margin-left: 10% !important;
+ }
+}
+
+
 
 
 
