@@ -5,11 +5,11 @@ const Media: CollectionConfig = {
   admin: {
     useAsTitle: 'alt',
     group: 'Settings',
-    defaultColumns: ['filename', 'alt', 'url', 'cloudinaryPublicId', 'updatedAt'],
+    defaultColumns: ['filename', 'alt', 'updatedAt'],
   },
   labels: {
     singular: 'Media Library',
-    plural: 'Media Library',      
+    plural: 'Media Library',
   },
   access: {
     read: () => true,
@@ -20,15 +20,8 @@ const Media: CollectionConfig = {
   upload: {
     disableLocalStorage: true,
     mimeTypes: ['image/*', 'video/*', 'application/pdf'],
-    // ✅ Tell Payload where to find the image URL for thumbnails
-    adminThumbnail: ({ doc }) => {
-      const d = doc as any
-      if (d.url) return d.url
-      if (d.cloudinaryPublicId) {
-        return `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/${d.cloudinaryPublicId}`
-      }
-      return null
-    },
+    // The S3 plugin fills in `url`, so the thumbnail just uses it
+    adminThumbnail: ({ doc }) => ((doc as any)?.url as string) || null,
   },
   fields: [
     {
@@ -40,19 +33,12 @@ const Media: CollectionConfig = {
       },
     },
     {
-      name: 'url',
-      type: 'text',
-      admin: {
-        readOnly: true,
-        description: 'Cloudinary URL (auto-filled on upload)',
-      },
-    },
-    {
+      // Temporary — read by the migration route. Remove once it has run.
       name: 'cloudinaryPublicId',
       type: 'text',
       admin: {
         readOnly: true,
-        description: 'Cloudinary Public ID (auto-filled on upload)',
+        hidden: true,
       },
     },
   ],

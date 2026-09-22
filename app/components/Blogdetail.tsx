@@ -73,6 +73,26 @@ function getPaginationItems(currentPage: number, totalPages: number): (number | 
   })
 }
 
+// Compact version for small screens — at most 5 items, always keeps the current page visible
+function getMobilePaginationItems(currentPage: number, totalPages: number): (number | 'dots')[] {
+  if (totalPages <= 4) {
+    return Array.from({ length: totalPages }, (_, i) => i + 1)
+  }
+
+  // Near the start
+  if (currentPage <= 2) {
+    return [1, 2, 'dots', totalPages]
+  }
+
+  // Near the end
+  if (currentPage >= totalPages - 1) {
+    return [1, 'dots', totalPages - 1, totalPages]
+  }
+
+  // Somewhere in the middle
+  return [1, 'dots', currentPage, 'dots', totalPages]
+}
+
 export default function BlogDetail({
   label = "OUR BLOG",
   heading = "The Crash Course",
@@ -109,6 +129,30 @@ export default function BlogDetail({
   }
 
   const paginationItems = getPaginationItems(currentPage, totalPages)
+  const mobilePaginationItems = getMobilePaginationItems(currentPage, totalPages)
+
+  const renderPageItem = (item: number | 'dots', index: number, keyPrefix: string) =>
+    item === 'dots' ? (
+      <span
+        key={`${keyPrefix}-dots-${index}`}
+        className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-gray-400 text-[15px] font-semibold select-none"
+      >
+        ...
+      </span>
+    ) : (
+      <button
+        key={`${keyPrefix}-${item}`}
+        onClick={() => handlePageChange(item)}
+        aria-current={currentPage === item ? 'page' : undefined}
+        className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full text-[15px] font-semibold transition-colors cursor-pointer ${
+          currentPage === item
+            ? 'bg-[#0052C6] text-white'
+            : 'bg-[#F4F7FF] text-gray-700 hover:bg-[#D9FDED]'
+        }`}
+      >
+        {item}
+      </button>
+    )
 
   return (
     <section className="relative mt-20 py-14 md:py-20 bg-white overflow-hidden">
@@ -228,48 +272,36 @@ export default function BlogDetail({
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="flex items-center justify-center gap-2 mt-14 flex-wrap">
+              <div className="flex items-center justify-center gap-1.5 sm:gap-2 mt-14">
 
                 {/* Prev button */}
                 <button
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
-                  className="w-10 h-10 rounded-full bg-[#D9FDED] hover:bg-[#A5EBCD] flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+                  aria-label="Previous page"
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#D9FDED] hover:bg-[#A5EBCD] flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer flex-shrink-0"
                 >
                   <svg className="w-6 h-6 stroke-black fill-none" strokeWidth={1.5} viewBox="0 0 24 24">
                     <polyline points="15 18 9 12 15 6" />
                   </svg>
                 </button>
 
-                {/* Smart page numbers */}
-                {paginationItems.map((item, index) =>
-                  item === 'dots' ? (
-                    <span
-                      key={`dots-${index}`}
-                      className="w-10 h-10 flex items-center justify-center text-gray-400 text-[15px] font-semibold select-none"
-                    >
-                      ...
-                    </span>
-                  ) : (
-                    <button
-                      key={item}
-                      onClick={() => handlePageChange(item)}
-                      className={`w-10 h-10 rounded-full text-[15px] font-semibold transition-colors cursor-pointer ${
-                        currentPage === item
-                          ? 'bg-[#0052C6] text-white'
-                          : 'bg-[#F4F7FF] text-gray-700 hover:bg-[#D9FDED]'
-                      }`}
-                    >
-                      {item}
-                    </button>
-                  )
-                )}
+                {/* Mobile page numbers */}
+                <div className="flex sm:hidden items-center gap-1.5">
+                  {mobilePaginationItems.map((item, index) => renderPageItem(item, index, 'm'))}
+                </div>
+
+                {/* Desktop page numbers */}
+                <div className="hidden sm:flex items-center gap-2">
+                  {paginationItems.map((item, index) => renderPageItem(item, index, 'd'))}
+                </div>
 
                 {/* Next button */}
                 <button
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                  className="w-10 h-10 rounded-full bg-[#D9FDED] hover:bg-[#A5EBCD] flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+                  aria-label="Next page"
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#D9FDED] hover:bg-[#A5EBCD] flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer flex-shrink-0"
                 >
                   <svg className="w-6 h-6 stroke-black fill-none" strokeWidth={1.5} viewBox="0 0 24 24">
                     <polyline points="9 6 15 12 9 18" />

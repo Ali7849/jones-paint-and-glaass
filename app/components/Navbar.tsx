@@ -63,7 +63,7 @@ function NavLink({ label, href, onClick, className = "" }: {
     <Link
       href={href}
       onClick={onClick}
-      className={`block py-2 px-3 font-bold text-heading hover:text-fg-brand transition-colors duration-150 ${className}`}
+      className={`block py-2 px-3 text-heading hover:text-fg-brand transition-colors duration-150 ${className}`}
     >
       {label}
     </Link>
@@ -90,12 +90,12 @@ function DropdownMenu({ label, items, href }: {
         {href ? (
           <Link
             href={href}
-            className="py-2 pl-3 anchor font-bold text-heading xl:text-[16px] lg:text-[14px] hover:text-fg-brand transition-colors duration-150"
+            className="py-2 pl-3 anchor  text-heading xl:text-[16px] lg:text-[14px] hover:text-fg-brand transition-colors duration-150"
           >
             {label}
           </Link>
         ) : (
-          <span className="py-2 pl-3 font-bold text-heading xl:text-[16px] lg:text-[14px] cursor-default">
+          <span className="py-2 pl-3  text-heading xl:text-[16px] lg:text-[14px] cursor-default">
             {label}
           </span>
         )}

@@ -234,10 +234,10 @@ export default function Diyslider({
         </div>
       )}
 
-      <div className="relative z-10">
+      <div className="relative z-10 ">
 
         {/* Header row */}
-        <div className="container mx-auto flex flex-col md:flex-row md:items-end justify-between text-center md:text-start gap-6 mb-15 px-4 sm:px-6 md:px-12">
+        <div className="container mx-auto flex flex-col md:flex-row md:items-end justify-between text-center md:text-start gap-6 mb-15 ">
           <div className="w-full xl:w-3/4 lg:w-3/4 md:w-3/4">
             <h2 className={`text-[28px] md:text-[34px] lg:text-[48px] font-bold ${headingColor} mb-3 leading-tight font-['Avenir']`}>
               {heading}
@@ -304,7 +304,7 @@ export default function Diyslider({
         </div>
 
         {/* Swiper area */}
-        <div className="bg-white py-6 sm:py-8 pl-4 sm:pl-6 md:pl-8 ml-[10%] xl:ml-[6%] rounded-l-3xl">
+        <div className="bleed-right bg-white py-6 sm:py-8 pl-4 sm:pl-6 md:pl-8 rounded-l-3xl">
           <div className="w-full overflow-hidden">
             {renderSliderContent()}
           </div>

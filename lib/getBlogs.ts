@@ -78,57 +78,35 @@ export async function getBlogById(id: string) {
   }
 }
 
+// Same-category posts only. If the post has no category, or no other
+// published post shares it, this returns an empty array and the
+// "More on …" section is hidden on the blog page.
 export async function getRelatedBlogs(
   category: any,
   excludeId: string,
   limit = 3
 ) {
   try {
-    const payload = await getPayload({ config: configPromise })
-
     const catValue = categoryId(category)
 
-    const base: any = {
-      published: { equals: true },
-      id: { not_equals: excludeId },
-    }
+    // No category on this post — nothing to recommend
+    if (!catValue) return []
 
-    if (catValue) {
-      const sameCategory = await payload.find({
-        collection: 'blogs' as any,
-        where: { ...base, blogCategory: { equals: catValue } },
-        sort: '-publishedDate',
-        limit,
-        depth: 1,
-      })
+    const payload = await getPayload({ config: configPromise })
 
-      if (sameCategory.docs.length >= limit) return sameCategory.docs
-
-      const existingIds = sameCategory.docs.map((d: any) => d.id)
-      const filler = await payload.find({
-        collection: 'blogs' as any,
-        where: {
-          ...base,
-          id: { not_in: [excludeId, ...existingIds] },
-        },
-        sort: '-publishedDate',
-        limit: limit - sameCategory.docs.length,
-        depth: 1,
-      })
-
-      return [...sameCategory.docs, ...filler.docs]
-    }
-
-    // No category set on this post — show recent instead
-    const recent = await payload.find({
+    const { docs } = await payload.find({
       collection: 'blogs' as any,
-      where: base,
+      where: {
+        published: { equals: true },
+        id: { not_equals: excludeId },
+        blogCategory: { equals: catValue },
+      },
       sort: '-publishedDate',
       limit,
       depth: 1,
     })
 
-    return recent.docs
+    return docs ?? []
   } catch (err) {
     console.error('getRelatedBlogs error:', err)
     return []
