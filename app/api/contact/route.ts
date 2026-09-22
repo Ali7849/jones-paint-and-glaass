@@ -3,9 +3,20 @@ import nodemailer from 'nodemailer'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 
+// Visitor input goes into the email as HTML, so neutralise tags before
+// interpolating — otherwise someone can put links or markup into the store's inbox.
+function escapeHtml(value: unknown): string {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
 export async function POST(req: Request) {
   const body = await req.json()
-  const { firstName, lastName, email, phone, store, message, storeEmails } = body
+  const { firstName, lastName, email, phone, store, message, storeEmails, heardAbout } = body
   const isQuote = body.formType === 'quote-request'
   const formTypeLabel = isQuote ? 'Quote Request' : 'General Inquiry'
   const collection = isQuote ? 'quote-submissions' : 'contact-submissions'
@@ -31,6 +42,7 @@ export async function POST(req: Request) {
         email,
         phone: phone || '',
         store,
+        heardAbout: heardAbout || '',
         message,
         sentTo: storeEmails,
         emailStatus: 'sent',
@@ -56,6 +68,16 @@ export async function POST(req: Request) {
       },
     })
 
+    const safe = {
+      firstName: escapeHtml(firstName),
+      lastName: escapeHtml(lastName),
+      email: escapeHtml(email),
+      phone: escapeHtml(phone),
+      store: escapeHtml(store),
+      heardAbout: escapeHtml(heardAbout),
+      message: escapeHtml(message).replace(/\n/g, '<br/>'),
+    }
+
     await transporter.sendMail({
       from: `"Jones Paint & Glass" <${process.env.SMTP_FROM}>`,
       to: storeEmails,
@@ -70,31 +92,35 @@ export async function POST(req: Request) {
           <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
             <tr>
               <td style="padding: 10px; background: #F6F7FB; font-weight: bold; width: 35%; border: 1px solid #e5e7eb;">Name</td>
-              <td style="padding: 10px; border: 1px solid #e5e7eb;">${firstName} ${lastName}</td>
+              <td style="padding: 10px; border: 1px solid #e5e7eb;">${safe.firstName} ${safe.lastName}</td>
             </tr>
             <tr>
               <td style="padding: 10px; background: #F6F7FB; font-weight: bold; border: 1px solid #e5e7eb;">Email</td>
               <td style="padding: 10px; border: 1px solid #e5e7eb;">
-                <a href="mailto:${email}" style="color: #0052C6;">${email}</a>
+                <a href="mailto:${safe.email}" style="color: #0052C6;">${safe.email}</a>
               </td>
             </tr>
             <tr>
               <td style="padding: 10px; background: #F6F7FB; font-weight: bold; border: 1px solid #e5e7eb;">Phone</td>
-              <td style="padding: 10px; border: 1px solid #e5e7eb;">${phone || 'Not provided'}</td>
+              <td style="padding: 10px; border: 1px solid #e5e7eb;">${safe.phone || 'Not provided'}</td>
             </tr>
             <tr>
               <td style="padding: 10px; background: #F6F7FB; font-weight: bold; border: 1px solid #e5e7eb;">Store Location</td>
-              <td style="padding: 10px; border: 1px solid #e5e7eb;">${store}</td>
+              <td style="padding: 10px; border: 1px solid #e5e7eb;">${safe.store}</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; background: #F6F7FB; font-weight: bold; border: 1px solid #e5e7eb;">How Did You Hear</td>
+              <td style="padding: 10px; border: 1px solid #e5e7eb;">${safe.heardAbout || 'Not provided'}</td>
             </tr>
             <tr>
               <td style="padding: 10px; background: #F6F7FB; font-weight: bold; border: 1px solid #e5e7eb;">Message</td>
-              <td style="padding: 10px; border: 1px solid #e5e7eb;">${message.replace(/\n/g, '<br/>')}</td>
+              <td style="padding: 10px; border: 1px solid #e5e7eb;">${safe.message}</td>
             </tr>
           </table>
 
           <p style="color: #6b7280; font-size: 12px; margin-top: 30px;">
             This email was sent from the Jones Paint &amp; Glass contact form.
-            Reply directly to this email to respond to ${firstName}.
+            Reply directly to this email to respond to ${safe.firstName}.
           </p>
         </div>
       `,

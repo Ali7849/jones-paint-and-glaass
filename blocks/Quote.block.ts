@@ -25,7 +25,6 @@ export const QuoteBlock: Block = {
       defaultValue: 'Get Quote',
     },
 
-    // ✅ Store locations with emails — managed from dashboard
     {
       name: 'stores',
       type: 'array',
@@ -96,6 +95,11 @@ export const QuoteBlock: Block = {
           type: 'text',
           label: 'Message Label',
           defaultValue: 'Message',
+        },
+        {
+          name: 'labelHeardAbout',
+          type: 'text',
+          label: 'How Did You Hear Label',
         },
       ],
     },

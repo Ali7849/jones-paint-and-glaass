@@ -24,6 +24,7 @@ type InquireFormProps = {
   labelPhone?: string
   labelLocation?: string
   labelMessage?: string
+  labelHeardAbout?: string
   stores?: Store[]
 }
 
@@ -43,6 +44,7 @@ export default function Inquireform({
   labelPhone = 'Phone number (optional)',
   labelLocation = 'Where are you located?',
   labelMessage = 'Message',
+  labelHeardAbout = 'How did you hear about us? (optional)',
   stores = [],
 }: InquireFormProps) {
   const [agreed, setAgreed] = useState(false)
@@ -56,6 +58,7 @@ export default function Inquireform({
     email: '',
     phone: '',
     store: '',
+    heardAbout: '',
     message: '',
   })
 
@@ -263,6 +266,18 @@ export default function Inquireform({
                         </svg>
                       </div>
                     </div>
+                  </div>
+
+                  {/* How did you hear about us — optional */}
+                  <div className="mb-5">
+                    <label className={labelClass}>{labelHeardAbout}</label>
+                    <input
+                      type="text"
+                      name="heardAbout"
+                      value={formData.heardAbout}
+                      onChange={handleChange}
+                      className={inputClass}
+                    />
                   </div>
 
                   {/* Message */}

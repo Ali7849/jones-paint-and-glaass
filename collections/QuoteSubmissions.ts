@@ -30,6 +30,7 @@ const QuoteSubmissions: CollectionConfig = {
     { name: 'phone', type: 'text', label: 'Phone' },
     { name: 'store', type: 'text', label: 'Store Location' },
     { name: 'message', type: 'textarea', label: 'Message' },
+    { name: 'heardAbout', type: 'text', label: 'How Did You Hear' },
     {
       name: 'sentTo',
       type: 'text',

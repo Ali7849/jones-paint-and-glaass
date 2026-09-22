@@ -10,6 +10,7 @@ const COLUMNS = [
   { key: 'email', label: 'Email' },
   { key: 'phone', label: 'Phone' },
   { key: 'store', label: 'Store' },
+  { key: 'heardAbout', label: 'How Did You Hear' },
   { key: 'message', label: 'Message' },
   { key: 'sentTo', label: 'Notified' },
   { key: 'emailStatus', label: 'Email Status' },
