@@ -127,7 +127,7 @@ export default function ImageSlider({
         />
       )}
       <div className=" bg-white py-10 rounded-r-3xl  white-grad">
-        <div className="bleed-right gap-6 ">
+        <div className=" container ml-[6%] ">
           <div className=" grid grid-cols-12 items-end">
             {/* LEFT SIDE */}
             <div className="col-span-12 lg:col-span-5  pr-6 lg:pr-0">

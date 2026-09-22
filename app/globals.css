@@ -55,14 +55,36 @@
 }
 
 /* Starts at the container's content edge, runs to the right edge of the screen */
-.bleed-right {
+/* .bleed-right {
   margin-left: calc((100% - var(--container-max)) / 2 + var(--container-gutter));
-}
+} */
 
 /* Mirror: starts at the left edge of the screen, stops at the container's content edge */
-.bleed-left {
+/* .bleed-left {
   margin-right: calc((100% - var(--container-max)) / 2 + var(--container-gutter));
+} */
+
+
+
+.container {
+ width: 100%;
+ @media (width >= 40rem /* 640px */) {
+ max-width: 95% /* 640px */ !important;
+ }
+ @media (width >= 48rem /* 768px */) {
+ max-width: 88% /* 768px */ !important;
+ }
+ @media (width >= 64rem /* 1024px */) {
+ max-width: 88% /* 1024px */ !important;
+ }
+ @media (width >= 80rem /* 1280px */) {
+ max-width: 88% /* 1280px */ !important;
+ }
+ @media (width >= 96rem /* 1536px */) {
+ max-width: 96rem /* 1536px */ !important;
+ }
 }
+
 
 
 h1, h2,h3,h4,h5,h6{

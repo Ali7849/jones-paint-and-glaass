@@ -67,7 +67,7 @@ export const InquireFormBlock: Block = {
       defaultValue: 'Send Message',
     },
 
-    // ✅ Store locations with emails — managed from dashboard
+    
     {
       name: 'stores',
       type: 'array',
@@ -96,6 +96,11 @@ export const InquireFormBlock: Block = {
           },
         },
       ],
+    },
+    {
+      name: 'labelHeardAbout',
+      type: 'text',
+      label: 'How Did You Hear Label',
     },
     {
       name: 'privacyPolicyLink',

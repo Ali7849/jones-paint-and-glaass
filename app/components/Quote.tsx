@@ -16,6 +16,7 @@ type QuoteProps = {
   labelPhone?: string
   labelLocation?: string
   labelMessage?: string
+  labelHeardAbout?: string
   stores?: Store[]
 }
 
@@ -28,6 +29,7 @@ export default function Quote({
   labelPhone = 'Phone number (optional)',
   labelLocation = 'Where are you located?',
   labelMessage = 'Message',
+  labelHeardAbout = 'How did you hear about us? (optional)',
   stores = [],
 }: QuoteProps) {
   const [agreed, setAgreed] = useState(false)
@@ -41,6 +43,7 @@ export default function Quote({
     email: '',
     phone: '',
     store: '',
+    heardAbout: '',
     message: '',
   })
 
@@ -227,6 +230,20 @@ export default function Quote({
                   </option>
                 ))}
               </select>
+            </div>
+
+            {/* How did you hear about us — optional */}
+            <div className="mb-4">
+              <label className="block text-white text-[16px] tracking-wide font-medium mb-2">
+                {labelHeardAbout}
+              </label>
+              <input
+                type="text"
+                name="heardAbout"
+                value={formData.heardAbout}
+                onChange={handleChange}
+                className="w-full bg-white rounded-[8px] px-3 py-3 text-sm text-gray-800 placeholder-gray-400 outline-none"
+              />
             </div>
 
             {/* Message */}

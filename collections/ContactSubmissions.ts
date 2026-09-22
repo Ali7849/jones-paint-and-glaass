@@ -6,7 +6,7 @@ const ContactSubmissions: CollectionConfig = {
     singular: 'General Inquiry',
     plural: 'General Inquiries',
   },
-   admin: {
+  admin: {
     useAsTitle: 'fullName',
     group: 'Form Submissions',
     defaultColumns: ['fullName', 'email', 'store', 'emailStatus', 'createdAt'],
@@ -30,6 +30,7 @@ const ContactSubmissions: CollectionConfig = {
     { name: 'phone', type: 'text', label: 'Phone' },
     { name: 'store', type: 'text', label: 'Store Location' },
     { name: 'message', type: 'textarea', label: 'Message' },
+    { name: 'heardAbout', type: 'text', label: 'How Did You Hear' },
     {
       name: 'sentTo',
       type: 'text',
