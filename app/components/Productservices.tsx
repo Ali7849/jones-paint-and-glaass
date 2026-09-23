@@ -26,7 +26,7 @@ export default function ProductServicesBlock({
   services = [],
 }: ProductServicesBlockProps) {
   return (
-    <section className="pt-16 md:pt-24 relative">
+    <section className="pt-16 md:pt-24 relative bottom-[-120px]">
       {/* Decorative Elements */}
       <div
         className="absolute sm:bottom-[-160px] left-0 w-full pointer-events-none z-2"

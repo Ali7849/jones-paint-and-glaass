@@ -114,7 +114,7 @@ export default function ImageSlider({
 
   return (
     <section
-      className=" relative mt-[-100px] pr-[10%] pt-40 pb-20 overflow-hidden bg-gradient-to-b from-[#0052C6] to-[#002559]"
+      className=" relative pr-[10%] pt-40 pb-20 overflow-hidden bg-gradient-to-b from-[#0052C6] to-[#002559]"
       id="jp-slider"
     >
 

@@ -57,6 +57,7 @@ export default async function DoorsPage() {
                   src="/assets/images/doors.png"
                   alt="Doors Products"
                   height={300}
+                  width={1230}
                   className="w-full  object-cover"
                 />
                 

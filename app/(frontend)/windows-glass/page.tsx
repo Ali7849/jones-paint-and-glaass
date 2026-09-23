@@ -38,7 +38,8 @@ export default async function GlassPage() {
                   <Image
                     src="/assets/jt/windows-glass.png"
                     alt="Glass Products"
-                    
+                    width={300}
+                    height={365}
                     className="w-full h-full object-cover"
                   />
                 
