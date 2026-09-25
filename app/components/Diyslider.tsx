@@ -281,7 +281,7 @@ export default function Diyslider({
           </div>
 
           {/* Arrow controls */}
-          <div className="flex gap-3 justify-end md:justify-start flex-shrink-0 md:mb-0 -mb-8">
+          <div className="hidden md:flex gap-3 justify-end md:justify-start flex-shrink-0 md:mb-0 -mb-8">
             <button
               ref={prevRef}
               aria-label="Previous"

@@ -142,7 +142,7 @@ export default function ImageSlider({
                   {adddescription}
                 </p>
               )}
-              <div className="flex gap-3">
+              <div className="hidden md:flex gap-3">
                 <button
                   ref={prevRef}
                   className="w-11 h-11 rounded-full bg-[#D9FDED] hover:bg-[#A5EBCD] flex items-center justify-center transition-colors cursor-pointer"
