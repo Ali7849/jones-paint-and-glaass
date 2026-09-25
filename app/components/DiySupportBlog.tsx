@@ -73,7 +73,7 @@ export default function DiySupportBlog({
 
             {/* Description */}
             <p
-              className="md:w-[70%] w-full px-12 md:px-1 text-gray-600 leading-relaxed mb-3"
+              className="w-full px-12 md:px-1 text-gray-600 leading-relaxed mb-3"
               style={{ fontSize: "clamp(14px, 1.2vw, 16px)" }}
             >
               {description}

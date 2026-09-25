@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 type Store = {
   name: string
@@ -62,6 +62,10 @@ export default function Inquireform({
     message: '',
   })
 
+  // A ref updates immediately, unlike state — this blocks a second click that
+  // lands before React has re-rendered the button as disabled.
+  const submittingRef = useRef(false)
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
@@ -71,6 +75,7 @@ export default function Inquireform({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!agreed) return
+    if (submittingRef.current) return // a request is already in flight
 
     // Find selected store's emails
     const selectedStore = stores.find(s => s.name === formData.store)
@@ -79,6 +84,7 @@ export default function Inquireform({
       return
     }
 
+    submittingRef.current = true
     setLoading(true)
     setError(null)
 
@@ -98,13 +104,16 @@ export default function Inquireform({
 
       if (!res.ok || data.error) {
         setError('Something went wrong. Please try again or call us directly.')
+        submittingRef.current = false // allow a retry
         return
       }
 
       setSubmitted(true)
+      // Deliberately left locked on success — no second send is possible
     } catch (err) {
       console.error('Form submit error:', err)
       setError('Something went wrong. Please try again or call us directly.')
+      submittingRef.current = false // allow a retry
     } finally {
       setLoading(false)
     }
@@ -318,7 +327,7 @@ export default function Inquireform({
                   {/* Submit */}
                   <button
                     type="submit"
-                    disabled={!agreed || loading}
+                    disabled={!agreed || loading || submitted}
                     className="group w-full bg-[#0052C6] hover:bg-[#003fa0] disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-white font-semibold text-[15px] py-3.5 rounded-[8px] cursor-pointer flex items-center justify-center gap-2"
                   >
                     {loading ? (

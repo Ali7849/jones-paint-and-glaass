@@ -51,12 +51,7 @@ const Blogs: CollectionConfig = {
               defaultValue: 'Jones Paint & Glass',
             },
             { name: 'publishedDate', type: 'date', label: 'Published Date' },
-            {
-              name: 'readTime',
-              type: 'text',
-              label: 'Read Time',
-              defaultValue: '5 min read',
-            },
+            
             {
               name: 'excerpt',
               type: 'textarea',

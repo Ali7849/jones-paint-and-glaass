@@ -178,7 +178,7 @@ export default function Contacthero({
           <p className="text-[16px] text-gray-500 leading-relaxed mb-8 lg:pr-[20%]">
             {locationsDescription}
           </p>
-          <div className="flex gap-3">
+          <div className="hidden md:flex gap-3">
             <button
               ref={prevRef}
               className="w-11 h-11 rounded-full bg-[#D9FDED] hover:bg-[#A5EBCD] flex items-center justify-center transition-colors cursor-pointer"

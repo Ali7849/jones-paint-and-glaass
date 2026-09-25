@@ -26,6 +26,12 @@ const Navigation: GlobalConfig = {
       defaultValue: '/contact',
     },
     {
+      name: 'ctaNewTab',
+      type: 'checkbox',
+      label: 'Opens in new tab',
+      defaultValue: false,
+    },
+    {
       name: 'navItems',
       type: 'array',
       label: 'Nav Items',
@@ -48,6 +54,15 @@ const Navigation: GlobalConfig = {
           label: 'Page Link (Slug)',
           admin: {
             description: 'e.g. /media — this makes the label itself clickable',
+          },
+        },
+        {
+          name: 'newTab',
+          type: 'checkbox',
+          label: 'Opens in new tab',
+          defaultValue: false,
+          admin: {
+            description: 'Tick this for external links so the site stays open.',
           },
         },
         {
@@ -104,6 +119,12 @@ const Navigation: GlobalConfig = {
                 description:
                   'Leave empty to use the selected page slug. Fill this in for external or custom links.',
               },
+            },
+            {
+              name: 'newTab',
+              type: 'checkbox',
+              label: 'Opens in new tab',
+              defaultValue: false,
             },
             {
               name: 'description',

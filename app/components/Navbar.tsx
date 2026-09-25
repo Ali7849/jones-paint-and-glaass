@@ -9,21 +9,28 @@ type NavSubItem = {
   label: string;
   href: string;
   description?: string;
+  newTab?: boolean;
 };
 
 type NavItem =
-  | { type: "link"; label: string; href: string }
-  | { type: "dropdown"; label: string; href?: string; items: NavSubItem[] };
+  | { type: "link"; label: string; href: string; newTab?: boolean }
+  | { type: "dropdown"; label: string; href?: string; newTab?: boolean; items: NavSubItem[] };
 
 type NavData = {
   logo?: { url: string; alt?: string } | null;
   ctaText?: string;
   ctaLink?: string;
+  ctaNewTab?: boolean;
   navItems?: NavItem[];
 } | null;
 
 // ─── Fallback static data ─────────────────────
 const FALLBACK_NAV_ITEMS: NavItem[] = [];
+
+// Spread onto any <Link> to honour the "Opens in new tab" checkbox.
+// rel is required alongside target for security (prevents tabnabbing).
+const tabProps = (newTab?: boolean) =>
+  newTab ? { target: "_blank" as const, rel: "noopener noreferrer" } : {};
 
 // ─── Hook ─────────────────────────────────────
 function useDropdown() {
@@ -56,13 +63,14 @@ function useDropdown() {
 }
 
 // ─── NavLink ──────────────────────────────────
-function NavLink({ label, href, onClick, className = "" }: {
-  label: string; href: string; onClick?: () => void; className?: string;
+function NavLink({ label, href, onClick, className = "", newTab }: {
+  label: string; href: string; onClick?: () => void; className?: string; newTab?: boolean;
 }) {
   return (
     <Link
       href={href}
       onClick={onClick}
+      {...tabProps(newTab)}
       className={`block py-2 px-3 text-heading hover:text-fg-brand transition-colors duration-150 ${className}`}
     >
       {label}
@@ -71,10 +79,11 @@ function NavLink({ label, href, onClick, className = "" }: {
 }
 
 // ─── DropdownMenu ─────────────────────────────
-function DropdownMenu({ label, items, href }: {
+function DropdownMenu({ label, items, href, newTab }: {
   label: string;
   items: NavSubItem[];
   href?: string;
+  newTab?: boolean;
 }) {
   const { open, openMenu, close, cancelClose, ref } = useDropdown();
 
@@ -90,6 +99,7 @@ function DropdownMenu({ label, items, href }: {
         {href ? (
           <Link
             href={href}
+            {...tabProps(newTab)}
             className="py-2 pl-3 anchor  text-heading xl:text-[16px] lg:text-[14px] hover:text-fg-brand transition-colors duration-150"
           >
             {label}
@@ -123,6 +133,7 @@ function DropdownMenu({ label, items, href }: {
               <Link
                 href={item.href}
                 role="menuitem"
+                {...tabProps(item.newTab)}
                 className="flex flex-col w-full px-3 py-2.5 rounded hover:bg-neutral-tertiary-medium group transition-colors duration-150"
               >
                 <span className="text-sm font-medium text-heading group-hover:text-fg-brand transition-colors">
@@ -141,8 +152,8 @@ function DropdownMenu({ label, items, href }: {
 }
 
 // ─── MobileMenu ───────────────────────────────
-function MobileMenu({ items, ctaText, ctaLink, onClose }: {
-  items: NavItem[]; ctaText: string; ctaLink: string; onClose: () => void;
+function MobileMenu({ items, ctaText, ctaLink, ctaNewTab, onClose }: {
+  items: NavItem[]; ctaText: string; ctaLink: string; ctaNewTab?: boolean; onClose: () => void;
 }) {
   const [openLabel, setOpenLabel] = useState<string | null>(null);
   const toggleAccordion = (label: string) =>
@@ -154,6 +165,7 @@ function MobileMenu({ items, ctaText, ctaLink, onClose }: {
         item.type === "link" ? (
           <NavLink
             key={item.href} label={item.label} href={item.href} onClick={onClose}
+            newTab={item.newTab}
             className="text-sm rounded hover:bg-neutral-secondary-soft hover:text-fg-brand"
           />
         ) : (
@@ -163,6 +175,7 @@ function MobileMenu({ items, ctaText, ctaLink, onClose }: {
                 <Link
                   href={item.href}
                   onClick={onClose}
+                  {...tabProps(item.newTab)}
                   className="py-2.5 px-3 text-sm font-medium text-heading hover:text-fg-brand transition-colors"
                 >
                   {item.label}
@@ -191,6 +204,7 @@ function MobileMenu({ items, ctaText, ctaLink, onClose }: {
                 {item.items.map((sub) => (
                   <Link
                     key={sub.href} href={sub.href} onClick={onClose}
+                    {...tabProps(sub.newTab)}
                     className="flex flex-col py-2 px-3 rounded hover:bg-neutral-secondary-soft transition-colors group"
                   >
                     <span className="text-sm font-medium text-heading group-hover:text-fg-brand transition-colors">
@@ -208,7 +222,7 @@ function MobileMenu({ items, ctaText, ctaLink, onClose }: {
       )}
 
       <div className="pt-3 pb-1">
-        <Link href={ctaLink}>
+        <Link href={ctaLink} {...tabProps(ctaNewTab)}>
           <button className="w-full text-white bg-brand hover:bg-brand-strong font-medium rounded-base text-sm px-4 py-2.5 transition-colors">
             {ctaText}
           </button>
@@ -294,6 +308,7 @@ export default function Navbar({ navData }: { navData: NavData }) {
   const navItems = (navData?.navItems as NavItem[]) ?? FALLBACK_NAV_ITEMS;
   const ctaText = navData?.ctaText ?? "Get a Quote";
   const ctaLink = navData?.ctaLink ?? "/contact";
+  const ctaNewTab = navData?.ctaNewTab ?? false;
   const logoUrl = navData?.logo?.url ?? "/assets/images/logo.png";
   const logoAlt = navData?.logo?.alt ?? "Company Logo";
 
@@ -314,12 +329,13 @@ export default function Navbar({ navData }: { navData: NavData }) {
           {navItems.map((item) => (
             <li key={item.label} role="none">
               {item.type === "link" ? (
-                <NavLink label={item.label} href={item.href} />
+                <NavLink label={item.label} href={item.href} newTab={item.newTab} />
               ) : (
                 <DropdownMenu
                   label={item.label}
                   items={item.items}
                   href={(item as any).href}
+                  newTab={(item as any).newTab}
                 />
               )}
             </li>
@@ -363,7 +379,7 @@ export default function Navbar({ navData }: { navData: NavData }) {
           </button>
 
           {/* CTA Button */}
-          <Link href={ctaLink}>
+          <Link href={ctaLink} {...tabProps(ctaNewTab)}>
             <button className="hidden lg:inline-flex items-center gap-2 text-white bg-[#0052C6] hover:bg-brand-strong font-medium rounded-[8px] text-[16px] xl:px-5 lg:px-4 xl:py-3 lg:py-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand cursor-pointer">
               {ctaText}
               <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" viewBox="0 0 24 24" fill="none">
@@ -408,6 +424,7 @@ export default function Navbar({ navData }: { navData: NavData }) {
             items={navItems}
             ctaText={ctaText}
             ctaLink={ctaLink}
+            ctaNewTab={ctaNewTab}
             onClose={() => setMobileOpen(false)}
           />
         </div>

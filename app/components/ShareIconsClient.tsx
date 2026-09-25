@@ -9,6 +9,7 @@ interface ShareIconsClientProps {
 export default function ShareIconsClient({ title }: ShareIconsClientProps) {
   const [pageUrl, setPageUrl] = useState("");
   const [copied, setCopied] = useState(false);
+  const [instaHint, setInstaHint] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -40,6 +41,32 @@ export default function ShareIconsClient({ title }: ShareIconsClientProps) {
     const text = `${title} ${pageUrl}`;
     const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
     window.open(url, "whatsapp-share", "width=600,height=400");
+  };
+
+  // Instagram has no web share endpoint — links can't be posted from a browser.
+  // On mobile the native share sheet lists Instagram; on desktop we copy the
+  // link and open Instagram so the user can paste it into a story or DM.
+  const shareOnInstagram = async () => {
+    if (!pageUrl) return;
+
+    if (typeof navigator !== "undefined" && navigator.share) {
+      try {
+        await navigator.share({ title, url: pageUrl });
+        return;
+      } catch {
+        // User dismissed the sheet — fall through to the copy behaviour
+      }
+    }
+
+    try {
+      await navigator.clipboard.writeText(pageUrl);
+    } catch (err) {
+      console.error("Failed to copy:", err);
+    }
+
+    setInstaHint(true);
+    setTimeout(() => setInstaHint(false), 3000);
+    window.open("https://www.instagram.com/jonespaintandglass/", "_blank", "noopener,noreferrer");
   };
 
   const copyToClipboard = async () => {
@@ -87,15 +114,13 @@ export default function ShareIconsClient({ title }: ShareIconsClientProps) {
       </button>
 
       {/* Instagram */}
-      
-      <a  href="https://www.instagram.com/jonespaintandglass/"
-        target="_blank"
-        rel="noopener noreferrer"
-        title="Follow on Instagram"
-        className="rounded flex items-center justify-center hover:opacity-70 transition-opacity"
+      <button
+        onClick={shareOnInstagram}
+        title="Share on Instagram"
+        className="rounded flex items-center justify-center hover:opacity-70 transition-opacity cursor-pointer"
       >
         <img src="/assets/jt/elements/instagram-icon.png" alt="Instagram" className="w-6 h-6" />
-      </a>
+      </button>
 
       {/* Twitter/X */}
       <button
@@ -106,13 +131,17 @@ export default function ShareIconsClient({ title }: ShareIconsClientProps) {
         <img src="/assets/jt/elements/x-icon.png" alt="Twitter" className="w-6 h-6" />
       </button>
 
-      {/* TikTok */}
-     
-
-      {/* Tooltip for copy feedback */}
+      {/* Copy feedback */}
       {copied && (
         <span className="text-[12px] text-green-500 font-semibold ml-2">
           Copied!
+        </span>
+      )}
+
+      {/* Instagram feedback */}
+      {instaHint && (
+        <span className="text-[12px] text-green-500 font-semibold ml-2">
+          Link copied — paste it in your Instagram story
         </span>
       )}
     </div>
