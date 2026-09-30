@@ -120,6 +120,16 @@ p,li,a,span{
   font-family: 'Avenir-Book' !important;
 }
 
+/* Figma type guide: -2% tracking on every text style. In the base layer
+   so Tailwind tracking-* utilities (caption/eyebrow labels) still win. */
+@layer base {
+  body,
+  h1, h2, h3, h4, h5, h6,
+  p, li, a, span {
+    letter-spacing: -0.02em;
+  }
+}
+
 
 input,textarea,option,select{
   font-family: 'Avenir-Book' !important;

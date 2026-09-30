@@ -71,7 +71,7 @@ function NavLink({ label, href, onClick, className = "", newTab }: {
       href={href}
       onClick={onClick}
       {...tabProps(newTab)}
-      className={`block py-2 px-3 text-heading hover:text-fg-brand transition-colors duration-150 ${className}`}
+      className={`block py-2 px-3 font-bold text-heading hover:text-fg-brand transition-colors duration-150 ${className}`}
     >
       {label}
     </Link>
@@ -100,12 +100,12 @@ function DropdownMenu({ label, items, href, newTab }: {
           <Link
             href={href}
             {...tabProps(newTab)}
-            className="py-2 pl-3 anchor  text-heading xl:text-[16px] lg:text-[14px] hover:text-fg-brand transition-colors duration-150"
+            className="py-2 pl-3 anchor  text-heading xl:text-[16px] lg:text-[14px] font-bold hover:text-fg-brand transition-colors duration-150"
           >
             {label}
           </Link>
         ) : (
-          <span className="py-2 pl-3  text-heading xl:text-[16px] lg:text-[14px] cursor-default">
+          <span className="py-2 pl-3  text-heading xl:text-[16px] lg:text-[14px] font-bold cursor-default">
             {label}
           </span>
         )}
@@ -166,7 +166,7 @@ function MobileMenu({ items, ctaText, ctaLink, ctaNewTab, onClose }: {
           <NavLink
             key={item.href} label={item.label} href={item.href} onClick={onClose}
             newTab={item.newTab}
-            className="text-sm rounded hover:bg-neutral-secondary-soft hover:text-fg-brand"
+            className="text-sm rounded  hover:bg-neutral-secondary-soft hover:text-fg-brand"
           />
         ) : (
           <div key={item.label}>
@@ -176,12 +176,12 @@ function MobileMenu({ items, ctaText, ctaLink, ctaNewTab, onClose }: {
                   href={item.href}
                   onClick={onClose}
                   {...tabProps(item.newTab)}
-                  className="py-2.5 px-3 text-sm font-medium text-heading hover:text-fg-brand transition-colors"
+                  className="py-2.5 px-3 text-sm font-bold text-heading hover:text-fg-brand transition-colors"
                 >
                   {item.label}
                 </Link>
               ) : (
-                <span className="py-2.5 px-3 text-sm font-medium text-heading">
+                <span className="py-2.5 px-3 text-sm font-bold text-heading">
                   {item.label}
                 </span>
               )}
