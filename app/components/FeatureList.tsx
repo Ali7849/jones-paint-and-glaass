@@ -93,8 +93,9 @@ export default function FeatureList({
               <Image
                 src={imageUrl}
                 alt={imageAlt}
-                width={520}
-                height={616}
+                width={840}
+                height={995}
+                sizes="(max-width: 1024px) 100vw, 600px"
                 className="w-full lg:w-[600px] h-full sm:h-[580px] lg:h-[630px] rounded-[16px] ml-auto lg:mr-15 xl:mr-20 object-cover"
               />
             </div>

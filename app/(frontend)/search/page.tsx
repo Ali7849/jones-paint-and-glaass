@@ -167,8 +167,9 @@ export default async function SearchPage({
                         <Image
                           src={item.image}
                           alt={item.title}
-                          width={400}
-                          height={250}
+                          width={608}
+                          height={380}
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 400px"
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       ) : (

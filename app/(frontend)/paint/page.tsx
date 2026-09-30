@@ -74,16 +74,18 @@ export default async function PaintPage() {
                   <Image
                     src={paintItems[0].locationImage.url}
                     alt={paintItems[0].locationImage.alt || paintItems[0].name}
-                    width={600}
-                    height={450}
+                    width={840}
+                    height={630}
+                    sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 45vw, 624px"
                     className="w-full h-full object-cover"
                   />
                 ) : (
                   <Image
                     src="/assets/jt/jone-paint-link.png"
                     alt="Paint Products"
-                    width={600}
-                    height={450}
+                    width={840}
+                    height={630}
+                    sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 45vw, 624px"
                     className="w-full h-full object-cover"
                   />
                 )}

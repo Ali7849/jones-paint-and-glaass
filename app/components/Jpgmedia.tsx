@@ -46,6 +46,7 @@ export default function JpgMedia({
                   src={item.image.url}
                   alt={item.image.alt || item.title || ''}
                   fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 400px"
                   className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
                 />
               ) : (

@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import Image from 'next/image'
 type FAQ = {
   id?: string
   question: string
@@ -220,10 +221,12 @@ export default function Contractor({
           <div className="grid grid-cols-1 lg:grid-cols-4 lg:grid-rows-2 gap-4 sm:gap-7 h-fit lg:h-[600px]">
             {/* Left large image — spans 2 rows */}
             <div className="relative h-[280px] lg:h-auto lg:col-span-1 lg:row-span-2 rounded-2xl overflow-hidden group cursor-pointer">
-              <img
+              <Image
                 src={getImageUrl(largeImage)}
                 alt={largeImageTitle}
-                className="w-full h-full object-cover"
+                fill
+                sizes="(max-width: 1024px) 100vw, 900px"
+                className="object-cover"
               />
               {/* Caption overlay with hover state */}
               <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl flex flex-col justify-end px-2 sm:px-4 pb-5">
@@ -237,10 +240,12 @@ export default function Contractor({
             {topRowImages.slice(0, 3).map((item, i) => (
               <div key={i} className="relative h-[280px] lg:h-auto rounded-2xl overflow-hidden group cursor-pointer">
                 {/* Image */}
-                <img
+                <Image
                   src={getImageUrl(item.image)}
                   alt={item.description}
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 440px"
+                  className="object-cover"
                 />
                 {/* Hover Overlay with text at bottom */}
                 <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl flex flex-col justify-end p-4">
@@ -253,10 +258,12 @@ export default function Contractor({
             ))}
             {/* Bottom left small image */}
             <div className="relative h-[280px] lg:h-auto rounded-2xl overflow-hidden group cursor-pointer">
-              <img
+              <Image
                 src={getImageUrl(bottomLeftImage)}
                 alt={bottomLeftImageDescription}
-                className="w-full h-full object-cover"
+                fill
+                sizes="(max-width: 1024px) 100vw, 440px"
+                className="object-cover"
               />
               {/* Hover Overlay with text at bottom */}
               <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl flex flex-col justify-end p-4">
@@ -268,10 +275,12 @@ export default function Contractor({
             </div>
             {/* Bottom right large image — spans 2 columns */}
             <div className="relative h-[280px] lg:h-auto lg:col-span-2 rounded-2xl overflow-hidden group cursor-pointer">
-              <img
+              <Image
                 src={getImageUrl(bottomRightImage)}
                 alt={bottomRightImageDescription}
-                className="w-full h-full object-cover"
+                fill
+                sizes="(max-width: 1024px) 100vw, 620px"
+                className="object-cover"
               />
               {/* Hover Overlay with text at bottom */}
               <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl flex flex-col justify-end p-4">

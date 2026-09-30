@@ -299,8 +299,9 @@ export default async function BlogPage({
               <Image
                 src={url}
                 alt={media?.alt || ''}
-                width={800}
-                height={450}
+                width={1248}
+                height={702}
+                sizes="(max-width: 768px) 100vw, (max-width: 1280px) 85vw, 1248px"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -369,8 +370,9 @@ export default async function BlogPage({
               <Image
                 src={blog.image.url}
                 alt={blog.image.alt || blog.title}
-                width={800}
-                height={450}
+                width={1248}
+                height={702}
+                sizes="(max-width: 768px) 100vw, (max-width: 1280px) 85vw, 1248px"
                 className="w-full h-full object-cover"
                 priority
               />

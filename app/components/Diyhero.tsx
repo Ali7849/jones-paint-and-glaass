@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 
 // ─── Types matching Payload block schema ──────────────────────────────────────
 
@@ -67,10 +68,12 @@ export default function DiyHero({
       <div className="relative w-full rounded-2xl overflow-hidden min-h-[220px] sm:min-h-[280px] md:min-h-[320px] lg:min-h-[360px]">
         {/* Background Image */}
         {bannerImage?.url && (
-          <img
+          <Image
             src={bannerImage.url}
             alt={bannerImage.alt ?? "DIY Banner"}
-            className="absolute inset-0 w-full h-full object-cover object-center"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 85vw, 1248px"
+            className="object-cover object-center"
           />
         )}
 

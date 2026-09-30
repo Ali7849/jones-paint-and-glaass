@@ -83,6 +83,7 @@ function Lightbox({ p, onClose }: { p: Product; onClose: () => void }) {
               src={imageUrl}
               alt={imageAlt}
               fill
+              sizes="(max-width: 768px) 100vw, 768px"
               className="object-cover"
               priority
             />
@@ -196,8 +197,9 @@ function ProductCard({ p, index }: { p: Product; index: number }) {
             <Image
               src={imageUrl}
               alt={imageAlt}
-              width={600}
-              height={400}
+              width={840}
+              height={560}
+              sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 45vw, 624px"
               className="w-full h-full object-cover rounded-[16px]"
             />
           </div>

@@ -74,8 +74,9 @@ export default function RecommendBlog({
                       <Image
                         src={blog.image.url}
                         alt={blog.image.alt || blog.title}
-                        width={400}
-                        height={225}
+                        width={608}
+                        height={342}
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 400px"
                         className="w-full h-full object-cover"
                       />
                     ) : (

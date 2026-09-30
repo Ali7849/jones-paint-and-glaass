@@ -69,8 +69,9 @@ export default function Features({
                     <Image
                       src={imageUrl}
                       alt={imageAlt}
-                      width={400}
-                      height={180}
+                      width={660}
+                      height={297}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1280px) 33vw, 364px"
                       className="w-full h-full object-cover"
                     />
                   </div>

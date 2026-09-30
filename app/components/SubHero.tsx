@@ -49,6 +49,7 @@ export default function SubHero({
           src={imageUrl}
           alt={imageAlt}
           fill
+          sizes="100vw"
           className="object-cover object-center"
           priority
         />

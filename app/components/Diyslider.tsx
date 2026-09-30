@@ -176,6 +176,7 @@ export default function Diyslider({
                       src={imageUrl}
                       alt={post.caption?.slice(0, 50) || "Instagram post"}
                       fill
+                      sizes="(max-width: 400px) 75vw, (max-width: 540px) 60vw, (max-width: 768px) 45vw, (max-width: 1024px) 38vw, (max-width: 1200px) 32vw, (max-width: 1400px) 27vw, (max-width: 1600px) 23vw, 20vw"
                       className="object-cover object-center group-hover:scale-105 transition-transform duration-300"
                     />
 
