@@ -50,6 +50,7 @@ export default function Inquireform({
   const [agreed, setAgreed] = useState(false)
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [showPopup, setShowPopup] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [country, setCountry] = useState('US')
   const [formData, setFormData] = useState({
@@ -109,6 +110,7 @@ export default function Inquireform({
       }
 
       setSubmitted(true)
+      setShowPopup(true)
       // Deliberately left locked on success — no second send is possible
     } catch (err) {
       console.error('Form submit error:', err)
@@ -355,6 +357,55 @@ export default function Inquireform({
 
         </div>
       </div>
+
+      {/* Success popup — shown once the message has been saved and sent */}
+      {showPopup && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/50"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="inquire-success-title"
+          onClick={() => setShowPopup(false)}
+        >
+          <div
+            className="relative w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close */}
+            <button
+              type="button"
+              onClick={() => setShowPopup(false)}
+              aria-label="Close"
+              className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+              <svg className="h-8 w-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+
+            <h3 id="inquire-success-title" className="mb-2 text-2xl font-bold text-gray-900">
+              Thank you!
+            </h3>
+            <p className="text-gray-500">
+              We&apos;ve received your message and will be in touch shortly.
+            </p>
+
+            <button
+              type="button"
+              onClick={() => setShowPopup(false)}
+              className="mt-6 w-full rounded-[8px] bg-[#0052C6] py-3 text-sm font-semibold text-white transition-colors hover:bg-[#003fa0] cursor-pointer"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   )
 }

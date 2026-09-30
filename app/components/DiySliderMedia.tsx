@@ -67,7 +67,7 @@ export default function DiySliderMedia({
 
       <div className="relative z-10">
         {/* Header row */}
-        <div className="container mx-auto flex flex-col md:flex-row md:items-end justify-between text-center md:text-start gap-6 mb-15 px-4 sm:px-6 md:px-12">
+        <div className="container mx-auto flex flex-col md:flex-row md:items-end justify-between text-center md:text-start gap-6 mb-15 px-4 sm:px-6 md:px-12 lg:px-6">
 
           <div className="w-full xl:w-1/2 lg:w-2/3 md:w-2/3">
             <h2 className="text-[28px] md:text-[34px] lg:text-[48px] font-bold text-black mb-3 leading-tight font-['Avenir']">

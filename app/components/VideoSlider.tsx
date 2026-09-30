@@ -101,7 +101,7 @@ export default function VideoSlider({
       </div>
 
       {/* Slider */}
-      <div className="flex items-center gap-4 container mx-auto">
+      <div className="flex items-center gap-4 container mx-auto lg:px-6">
         {/* Prev */}
         <button
           onClick={() => goTo(current === 0 ? max : current - 1)}

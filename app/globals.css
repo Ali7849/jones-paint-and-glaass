@@ -6,20 +6,20 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #21272A;
 }
 
 
 @font-face {
-  font-family: 'Avenir';
-  src: url('/fonts/font.woff') format('opentype');
-  font-weight: 300;
+  font-family: 'Avenir-Heavy';
+  src: url('/fonts/font.woff2') format('woff2'),
+       url('/fonts/font.woff') format('woff');
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Avenir-normal';
+  font-family: 'Avenir-Book';
   src: url('/fonts/AvenirLTStd-Book.otf') format('opentype');
  
   font-style: normal;
@@ -79,11 +79,10 @@
  @media (width >= 64rem /* 1024px */) {
  max-width: 85% /* 1024px */ !important;
  }
+ /* 1296px = 1248px Figma content + lg:px-6 on each side. Keeps the
+    content edge at a 96px gutter up to 1440, then centres it. */
  @media (width >= 80rem /* 1280px */) {
- max-width: 85% /* 1280px */ !important;
- }
- @media (width >= 96rem /* 1536px */) {
- max-width: 80% /* 1536px */ !important;
+ max-width: min(1296px, calc(100% - 144px)) !important;
  }
 }
 
@@ -91,9 +90,11 @@
   width:92.5% !important;
   margin-left: 7.5% !important;
 
-  @media (width >= 96rem /* 1536px */) {
-  width:90% !important;
-  margin-left: 10% !important;
+  /* Starts at the .container's left edge so its lg:px-6 content lines up
+     with the 96px gutter; runs off the right edge. */
+  @media (width >= 80rem /* 1280px */) {
+  width: auto !important;
+  margin-left: max(72px, calc((100% - 1296px) / 2)) !important;
  }
 }
 
@@ -107,21 +108,21 @@ text-wrap: pretty !important;
 
 
 h1, h2,h3,h4,h5,h6{
-  font-family: 'Avenir' !important;
+  font-family: 'Avenir-Heavy' !important;
 }
 
  .font-bold{
-    font-family: 'Avenir' !important;
+    font-family: 'Avenir-Heavy' !important;
   }
 
 
 p,li,a,span{
-  font-family: 'Avenir-normal' !important;
+  font-family: 'Avenir-Book' !important;
 }
 
 
 input,textarea,option,select{
-  font-family: 'Avenir-normal' !important;
+  font-family: 'Avenir-Book' !important;
 }
 
 .custom-border{
@@ -270,7 +271,7 @@ button{
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial;
+  font-family: 'Avenir-Book', sans-serif;
 }
 
 .width-92{

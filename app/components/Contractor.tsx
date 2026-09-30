@@ -141,7 +141,7 @@ export default function Contractor({
           transformOrigin: 'bottom right',
         }}
       />
-      <div className="mx-auto container px-4 md:px-6">
+      <div className="mx-auto container px-4 md:px-6 lg:px-0">
         <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-10 lg:gap-12">
           {/* Left: Heading + Buttons */}
           <div className="lg:w-[40%] w-full text-center lg:text-start">
