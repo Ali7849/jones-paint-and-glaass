@@ -218,9 +218,9 @@ export default async function BlogPage({
 
     return content.root.children.map((node: any, i: number) => {
       if (node.type === 'heading') {
-        const Tag = `h${node.tag}` as any
+        const Tag = node.tag as any
         return (
-          <Tag key={i} className="text-[28px] font-extrabold mb-4 font-['Avenir']">
+          <Tag key={i} className="text-[28px] font-extrabold mb-4 font-['Avenir-Heavy']">
             {renderInline(node.children)}
           </Tag>
         )

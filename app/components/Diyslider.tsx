@@ -237,7 +237,7 @@ export default function Diyslider({
       <div className="relative z-10 ">
 
         {/* Header row */}
-        <div className="container px-0 lg:px-6 mx-auto flex flex-col md:flex-row md:items-end justify-between text-center md:text-start gap-6 mb-15 ">
+        <div className="container px-4 lg:px-6 mx-auto flex flex-col md:flex-row md:items-end justify-between text-center md:text-start gap-6 mb-15 ">
           <div className="w-full xl:w-3/4 lg:w-3/4 md:w-3/4">
             <h2 className={`text-[28px] md:text-[34px] lg:text-[48px] font-bold ${headingColor} mb-3 leading-tight font-['Avenir']`}>
               {heading}

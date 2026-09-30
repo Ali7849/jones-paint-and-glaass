@@ -39,7 +39,7 @@ export default function DiyHero({
   buttons = [],
 }: DiyHeroProps) {
   return (
-    <section className="container mx-auto w-full px-4 sm:px-6 md:px-10 lg:px-16 py-10 sm:py-12 md:py-16 mt-16 mb-24">
+    <section className="container mx-auto w-full px-4 sm:px-6 md:px-10 lg:px-6 py-10 sm:py-12 md:py-16 mt-16 mb-24">
       {/* Top Two Cards */}
       <div className="flex flex-wrap justify-between gap-4 lg:gap-0 mb-4 sm:mb-5 md:mb-6">
         {/* Card 1 — Blue */}

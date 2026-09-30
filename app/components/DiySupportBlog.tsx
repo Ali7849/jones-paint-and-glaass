@@ -40,7 +40,7 @@ export default function DiySupportBlog({
           }}
         />
       </div>
-      <div className="container mx-auto w-full px-4 md:px-10 ">
+      <div className="container mx-auto w-full px-4 md:px-10 lg:px-6">
         <div className="bg-[#F8F9FC] rounded-2xl  flex flex-col lg:flex-row px-8 xl:px-12 lg:px-10 py-8 xl:py-12 lg:py-10">
           {/* Left: Image */}
           <div className="relative w-full lg:w-[50%] shrink-0 h-[220px] sm:h-[260px] md:h-auto min-h-[280px]">

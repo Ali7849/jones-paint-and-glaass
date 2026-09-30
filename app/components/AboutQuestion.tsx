@@ -15,7 +15,7 @@ export default function AboutQuestion() {
             </div>
 
             {/* ── Left ── */}
-            <div className="relative z-2 w-full lg:w-[50%] bg-[#EEF2FA] lg:bg-transparent px-4 lg:px-10 py-12 md:py-20 flex flex-col text-center lg:text-start justify-center overflow-hidden">
+            <div className="relative z-2 w-full lg:w-[50%] bg-[#EEF2FA] lg:bg-transparent px-4 lg:px-6 py-12 md:py-20 flex flex-col text-center lg:text-start justify-center overflow-hidden">
                 <div>
                     <h2 className="text-[36px] xl:text-[40px] font-extrabold leading-tight mb-4 font-['Avenir']">
                         Looking for <br />Something Else?

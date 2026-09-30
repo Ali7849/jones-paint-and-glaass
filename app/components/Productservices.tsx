@@ -55,7 +55,7 @@ export default function ProductServicesBlock({
         }}
       />
 
-      <div className="mx-auto container px-0 lg:px-6">
+      <div className="mx-auto container px-4 lg:px-6">
         <div className="flex flex-col xl:flex-row gap-8 md:gap-10 xl:gap-12">
           {/* Left: Heading + Button */}
           <div className="relative z-2 flex-1 lg:w-full xl:w-80 shrink-0 xl:text-start text-center">

@@ -21,7 +21,7 @@ export default function JpgMedia({
   mediaItems = [],
 }: JpgMediaProps) {
   return (
-    <section className="container mx-auto w-full px-4 md:px-10 py-10 sm:py-12 md:py-16 mt-16">
+    <section className="container mx-auto w-full px-4 md:px-10 lg:px-6 py-10 sm:py-12 md:py-16 mt-16">
 
       {/* Heading */}
       <h2
