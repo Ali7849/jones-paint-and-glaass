@@ -48,6 +48,7 @@ export default function DiySupportBlog({
               src={imgUrl}
               alt={imgAlt}
               fill
+              sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 45vw, 624px"
               className="object-cover object-center rounded-[15px]"
               priority
             />

@@ -36,6 +36,7 @@ export default function Hero({
             src={bgImage}
             alt={backgroundImage?.alt || "Hero background"}
             fill
+            sizes="100vw"
             className={`-z-10 ${bgImage === '/assets/jt/default.jpg' ? 'object-contain object-left' : 'object-cover'}`}
           />
       </div>

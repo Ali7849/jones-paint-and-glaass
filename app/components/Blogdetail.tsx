@@ -224,6 +224,7 @@ export default function BlogDetail({
                           src={blog.image.url}
                           alt={blog.image.alt || blog.title}
                           fill
+                          sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 45vw, 624px"
                           className="object-cover rounded-[16px]"
                         />
                       ) : (

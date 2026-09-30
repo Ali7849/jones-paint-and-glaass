@@ -29,8 +29,9 @@ function TypeCard({ item }: { item: Card }) {
         <Image
           src={imageUrl}
           alt={imageAlt}
-          width={400}
-          height={270}
+          width={700}
+          height={473}
+          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 614px"
           className="w-full h-auto md:h-[250px] lg:h-[270px] object-top object-cover"
         />
       </div>

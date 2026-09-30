@@ -34,8 +34,9 @@ function BrandCard({ brand, index }: { brand: Brand; index: number }) {
         <Image
           src={imageUrl}
           alt={brand.image?.alt || brand.name}
-          width={240}
-          height={327}
+          width={612}
+          height={834}
+          sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 612px"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
       </div>

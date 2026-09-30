@@ -53,8 +53,9 @@ export default function FeaturedBrand({
               <Image
                 src={imageUrl}
                 alt={imageAlt}
-                width={400}
-                height={225}
+                width={624}
+                height={351}
+                sizes="(max-width: 768px) 100vw, 624px"
                 className="w-full h-full object-cover rounded-[16px]"
               />
             </div>

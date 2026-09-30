@@ -64,6 +64,7 @@ export default function About({
               src={imageSrc}
               alt={SideImage?.alt || "Our Story"}
               fill
+              sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 45vw, 624px"
               className="object-cover object-center rounded-xl"
               priority
             />

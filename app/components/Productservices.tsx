@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 type Service = {
   id?: string;
@@ -102,15 +103,17 @@ export default function ProductServicesBlock({
                   className="group bg-[#F0F4FF] rounded-2xl overflow-hidden p-6 hover:shadow-lg transition-shadow"
                 >
                   {/* Image */}
-                  <div className="h-44 md:h-52 overflow-hidden rounded-md">
-                    <img
+                  <div className="relative h-44 md:h-52 overflow-hidden rounded-md">
+                    <Image
                       src={
                         service.image?.url && service.image.url.trim() !== ''
                           ? service.image.url
                           : '/assets/jt/default.jpg'
                       }
                       alt={service.image?.alt || service.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 400px"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
 

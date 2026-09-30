@@ -39,8 +39,9 @@ export default function Blogpost() {
                     <Image
                         src="/assets/jt/blog-img.png"
                         alt="Blog Hero"
-                        width={800}
-                        height={450}
+                        width={1248}
+                        height={702}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 85vw, 1248px"
                         className="w-full h-full object-cover"
                     />
                 </div>
@@ -68,8 +69,9 @@ export default function Blogpost() {
                         <Image
                             src="/assets/jt/blog-img.png"
                             alt="Inline"
-                            width={800}
-                            height={450}
+                            width={1152}
+                            height={648}
+                            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 85vw, 1152px"
                             className="w-full h-full object-cover"
                         />
                     </div>

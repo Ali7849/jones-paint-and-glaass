@@ -43,8 +43,9 @@ const ServiceCard = ({ service }: { service: Service }) => {
         <Image
           src={imageUrl}
           alt={imageAlt}
-          height={270}
-          width={270}
+          height={576}
+          width={576}
+          sizes="(max-width: 640px) 100vw, (max-width: 768px) 33vw, (max-width: 1024px) 50vw, 262px"
           className="w-full h-full object-cover"
         />
       </div>
@@ -218,7 +219,7 @@ const Layout2 = ({
       <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {imgUrl ? (
           <div className="relative rounded-[16px] overflow-hidden h-full sm-height">
-            <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
+            <Image src={imgUrl} alt={imgAlt} fill sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 45vw, 624px" className="object-cover" />
           </div>
         ) : (
           <div className="rounded-[16px] bg-[#DDEEFF] h-full" />
@@ -272,7 +273,7 @@ const Layout3 = ({
       {/* Image full width */}
       {imgUrl ? (
         <div className="relative rounded-[16px] overflow-hidden h-[345px] sm-height">
-          <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
+          <Image src={imgUrl} alt={imgAlt} fill sizes="100vw" className="object-cover" />
         </div>
       ) : (
         <div className="rounded-[16px] bg-[#DDEEFF] h-full" />
@@ -333,7 +334,7 @@ const Layout4 = ({
       <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {imgUrl ? (
           <div className="relative rounded-[16px] overflow-hidden h-full sm-height">
-            <Image src={imgUrl} alt={imgAlt} fill className="md:object-cover sm:object-bottom" />
+            <Image src={imgUrl} alt={imgAlt} fill sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 45vw, 624px" className="md:object-cover sm:object-bottom" />
           </div>
         ) : (
           <div className="rounded-[16px] bg-[#DDEEFF] h-full" />
@@ -385,7 +386,7 @@ const Layout5 = ({
       <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {imgUrl ? (
           <div className="relative rounded-[16px] overflow-hidden h-full sm-height">
-            <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
+            <Image src={imgUrl} alt={imgAlt} fill sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 45vw, 624px" className="object-cover" />
           </div>
         ) : (
           <div className="rounded-[16px] bg-[#DDEEFF] h-full" />
@@ -440,7 +441,7 @@ const Layout6 = ({
       <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {imgUrl ? (
           <div className="relative rounded-[16px] overflow-hidden h-full sm-height">
-            <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
+            <Image src={imgUrl} alt={imgAlt} fill sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 45vw, 624px" className="object-cover" />
           </div>
         ) : (
           <div className="rounded-[16px] bg-[#DDEEFF] h-full" />
@@ -492,7 +493,7 @@ const Layout7Plus = ({
       <div className="w-full lg:w-[50%] flex flex-col gap-6">
         {imgUrl ? (
           <div className="relative rounded-[16px] overflow-hidden h-full sm-height">
-            <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
+            <Image src={imgUrl} alt={imgAlt} fill sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 45vw, 624px" className="object-cover" />
           </div>
         ) : (
           <div className="rounded-[16px] bg-[#DDEEFF] h-full" />

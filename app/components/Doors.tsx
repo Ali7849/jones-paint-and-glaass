@@ -14,6 +14,7 @@ export default function Doors() {
                     src="/assets/jt/door-banner.png"
                     alt="Doors Banner"
                     fill
+                    sizes="100vw"
                     className="object-cover object-center rounded-[16px]"
                     priority
                 />

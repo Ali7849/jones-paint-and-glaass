@@ -16,8 +16,9 @@ function ServiceCard({ service }: { service: typeof services[0] }) {
                 <Image
                     src={service.image}
                     alt={service.title}
-                    width={220}
-                    height={110}
+                    width={660}
+                    height={330}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 256px"
                     className="w-full h-full object-cover rounded-[8px]"
                 />
             </div>
@@ -98,8 +99,8 @@ export default function Americanfork() {
                                     <Image
                                         src="/assets/jt/profile.png"
                                         alt="Dave Koch"
-                                        width={52}
-                                        height={52}
+                                        width={80}
+                                        height={80}
                                         className="w-10 lg:w-20 h-10 lg:h-20 object-contain mx-auto"
                                     />
                                 </div>
