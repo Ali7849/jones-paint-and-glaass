@@ -9,6 +9,7 @@ type NavSubItem = {
   label: string
   href: string
   description?: string
+  newTab?: boolean
 }
 
 function resolveSubItem(sub: any): NavSubItem | null {
@@ -21,6 +22,7 @@ function resolveSubItem(sub: any): NavSubItem | null {
       label: sub.label,
       href: sub.href,
       description: sub.description || undefined,
+      newTab: Boolean(sub.newTab),
     }
   }
 
@@ -29,7 +31,12 @@ function resolveSubItem(sub: any): NavSubItem | null {
   const href = sub.href || `/${doc.slug}`
   if (!label || !href) return null
 
-  return { label, href, description: sub.description || undefined }
+  return {
+    label,
+    href,
+    description: sub.description || undefined,
+    newTab: Boolean(sub.newTab),
+  }
 }
 
 export async function getNavigation() {
@@ -55,12 +62,14 @@ export async function getNavigation() {
       doors: doorsItems,
     }
 
+    // Auto-filled items are internal pages, so they always open in the same tab
     const toSubItems = (docs: any[]): NavSubItem[] =>
       docs
         .filter((doc: any) => doc.slug)
         .map((doc: any) => ({
           label: doc.name ?? doc.title ?? 'Untitled',
           href: `/${doc.slug}`,
+          newTab: false,
         }))
 
     const navItems = (result?.navItems ?? []).map((item: any) => {
