@@ -90,11 +90,17 @@
   width:92.5% !important;
   margin-left: 7.5% !important;
 
-  /* Starts at the .container's left edge so its lg:px-6 content lines up
-     with the 96px gutter; runs off the right edge. */
+  /* 1280–1440: the 72px floor applies at every width in this band, so the
+     parent's own padding doesn't affect the result. */
   @media (width >= 80rem /* 1280px */) {
   width: auto !important;
   margin-left: max(72px, calc((100% - 1296px) / 2)) !important;
+ }
+
+  /* 1440+: .container stops growing and starts centring, so measure from the
+     viewport instead — the parent width varies per component. */
+  @media (width >= 98rem /* 1440px */) {
+  margin-left: max(72px, calc((96vw - 1296px) / 2)) !important;
  }
 }
 
